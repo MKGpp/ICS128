@@ -66,7 +66,6 @@ function iterationOfANumber() {
     let numToIterate = parseInt(document.getElementById("iterateInput").value);
     let output = document.getElementById("iteration")
 
-    let loopLimit = 5;
     output.innerHTML = "";
 
     for (let i = 1; i <= 9; i++) {
