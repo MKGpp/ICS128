@@ -61,5 +61,54 @@ function displayOccupancy() {
 
 }
 
+function iterationOfANumber() {
+
+    let numToIterate = parseInt(document.getElementById("iterateInput").value);
+    let output = document.getElementById("iteration")
+
+    let loopLimit = 5;
+    output.innerHTML = "";
+
+    for (let i = 1; i <= 9; i++) {
+        let line = "";
+        let digits = i <= 5 ? i : 10 - i;
+
+        for (let j = 0; j < digits; j++) {
+            line += numToIterate;
+        }
+        output.innerHTML += line + "<br>";
+    }
+}
+
+function whoIsFaster() {
+
+    let speed1 = parseInt(document.getElementById("speed1").value);
+    let speed2 = parseInt(document.getElementById("speed2").value);
+
+    let fastestSpeed;
+    let slowerSpeed;
+    let fasterAi;
+    let slowerAi;
+
+    if (speed1 > speed2) {
+        fastestSpeed = speed1;
+        slowerSpeed = speed2;
+        fasterAi = "Alexa";
+        slowerAi = "Siri";
+    } else {
+        fastestSpeed = speed2;
+        slowerSpeed = speed1;
+        fasterAi = "Siri";
+        slowerAi = "Alexa";
+    }
+
+    let speedCompare = document.getElementById("fastest");
+    speedCompare.innerHTML = `${fasterAi}'s speed is: <span style="color: red;">${fastestSpeed}</span><br>`;
+    speedCompare.innerHTML += `${slowerAi}'s speed is: <span style="color: blue;">${slowerSpeed}</span><br>`;
+    speedCompare.innerHTML += `<span style="color: red;">${fasterAi}</span> gets there first!`;
+}
+
 document.getElementById("firstBtn").addEventListener("click", displayNums);
 document.getElementById("secondBtn").addEventListener("click", displayOccupancy);
+document.getElementById("thirdBtn").addEventListener("click", iterationOfANumber);
+document.getElementById("fourthBtn").addEventListener("click", whoIsFaster);

@@ -10,6 +10,12 @@
             position: relative;
             top: 150px;
         }
+        body {
+            background-color: #415251;
+        }
+        .card {
+            background-color: #65A46D;
+        }
     </style>
 </head>
 <body>
@@ -69,9 +75,9 @@
                 <div class="card-body">
                     <h5 class="card-title">3 Prices for rooms?</h5>
                     <label for="calcMean">separate numbers with spaces:</label>
-                    <input type="text" id="calcMean" placeholder="150 300 275" aria-label="prices">
+                    <input type="text" id="calcMean" class="form-control" placeholder="150 300 275" aria-label="prices">
                     <div id="result"></div>
-                    <button id="firstBtn" class="btn btn-dark">calculate</button>
+                    <button id="firstBtn" class="btn btn-dark mt-3">calculate</button>
                 </div>
             </div>
         </div>
@@ -79,9 +85,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Display How Full the Hotel is:</h5>
-                    <input type="text" id="displayOccupancy" placeholder="enter 0-100" aria-label="capacity">
+                    <input type="text" id="displayOccupancy" class="form-control" placeholder="enter 0-100" aria-label="capacity">
                     <div id="occupancy"></div>
-                    <button id="secondBtn" class="btn btn-dark">Calculate</button>
+                    <button id="secondBtn" class="btn btn-dark mt-3">Calculate</button>
                 </div>
             </div>
         </div>
@@ -92,9 +98,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Iteration</h5>
-                    <input type="text" class="form-control" placeholder="5" aria-label="capacity">
-                    <p id="iteration"></p>
-                    <a href="#" class="btn btn-dark">Iterate Me</a>
+                    <input type="text" id="iterateInput" class="form-control" placeholder="5" aria-label="capacity">
+                    <div id="iteration"></div>
+                    <button id="thirdBtn" class="btn btn-dark mt-3">Iterate Me</button>
                 </div>
             </div>
         </div>
@@ -110,10 +116,8 @@
                         <label for="speed2" class="form-label">Siri's Speed:</label>
                         <input type="email" class="form-control" id="speed2" placeholder="66">
                     </div>
-                    <p id="alexaSpeed"></p>
-                    <p id="siriSpeed"></p>
-                    <p id="fastestSpeed"></p>
-                    <a href="#" class="btn btn-dark">Who's Fastest</a>
+                    <div id="fastest"></div>
+                    <button id="fourthBtn" class="btn btn-dark mt-3">Who's Fastest</button>
                 </div>
             </div>
         </div>
