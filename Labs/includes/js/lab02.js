@@ -41,23 +41,23 @@ function displayOccupancy() {
         alert("Incorrect - not between 0-100");
         return;
     }
-        const result = document.getElementById("occupancy");
-        result.innerHTML = `The Hotel is:<br>`;
-        result.innerHTML += `<span id="percent">${percent}%</span> booked!`;
-        const percentColor = document.getElementById("percent")
+    const result = document.getElementById("occupancy");
+    result.innerHTML = `The Hotel is:<br>`;
+    result.innerHTML += `<span id="percent">${percent}%</span> booked!`;
+    const percentColor = document.getElementById("percent")
 
-        if (percent >= 90) {
-            percentColor.style.color = "green";
-        } else if (percent >= 80) {
-            percentColor.style.color = "blue";
-        } else if (percent >= 65) {
-            percentColor.style.color = "yellow";
-        } else if (percent >= 51) {
-            percentColor.style.color = "black";
-        } else {
-            percentColor.style.color = "red";
-        }
+    if (percent >= 90) {
+        percentColor.style.color = "green";
+    } else if (percent >= 80) {
+        percentColor.style.color = "blue";
+    } else if (percent >= 65) {
+        percentColor.style.color = "yellow";
+    } else if (percent >= 51) {
+        percentColor.style.color = "black";
+    } else {
+        percentColor.style.color = "red";
     }
+}
 
 function iterationOfANumber() {
 
