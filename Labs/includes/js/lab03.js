@@ -53,7 +53,7 @@ document.getElementById("calculate").addEventListener("click", function() {
     let char = document.getElementById("letterToFind").value;
     counter(string, char);
 });
-/****************************/
+/*****************************/
 
 
 /***
@@ -91,3 +91,52 @@ function daysInMonth(year, month) { // Use 1 for Jan, 2 for Feb, etc.
 }
 
 /**********************************************/
+
+/***
+ * Function to add functionality to the calculate wages section of the webpage.
+ ******************************************************************************/
+
+function calculateWages() {
+
+    const inputDate = document.getElementById('dateInput').value;
+    const [year, month] = inputDate.split('-');
+
+    let workingDays;
+    let numDaysInMonth = daysInMonth(year, month);
+    let minimumWage = 16.75;
+    let hoursPerDay = 8;
+
+    if (numDaysInMonth === 31) {
+        workingDays = 23;
+    } else if (numDaysInMonth === 30) {
+        workingDays = 22;
+    } else if (numDaysInMonth === 29) {
+        workingDays = 21;
+    } else {
+        workingDays = 20;
+    }
+
+    let salary = (workingDays * hoursPerDay) * minimumWage;
+    let displayWages = document.getElementById('displayWages');
+    displayWages.innerHTML = `<div class="d-flex justify-content-center mb-2">Your chosen date: <span style="color: red;"> ${inputDate}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many days in the month: <span style="color:blue;"> ${numDaysInMonth}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many work days: <span style="color:yellow;"> ${workingDays}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">BC minimum wage: <span style="color:green;"> ${minimumWage}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center">Salary for the month (8 hours): <span style="color:orange;"> ${salary}</span></div>`;
+}
+
+/******************************************************************************/
+
+/***
+ * FUNction to add my birthday to the calendar field
+ ***************************************************/
+
+function addBirthday() {
+    var myBDay = "1992-11-04";
+    document.getElementById(`dateInput`).value = myBDay;
+}
+
+/***************************************************/
+
+document.getElementById('datebtn').addEventListener('click', calculateWages);
+document.getElementById('birthDay').addEventListener('click', addBirthday);
