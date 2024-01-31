@@ -145,25 +145,30 @@ function addBirthday() {
 function isItInRange() {
     try {
         let numToCheck = document.getElementById("errorInput").value;
-        let errorInput = document.getElementById("errorReport");
+        let errorInput = document.getElementById("errorReport1");
+        let errorInput2 = document.getElementById("errorReport2");
+
+        document.getElementById("errorReport2").style.color = "red";
 
 
         errorInput.innerHTML = `your number value: ${numToCheck}<br>`;
+        errorInput2.innerHTML = '';
         if (numToCheck <= 0) {
-            throw new Error("The value must be greater than zero");
+            throw new Error(`Your number ${numToCheck} must be greater than zero`);
         }
         if (numToCheck <= 2) {
+            errorInput.innerHTML += `Your number is less than 2: ${numToCheck}<br>`;
             throw new Error(`The value is less than 2: ${numToCheck}<br>`);
         }
         if (numToCheck > 2) {
             errorInput.innerHTML += `The value is over 2<br>`;
         }
         if (numToCheck >= 4) {
-            errorInput.innerHTML += `The value is in the correct range`;
+            errorInput2.innerHTML += `The value is in the correct range`;
         }
     } catch (e) {
         console.error(e.message);
-        document.getElementById('errorReport').innerHTML += `Error: ${e.message}`;
+        document.getElementById('errorReport2').innerHTML = `Error: ${e.message}`;
     }
 }
 
