@@ -17,7 +17,7 @@ function counter(string, char) {
             counter++;
         }
     }
-    const ifPlural = counter === 1 ? '' : 's';
+    const ifPlural = counter === 1 ? '' : '\'s';
 
     document.getElementById("spaceCount").innerHTML = count;
     document.getElementById("letterCount").innerHTML = `${counter} ${char}${ifPlural}`;
@@ -118,11 +118,11 @@ function calculateWages() {
 
     let salary = (workingDays * hoursPerDay) * minimumWage;
     let displayWages = document.getElementById('displayWages');
-    displayWages.innerHTML = `<div class="d-flex justify-content-center mb-2">Your chosen date: <span style="color: red;"> ${inputDate}</span></div>`;
-    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many days in the month: <span style="color:blue;"> ${numDaysInMonth}</span></div>`;
-    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many work days: <span style="color:yellow;"> ${workingDays}</span></div>`;
-    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">BC minimum wage: <span style="color:green;"> ${minimumWage}</span></div>`;
-    displayWages.innerHTML += `<div class="d-flex justify-content-center">Salary for the month (8 hours): <span style="color:orange;"> ${salary}</span></div>`;
+    displayWages.innerHTML = `<div class="d-flex justify-content-center mb-2">Your chosen date:&nbsp;<span style="color: red;">${inputDate}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many days in the month:&nbsp;<span style="color:blue;">${numDaysInMonth}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many work days:&nbsp;<span style="color:yellow;">${workingDays}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">BC minimum wage:&nbsp;<span style="color:green;">${minimumWage}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center">Salary for the month (8 hours):&nbsp;<span style="color:orange;">${salary}</span></div>`;
 }
 
 /******************************************************************************/
@@ -138,5 +138,37 @@ function addBirthday() {
 
 /***************************************************/
 
+/***
+ * Error handling function for number inputs
+ *******************************************/
+
+function isItInRange() {
+    try {
+        let numToCheck = document.getElementById("errorInput").value;
+        let errorInput = document.getElementById("errorReport");
+
+
+        errorInput.innerHTML = `your number value: ${numToCheck}<br>`;
+        if (numToCheck <= 0) {
+            throw new Error("The value must be greater than zero");
+        }
+        if (numToCheck <= 2) {
+            throw new Error(`The value is less than 2: ${numToCheck}<br>`);
+        }
+        if (numToCheck > 2) {
+            errorInput.innerHTML += `The value is over 2<br>`;
+        }
+        if (numToCheck >= 4) {
+            errorInput.innerHTML += `The value is in the correct range`;
+        }
+    } catch (e) {
+        console.error(e.message);
+        document.getElementById('errorReport').innerHTML += `Error: ${e.message}`;
+    }
+}
+
+/*******************************************/
+
 document.getElementById('datebtn').addEventListener('click', calculateWages);
 document.getElementById('birthDay').addEventListener('click', addBirthday);
+document.getElementById('errorbtn').addEventListener('click', isItInRange);
