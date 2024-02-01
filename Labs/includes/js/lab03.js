@@ -165,26 +165,56 @@ function isItInRange() {
         document.getElementById("errorReport2").style.color = "red";
         errorInput.innerHTML = `your number value: ${numToCheck}<br>`;
         errorInput2.innerHTML = '';
+        console.log(numToCheck);
 
         if (numToCheck <= 0) {
+            errorInput.innerHTML += `Your number is less than or equal to 2: ${numToCheck}<br>`;
             throw new Error(`Your number ${numToCheck} must be greater than zero`);
         }
         if (numToCheck <= 2) {
-            errorInput.innerHTML += `Your number is less than 2: ${numToCheck}<br>`;
-            throw new Error(`The value is less than 2: ${numToCheck}<br>`);
+            errorInput.innerHTML += `Your number is less than or equal to 2: ${numToCheck}<br>`;
+            throw new Error(`The value is less than or equal to 2: ${numToCheck}<br>`);
         }
         if (numToCheck > 2) {
             errorInput.innerHTML += `The value is over 2<br>`;
         }
+        if (numToCheck == 3) {
+            errorThreeNotAllowed();
+            errorInput.innerHTML = `ERROR - 3 not allowed!`
+            errorInput2.innerHTML = '';
+        }
         if (numToCheck >= 4) {
             errorInput2.innerHTML += `The value is in the correct range`;
-        }   
+        }  
     } catch (e) {
         console.error(e.message);
         document.getElementById('errorReport2').innerHTML = `Error: ${e.message}`;
     }
 }
 /*******************************************/
+
+/***
+ * Entered 3 Error handling function
+ ***********************************/
+
+function errorThreeNotAllowed() {
+    let countdown = document.getElementById("errorCountdown");
+    let count = 3;
+
+    function countdownReload() {
+        countdown.innerHTML = `Program Terminating in: ${count}`;
+        count--;
+
+        if (count < 0) {
+            location.reload();
+        } else {
+            setTimeout(countdownReload, 1000);
+        }
+    }
+
+    countdownReload();
+}
+/***********************************/
 
 document.getElementById('datebtn').addEventListener('click', calculateWages);
 document.getElementById('birthDay').addEventListener('click', addBirthday);
