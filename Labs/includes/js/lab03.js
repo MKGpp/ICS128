@@ -199,6 +199,7 @@ function isItInRange() {
 
 function errorThreeNotAllowed() {
     let countdown = document.getElementById("errorCountdown");
+    document.getElementById("errorBackground").style.backgroundImage = `url(./includes/images/error.jfif)`;
     let count = 3;
 
     function countdownReload() {
