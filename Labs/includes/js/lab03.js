@@ -165,8 +165,7 @@ function isItInRange() {
         document.getElementById("errorReport2").style.color = "red";
         errorInput.innerHTML = `your number value: ${numToCheck}<br>`;
         errorInput2.innerHTML = '';
-        console.log(numToCheck);
-
+        
         if (numToCheck <= 0) {
             errorInput.innerHTML += `Your number is less than or equal to 2: ${numToCheck}<br>`;
             throw new Error(`Your number ${numToCheck} must be greater than zero`);
@@ -199,7 +198,7 @@ function isItInRange() {
 
 function errorThreeNotAllowed() {
     let countdown = document.getElementById("errorCountdown");
-    document.getElementById("errorBackground").style.backgroundImage = `url(./includes/images/error.jfif)`;
+    document.body.style.backgroundImage = `url(./includes/images/error.jfif)`;
     let count = 3;
 
     function countdownReload() {
