@@ -86,11 +86,38 @@ console.log(labDay);
  * Function to calculate the days in the month
  **********************************************/
 
-function daysInMonth(year, month) { // Use 1 for Jan, 2 for Feb, etc.
+function daysInMonth(year, month) {
     return new Date(year, month, 0).getDate();
 }
-
 /**********************************************/
+
+/***
+ * Function to calculate if days are weekdays
+ *************************************************/
+
+function isWeekDay(year, month, day) {
+    let dayOfWeek = new Date(year, month, day).getDay();
+    return dayOfWeek >= 1 && dayOfWeek <= 5;
+}
+/*************************************************/
+
+/***
+ * Function to get the weekdays in the current month
+ ***************************************************/
+
+function getWeekdaysCurrentMonth(year, month) {
+    let dayInMonth = daysInMonth(year, month);
+    let weekdays = 0;
+
+    for (let i = 0; i < dayInMonth; i++) {
+        if (isWeekDay(year, month - 1, i+1)) {
+            weekdays++;
+        }
+    }
+    return weekdays;
+}
+
+/***************************************************/
 
 /***
  * Function to add functionality to the calculate wages section of the webpage.
@@ -100,31 +127,19 @@ function calculateWages() {
 
     const inputDate = document.getElementById('dateInput').value;
     const [year, month] = inputDate.split('-');
+    const numDaysInMonth = daysInMonth(year, month);
+    const weekdays = getWeekdaysCurrentMonth(year, month);
+    const minimumWage = 16.75;
+    const hoursPerDay = 8;
+    const salary = (weekdays * hoursPerDay) * minimumWage;
 
-    let workingDays;
-    let numDaysInMonth = daysInMonth(year, month);
-    let minimumWage = 16.75;
-    let hoursPerDay = 8;
-
-    if (numDaysInMonth === 31) {
-        workingDays = 23;
-    } else if (numDaysInMonth === 30) {
-        workingDays = 22;
-    } else if (numDaysInMonth === 29) {
-        workingDays = 21;
-    } else {
-        workingDays = 20;
-    }
-
-    let salary = (workingDays * hoursPerDay) * minimumWage;
     let displayWages = document.getElementById('displayWages');
     displayWages.innerHTML = `<div class="d-flex justify-content-center mb-2">Your chosen date:&nbsp;<span style="color: red;">${inputDate}</span></div>`;
     displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many days in the month:&nbsp;<span style="color:blue;">${numDaysInMonth}</span></div>`;
-    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many work days:&nbsp;<span style="color:yellow;">${workingDays}</span></div>`;
+    displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">How many work days:&nbsp;<span style="color:yellow;">${weekdays}</span></div>`;
     displayWages.innerHTML += `<div class="d-flex justify-content-center mb-2">BC minimum wage:&nbsp;<span style="color:green;">${minimumWage}</span></div>`;
     displayWages.innerHTML += `<div class="d-flex justify-content-center">Salary for the month (8 hours):&nbsp;<span style="color:orange;">${salary}</span></div>`;
 }
-
 /******************************************************************************/
 
 /***
@@ -135,7 +150,6 @@ function addBirthday() {
     var myBDay = "1992-11-04";
     document.getElementById(`dateInput`).value = myBDay;
 }
-
 /***************************************************/
 
 /***
@@ -149,10 +163,9 @@ function isItInRange() {
         let errorInput2 = document.getElementById("errorReport2");
 
         document.getElementById("errorReport2").style.color = "red";
-
-
         errorInput.innerHTML = `your number value: ${numToCheck}<br>`;
         errorInput2.innerHTML = '';
+
         if (numToCheck <= 0) {
             throw new Error(`Your number ${numToCheck} must be greater than zero`);
         }
@@ -165,13 +178,12 @@ function isItInRange() {
         }
         if (numToCheck >= 4) {
             errorInput2.innerHTML += `The value is in the correct range`;
-        }
+        }   
     } catch (e) {
         console.error(e.message);
         document.getElementById('errorReport2').innerHTML = `Error: ${e.message}`;
     }
 }
-
 /*******************************************/
 
 document.getElementById('datebtn').addEventListener('click', calculateWages);
