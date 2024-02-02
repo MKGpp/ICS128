@@ -179,8 +179,9 @@ function isItInRange() {
         }
         if (numToCheck == 3) {
             errorThreeNotAllowed();
-            errorInput.innerHTML = `ERROR - 3 not allowed!`
-            errorInput2.innerHTML = '';
+            errorInput.innerHTML = ``
+            errorInput2.innerHTML = ``;
+            throw new Error(`3 not allowed!`);
         }
         if (numToCheck >= 4) {
             errorInput2.innerHTML += `The value is in the correct range`;
