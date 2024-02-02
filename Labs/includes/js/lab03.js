@@ -179,8 +179,7 @@ function isItInRange() {
         }
         if (numToCheck == 3) {
             errorThreeNotAllowed();
-            errorInput.innerHTML = ``
-            errorInput2.innerHTML = ``;
+            errorInput.innerHTML = ``;
             throw new Error(`3 not allowed!`);
         }
         if (numToCheck >= 4) {
@@ -200,7 +199,7 @@ function isItInRange() {
 function errorThreeNotAllowed() {
     let countdown = document.getElementById("errorCountdown");
     document.body.style.backgroundImage = `url(./includes/images/error.jfif)`;
-    let count = 3;
+    let count = 5;
 
     function countdownReload() {
         countdown.innerHTML = `Program Terminating in: ${count}`;
