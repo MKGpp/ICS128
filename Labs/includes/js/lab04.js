@@ -2,26 +2,25 @@
  * Initial load of hotel room info cards
  ***************************************/
 
-let count = 2;
 
 const hotelRooms = [{
     imgFile: './includes/images/standard.jpg',
     roomType: 'Standard',
     roomDesc: 'Single room - King Size Bed',
     price: '$169',
-    bookBtn: '<div class="d-flex justify-content-end"><button class="btn btn-success" id="standard">Book Standard</button></div>'
+    bookBtn: 'standard'
 }, {
     imgFile: './includes/images/double.jpg',
     roomType: 'Deluxe',
     roomDesc: 'Double room - 2 King Size Beds',
     price: '$289',
-    bookBtn: '<div class="d-flex justify-content-end"><button class="btn btn-success" id="deluxe">Book Deluxe</button></div>'
+    bookBtn: 'deluxe'
 }, {
     imgFile: './includes/images/vip.jpg',
     roomType: 'Penthouse',
     roomDesc: '800sqft VIP Penthouse - 2 Bedrooms <br> Bar <br> Whirlpool Tub',
     price: '$699',
-    bookBtn: '<div class="d-flex justify-content-end"><button class="btn btn-success" id="vip">Book Penthouse</button></div>'
+    bookBtn: 'vip'
 }];
 
 for (let i = 0; i < hotelRooms.length; i++) {
@@ -39,7 +38,7 @@ for (let i = 0; i < hotelRooms.length; i++) {
                         <div class="w-100 bg-secondary" height="1px"></div>
                         <p class="card-text">${hotelRooms[i].roomDesc}</p>
                         <p class="card-text">${hotelRooms[i].price}</p>
-                        ${hotelRooms[i].bookBtn}
+                        <div class="d-flex justify-content-end"><button class="btn btn-success" onclick="roomBookedBtn()" id="${hotelRooms[i].bookBtn}">Book Room</button></div>
                     </div>
                 </div>
             </div>
@@ -51,6 +50,7 @@ for (let i = 0; i < hotelRooms.length; i++) {
  * Function to add rows to table on button click
  ***********************************************/
 
+let count = 2;
 function tableBtnClick() {
     let table = document.getElementById("sampleTable");
 
@@ -69,9 +69,11 @@ function tableBtnClick() {
 function roomBookedBtn() {
     if (document.getElementById("standard")) {
         alert(`Your room is ${hotelRooms[0].price} per night`);
-    } else if (document.getElementById("deluxe")) {
+    } 
+    if (document.getElementById("deluxe")) {
         alert(`Your room is ${hotelRooms[1].price} per night`);
-    } else {
+    }  
+    if (document.getElementById("vip")) {
         alert(`Your room is ${hotelRooms[2].price} per night`);
     }
 }
@@ -81,8 +83,5 @@ function roomBookedBtn() {
  * Event listeners for button clicks
  ***********************************/
 document.getElementById('myButton').addEventListener('click', tableBtnClick);
-document.getElementById('standard').addEventListener('click', roomBookedBtn);
-document.getElementById('deluxe').addEventListener('click', roomBookedBtn);
-document.getElementById('vip').addEventListener('click', roomBookedBtn);
 
 /***********************************/
