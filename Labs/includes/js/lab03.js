@@ -60,25 +60,25 @@ document.getElementById("calculate").addEventListener("click", function() {
  * Playing around with date functions in javascript
  **************************************************/
 
-var labDay = new Date(2022, 2, 1);
-var now = Date.now();
-console.log("labDay is " + labDay);
-console.log(labDay.toDateString());
-console.log(labDay.toTimeString());
-console.log("labDay is " + labDay.getTime());
-console.log(labDay.getDate() + " / " + labDay.getMonth() + " / " + labDay.getFullYear());
-console.log(labDay.getHours() + " : " + labDay.getMinutes());
-console.log(now);
-var errorDate = new Date(2016, 33, 1);
-console.log(errorDate);
-var invalidDate = new Date("Funuary 3, 2018");
-console.log(invalidDate);
-var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-console.log(labDay.toLocaleString('de-DE', options));
-var msDay = 24 * 60 * 60 * 1000;
-var msLabDay = now;
-labDay = new Date(msDay + msLabDay);
-console.log(labDay);
+// var labDay = new Date(2022, 2, 1);
+// var now = Date.now();
+// console.log("labDay is " + labDay);
+// console.log(labDay.toDateString());
+// console.log(labDay.toTimeString());
+// console.log("labDay is " + labDay.getTime());
+// console.log(labDay.getDate() + " / " + labDay.getMonth() + " / " + labDay.getFullYear());
+// console.log(labDay.getHours() + " : " + labDay.getMinutes());
+// console.log(now);
+// var errorDate = new Date(2016, 33, 1);
+// console.log(errorDate);
+// var invalidDate = new Date("Funuary 3, 2018");
+// console.log(invalidDate);
+// var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+// console.log(labDay.toLocaleString('de-DE', options));
+// var msDay = 24 * 60 * 60 * 1000;
+// var msLabDay = now;
+// labDay = new Date(msDay + msLabDay);
+// console.log(labDay);
 
 /***************************************************/
 
