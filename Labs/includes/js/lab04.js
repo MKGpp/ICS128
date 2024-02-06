@@ -38,7 +38,7 @@ for (let i = 0; i < hotelRooms.length; i++) {
                         <div class="w-100 bg-secondary" height="1px"></div>
                         <p class="card-text">${hotelRooms[i].roomDesc}</p>
                         <p class="card-text">${hotelRooms[i].price}</p>
-                        <div class="d-flex justify-content-end"><button class="btn btn-success" onclick="roomBookedBtn()" id="${hotelRooms[i].bookBtn}">Book Room</button></div>
+                        <div class="d-flex justify-content-end"><button class="btn btn-success" onclick="roomBookedBtn('${hotelRooms[i].bookBtn}')" id="${hotelRooms[i].bookBtn}">Book Room</button></div>
                     </div>
                 </div>
             </div>
@@ -51,33 +51,38 @@ for (let i = 0; i < hotelRooms.length; i++) {
  ***********************************************/
 
 let count = 2;
-function tableBtnClick() {
-    let table = document.getElementById("sampleTable");
 
-    table.innerHTML += `
+const tableBtnClick = () => {
+        let table = document.getElementById("sampleTable");
+
+        table.innerHTML += `
     <tr>
         <td>Row${count} cell1</td>
         <td>Row${count} cell2</td>
     </tr>`;
-    count++;
-}
-/***********************************************/
+        count++;
+    }
+    /***********************************************/
 
 /***
  * Function to display(alert) room's price on button click
  **********************************************************/
-function roomBookedBtn() {
-    if (document.getElementById("standard")) {
-        alert(`Your room is ${hotelRooms[0].price} per night`);
-    } 
-    if (document.getElementById("deluxe")) {
-        alert(`Your room is ${hotelRooms[1].price} per night`);
-    }  
-    if (document.getElementById("vip")) {
-        alert(`Your room is ${hotelRooms[2].price} per night`);
+const roomBookedBtn = (btnId) => {
+        switch (btnId) {
+            case 'standard':
+                alert(`Your room price is ${hotelRooms[0].price} per night.`);
+                break;
+            case 'deluxe':
+                alert(`Your room price is ${hotelRooms[1].price} per night.`);
+                break;
+            case 'vip':
+                alert(`Your room price is ${hotelRooms[2].price} per night.`);
+                break;
+            default:
+                console.error('Invalid button id');
+        }
     }
-}
-/**********************************************************/
+    /**********************************************************/
 
 /***
  * Event listeners for button clicks
