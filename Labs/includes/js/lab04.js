@@ -2,6 +2,8 @@
  * Initial load of hotel room info cards
  ***************************************/
 
+let count = 2;
+
 const hotelRooms = [{
     imgFile: './includes/images/standard.jpg',
     roomType: 'Standard',
@@ -51,7 +53,6 @@ for (let i = 0; i < hotelRooms.length; i++) {
 
 function tableBtnClick() {
     let table = document.getElementById("sampleTable");
-    let count = 2;
 
     table.innerHTML += `
     <tr>
@@ -66,9 +67,9 @@ function tableBtnClick() {
  * Function to display(alert) room's price on button click
  **********************************************************/
 function roomBookedBtn() {
-    if (bookBtn.getElementById("standard")) {
+    if (document.getElementById("standard")) {
         alert(`Your room is ${hotelRooms[0].price} per night`);
-    } else if (bookBtn.getElementById("deluxe")) {
+    } else if (document.getElementById("deluxe")) {
         alert(`Your room is ${hotelRooms[1].price} per night`);
     } else {
         alert(`Your room is ${hotelRooms[2].price} per night`);
@@ -80,6 +81,8 @@ function roomBookedBtn() {
  * Event listeners for button clicks
  ***********************************/
 document.getElementById('myButton').addEventListener('click', tableBtnClick);
-document.getElementById('bookBtn').addEventListener('click', roomBookedBtn);
+document.getElementById('standard').addEventListener('click', roomBookedBtn);
+document.getElementById('deluxe').addEventListener('click', roomBookedBtn);
+document.getElementById('vip').addEventListener('click', roomBookedBtn);
 
 /***********************************/
