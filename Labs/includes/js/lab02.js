@@ -1,3 +1,9 @@
+/***
+ * Function to compare and display number inputs
+ * provides the middle value of the 3 numbers
+ * provies the mean of the 3 numbers
+ * displays a different color text if even or odd
+ ************************************************/
 function displayNums() {
 
     let prices = document.getElementById("calcMean").value;
@@ -31,7 +37,13 @@ function displayNums() {
     }
 
 }
+/************************************************/
 
+/***
+ * Function to display the % occupancy of the hotel
+ * displays a different color text based on number range
+ * has an alert error handler to make sure number is 0-100
+ *********************************************************/
 function displayOccupancy() {
 
     const percent = document.getElementById("displayOccupancy").value;
@@ -58,7 +70,13 @@ function displayOccupancy() {
         percentColor.style.color = "red";
     }
 }
+/*********************************************************/
 
+/***
+ * Function to iterate and display a given number
+ * displays the number interated into a pyramid
+ * from 1 to 5 and back to 1
+ ************************************************/
 function iterationOfANumber() {
 
     let numToIterate = parseInt(document.getElementById("iterateInput").value);
@@ -76,7 +94,13 @@ function iterationOfANumber() {
         output.innerHTML += line + "<br>";
     }
 }
+/************************************************/
 
+/***
+ * Function to take in 2 numbers and display which one is higher
+ * displays as terms of speed between two AI assistants
+ * color is blue or red depends on who is faster
+ ***************************************************************/
 function whoIsFaster() {
 
     let speed1 = parseInt(document.getElementById("speed1").value);
@@ -104,8 +128,14 @@ function whoIsFaster() {
     speedCompare.innerHTML += `${slowerAi}'s speed is: <span style="color: blue;">${slowerSpeed}</span><br>`;
     speedCompare.innerHTML += `<span style="color: red;">${fasterAi}</span> gets there first!`;
 }
+/***************************************************************/
 
+/***
+ * Event listeners for button clicks
+ ***********************************/
 document.getElementById("firstBtn").addEventListener("click", displayNums);
 document.getElementById("secondBtn").addEventListener("click", displayOccupancy);
 document.getElementById("thirdBtn").addEventListener("click", iterationOfANumber);
 document.getElementById("fourthBtn").addEventListener("click", whoIsFaster);
+
+/***********************************/
