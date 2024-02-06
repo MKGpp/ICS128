@@ -34,8 +34,8 @@ for (let i = 0; i < hotelRooms.length; i++) {
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">${hotelRooms[i].roomType}</h5>
-                        <div class="w-100 bg-secondary" height="1px"></div>
+                        <h5 class="card-title"><strong>${hotelRooms[i].roomType}</strong></h5>
+                        <div class="w-100 bg-secondary mb-3" style="height: 1px;"></div>
                         <p class="card-text">${hotelRooms[i].roomDesc}</p>
                         <p class="card-text">${hotelRooms[i].price}</p>
                         <div class="d-flex justify-content-end"><button class="btn btn-success" onclick="roomBookedBtn('${hotelRooms[i].bookBtn}')" id="${hotelRooms[i].bookBtn}">Book Room</button></div>
