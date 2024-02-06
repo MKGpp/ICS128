@@ -1,4 +1,3 @@
-
 let users = {
     first: "Matt",
     last: "G",
@@ -15,10 +14,12 @@ let anotherUser = {
     age: 64
 }
 let objectArray = [users, moreUsers, anotherUser];
+
 function buttonGreeting() {
     let greeting = document.getElementById("lecture");
     greeting.innerHTML = `Hello ${users.first} ${users.last}.`;
 }
+
 function tableOfUsers() {
     let table = document.getElementById("table");
 
@@ -51,6 +52,7 @@ function tableOfUsers() {
         </tr>
     </table>`;
 }
+
 function displayArray() {
 
     let array = document.getElementById("array");
