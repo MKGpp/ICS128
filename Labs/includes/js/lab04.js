@@ -62,7 +62,7 @@ const tableBtnClick = () => {
     </tr>`;
         count++;
     }
-    /***********************************************/
+/***********************************************/
 
 /***
  * Function to display(alert) room's price on button click
@@ -82,7 +82,7 @@ const roomBookedBtn = (btnId) => {
                 console.error('Invalid button id');
         }
     }
-    /**********************************************************/
+/**********************************************************/
 
 /***
  * Event listeners for button clicks
