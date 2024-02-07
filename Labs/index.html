@@ -4,20 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lab02</title>
+    <title>Lab04</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        #main {
+        .main, footer {
             position: relative;
-            top: 100px;
+            top: 150px;
         }
-        
         body {
-            background-color: #415251;
-        }
-        
-        .card {
-            background-color: #65A46D;
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>
@@ -40,13 +36,13 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index.html">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="lab01.html">Lab 1</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="lab02.html">Lab 2</a>
+                            <a class="nav-link" href="lab02.html">Lab 2</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="lab03.html">Lab 3</a>
@@ -72,70 +68,20 @@
 
     <!--Main section-->
 
-    <div class="container vh-100">
-        <div class="row gap-5" id="main">
-            <div class="row-col-6 gap-5 d-flex justify-content-center">
-                <div class="w-25">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">3 Prices for rooms?</h5>
-                            <label for="calcMean">separate numbers with spaces:</label>
-                            <input type="text" id="calcMean" class="form-control" placeholder="150 300 275" aria-label="prices">
-                            <div id="result"></div>
-                            <button id="firstBtn" class="btn btn-dark mt-3">calculate</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-25">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Display How Full the Hotel is:</h5>
-                            <input type="text" id="displayOccupancy" class="form-control" placeholder="enter 0-100" aria-label="capacity">
-                            <div id="occupancy"></div>
-                            <button id="secondBtn" class="btn btn-dark mt-3">Calculate</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row-col-6 gap-5 d-flex justify-content-center">
-                <div class="w-25">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Iteration</h5>
-                            <input type="text" id="iterateInput" class="form-control" placeholder="5" aria-label="capacity">
-                            <div id="iteration"></div>
-                            <button id="thirdBtn" class="btn btn-dark mt-3">Iterate Me</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-25">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Who gets there the fastest?</h5>
-                            <div class="mb-3">
-                                <label for="speed1" class="form-label">Alexa's Speed:</label>
-                                <input type="email" class="form-control" id="speed1" placeholder="55">
-                            </div>
-                            <div class="mb-3">
-                                <label for="speed2" class="form-label">Siri's Speed:</label>
-                                <input type="email" class="form-control" id="speed2" placeholder="66">
-                            </div>
-                            <div id="fastest"></div>
-                            <button id="fourthBtn" class="btn btn-dark mt-3">Who's Fastest</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="main container-fluid vh-100 d-flex justify-content-center">
+        <div>
+            <img src="./includes/images/beach.jpg" alt="beach" style="width: 100%">
         </div>
+        <h1>Welcome To Paradise.</h1>
     </div>
+    
 
     <!--Footer bar-->
 
     <footer class="container-fluid bg-dark">
         <div class="row">
             <ul class="col d-flex justify-content-center text-light gap-5">
-                <li class=""><a href="lab01.html">Home</a></li>
+                <li class=""><a href="index.html">Home</a></li>
                 <li class=""><a href="lab01.html">Lab01</a></li>
                 <li class=""><a href="lab02.html">Lab02</a></li>
                 <li class=""><a href="lab03.html">Lab03</a></li>
@@ -151,7 +97,7 @@
     <!--Scripts for JS-->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="includes/js/lab02.js"></script>
+    <script src="includes/js/script.js"></script>
 </body>
 
 </html>
