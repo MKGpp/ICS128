@@ -7,11 +7,16 @@
     <title>Lab04</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        .main, footer {
+        .main,
+        footer {
             position: relative;
             top: 150px;
         }
         body {
+            background-image: url(./includes/images/beach.jpg);
+            object-fit: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
         }
@@ -68,13 +73,14 @@
 
     <!--Main section-->
 
-    <div class="main container-fluid vh-100 d-flex justify-content-center">
-        <div>
-            <img src="./includes/images/beach.jpg" alt="beach" style="width: 100%">
-        </div>
+    <div class="main container d-flex justify-content-center">
         <h1>Welcome To Paradise.</h1>
     </div>
-    
+    <div class="main container vh-100 d-flex justify-content-center mt-5">
+        <p>Use the menu to select which lab you would like to view.</p>
+    </div>
+
+
 
     <!--Footer bar-->
 
