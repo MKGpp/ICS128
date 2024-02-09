@@ -64,6 +64,7 @@ const formSubmit = () => {
         }
         loginFormHide();
         formToCard(firstName, lastName, ageInput, emailInput, phoneNumber, postalCode);
+        loginLogout();
 
     } catch (error) {
         document.getElementById("errorOutput").innerHTML = `${error}`;
@@ -117,7 +118,8 @@ const clearMain = () => {
  **********************************************/
 
 const loginLogout = () => {
-
+    document.getElementById("logonBtn").style.display = "none";
+    document.getElementById("logoutBtn").style.display = "block";
 }
 
 /**********************************************/
