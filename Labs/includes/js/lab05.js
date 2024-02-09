@@ -6,6 +6,11 @@ const loginBtn = () => {
     signupForm.style.display = "block";
 }
 
+const loginFormHide = () => {
+    const signupForm = document.getElementById("formLogin");
+    signupForm.style.display = "none";
+}
+
 /***
  * Function to submit the form information
  *****************************************/
@@ -31,6 +36,7 @@ const formSubmit = () => {
         const emailInput = document.getElementById("emailAddy").value;
         const phoneNumber = document.getElementById("phoneNum").value;
         const postalCode = document.getElementById("psCode").value;
+        const ageInput = document.getElementById("ageInput").value;
 
         if (!namePattern.test(firstName)) {
             document.getElementById("firstName").classList.add('is-invalid');
@@ -56,6 +62,8 @@ const formSubmit = () => {
             document.getElementById("psCode").classList.add('is-invalid');
             throw new Error("Postal Code Invalid! Must be A1A 1A1 or A1A1A1!");
         }
+        loginFormHide();
+        formToCard(firstName, lastName, ageInput, emailInput, phoneNumber, postalCode);
 
     } catch (error) {
         document.getElementById("errorOutput").innerHTML = `${error}`;
@@ -65,6 +73,33 @@ const formSubmit = () => {
 }
 
 /*****************************************/
+
+/***
+ * Function to save user information in a card and display
+ *********************************************************/
+
+const formToCard = (first, last, age, email, phone, postal) => {
+    const userCard = document.getElementById("userCard");
+
+    userCard.innerHTML = `
+        <h1 class="text-light">${first}'s Profile</h1>
+        <div class="card" style="width: 18rem;">
+            <img src="./includes/images/person-square.svg" class="card-img-top" alt="user picture">
+            <div class="d-flex justify-content-center"><div style="height: 1px; width: 80%;" class="bg-secondary mt-3"></div></div>
+            <div class="card-body">
+                <h5 class="card-title">${first} ${last}</h5>
+                <p class="card-text">${email}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Age: ${age}</li>
+                <li class="list-group-item">Postal Code: ${postal}</li>
+                <li class="list-group-item">Phone: ${phone}</li>
+            </ul>
+        </div>
+    `
+}
+
+/*********************************************************/
 
 /***
  * Function to clear the form from the main page
