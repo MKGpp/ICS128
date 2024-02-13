@@ -1,21 +1,9 @@
 
-
-
-const loginBtn = () => {
-    const signupForm = document.getElementById("formLogin");
-    signupForm.style.display = "block";
-}
-
-const loginFormHide = () => {
-    const signupForm = document.getElementById("formLogin");
-    signupForm.style.display = "none";
-}
-
 /***
  * Function to submit the form information
  *****************************************/
 
-const formSubmit = () => {
+document.getElementById("formSubmit").addEventListener('click',() => {
 
     try {
         let namePattern = /^[A-Za-z]+$/;
@@ -39,39 +27,45 @@ const formSubmit = () => {
         const ageInput = document.getElementById("ageInput").value;
 
         if (!namePattern.test(firstName)) {
+            event.preventDefault();
             document.getElementById("firstName").classList.add('is-invalid');
             throw new Error("Name must be letters only! No spaces.");
         }
         if (!namePattern.test(lastName)) {
+            event.preventDefault();
             document.getElementById("lastName").classList.add('is-invalid');
             throw new Error("Name must be letters only! No spaces.");
         }
         if (document.getElementById("ageInput").value < 0 || document.getElementById("ageInput").value > 120) {
+            event.preventDefault();
             document.getElementById("ageInput").classList.add('is-invalid');
             throw new Error("Age must be between 0-120 inclusive!");
         }
         if (!emailPattern.test(emailInput)) {
+            event.preventDefault();
             document.getElementById("emailAddy").classList.add('is-invalid');
             throw new Error("Email Address Invalid! Format is \"sampleemail@email.com\"");
         }
         if (!phonePattern.test(phoneNumber)) {
+            event.preventDefault();
             document.getElementById("phoneNum").classList.add('is-invalid');
             throw new Error("Phone Number Invalid! Must be 000-000-0000 or 000 000 0000 or 0000000000!");
         }
         if(!postalPattern.test(postalCode)) {
+            event.preventDefault();
             document.getElementById("psCode").classList.add('is-invalid');
             throw new Error("Postal Code Invalid! Must be A1A 1A1 or A1A1A1!");
         }
-        loginFormHide();
-        formToCard(firstName, lastName, ageInput, emailInput, phoneNumber, postalCode);
-        loginLogout();
 
+        if (namePattern.test(firstName) && namePattern.test(lastName) && (ageInput >= 0 || ageInput <= 120) && emailPattern.test(emailInput) && phonePattern.test(phoneNumber) && postalPattern.test(postalCode)) {
+            formToCard(firstName, lastName, ageInput, emailInput, phoneNumber, postalCode);
+            login();
+
+        }
     } catch (error) {
         document.getElementById("errorOutput").innerHTML = `${error}`;
-
     }
-
-}
+});
 
 /*****************************************/
 
@@ -83,8 +77,8 @@ const formToCard = (first, last, age, email, phone, postal) => {
     const userCard = document.getElementById("userCard");
 
     userCard.innerHTML = `
-        <h1 class="text-light">${first}'s Profile</h1>
         <div class="card" style="width: 18rem;">
+            <h1 class="d-flex justify-content-center">${first}'s Profile</h1>
             <img src="./includes/images/person-square.svg" class="card-img-top" alt="user picture">
             <div class="d-flex justify-content-center"><div style="height: 1px; width: 80%;" class="bg-secondary mt-3"></div></div>
             <div class="card-body">
@@ -102,24 +96,23 @@ const formToCard = (first, last, age, email, phone, postal) => {
 
 /*********************************************************/
 
-/***
- * Function to clear the form from the main page
- ***********************************************/
-
-const clearMain = () => {
-    const signupForm = document.getElementById("formLogin");
-    signupForm.style.display = "none";
-}
-
-/***********************************************/
 
 /***
  * Function to swap the sign in and out buttons
  **********************************************/
 
-const loginLogout = () => {
+const login = () => {
     document.getElementById("logonBtn").style.display = "none";
     document.getElementById("logoutBtn").style.display = "block";
+}
+const logout = () => {
+    document.getElementById("logonBtn").style.display = "block";
+    document.getElementById("logoutBtn").style.display = "none";
+
+    let formClear = document.getElementById("formLogin").querySelectorAll('input');
+    formClear.forEach(function(input){
+       input.value = "";
+    });
 }
 
 /**********************************************/
@@ -128,8 +121,15 @@ const loginLogout = () => {
  * Event listeners for button clicks
  ***********************************/
 
-document.getElementById("logonBtn").addEventListener('click', loginBtn);
-document.getElementById("formSubmit").addEventListener('click', formSubmit);
-
+document.getElementById("logoutBtn").addEventListener('click', () => {
+    document.getElementById("userCard").innerHTML = "";
+    logout();
+});
+document.getElementById("formCancel").addEventListener('click',() => {
+    let formClear = document.getElementById("formLogin").querySelectorAll('input');
+    formClear.forEach(function(input){
+        input.value = "";
+    });
+});
 
 /***********************************/

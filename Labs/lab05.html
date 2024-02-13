@@ -37,8 +37,8 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Matthew Golshani Hotel</a>
             <div id="loginBtns">
-                <a href="#" type="button" class="btn btn-outline-success" id="logonBtn" style="display: block;">Sign in</a>
-                <a href="#" type="button" class="btn btn-outline-danger" id="logoutBtn" style="display: none;">Sign out</a>
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" style="display: block;" data-bs-target="#loginForm" id="logonBtn">Sign in</button>
+                <button type="button" class="btn btn-outline-danger" id="logoutBtn" style="display: none;">Sign out</button>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -83,42 +83,57 @@
 
     <!--Main section-->
 
-    <div class="main container vh-100 d-flex justify-content-center" id="formDiv">
-        <form class="w-50" style="display: none;" id="formLogin">
-            <div class="">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><img src="./includes/images/person-circle.svg" alt="person"></span>
-                    <input type="text" class="form-control" placeholder="First Name" aria-label="firstName" aria-describedby="basic-addon1" id="firstName">
+    <!-- Modal -->
+    <div class="modal fade" id="loginForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create Profile</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon2"><img src="./includes/images/person-circle.svg" alt="person"></span>
-                    <input type="text" class="form-control" placeholder="Last Name" aria-label="lastName" aria-describedby="basic-addon2" id="lastName">
+                <div class="modal-body">
+                    <form class="" id="formLogin">
+                        <div class="">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><img src="./includes/images/person-circle.svg" alt="person"></span>
+                                <input type="text" class="form-control" placeholder="First Name" aria-label="firstName" aria-describedby="basic-addon1" id="firstName">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon2"><img src="./includes/images/person-circle.svg" alt="person"></span>
+                                <input type="text" class="form-control" placeholder="Last Name" aria-label="lastName" aria-describedby="basic-addon2" id="lastName">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon3"><img src="./includes/images/envelope-at-fill.svg" alt="email"></span>
+                                <input type="email" class="form-control" placeholder="Email Address" aria-label="email" aria-describedby="basic-addon3" id="emailAddy">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon4"><img src="./includes/images/123.svg" alt="age"></span>
+                                <input type="number" class="form-control" placeholder="Enter your Age" aria-label="age" aria-describedby="basic-addon4" id="ageInput">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon5"><img src="./includes/images/mailbox2-flag.svg" alt="postal code"></span>
+                                <input type="text" class="form-control" placeholder="Postal Code" aria-label="postalCode" aria-describedby="basic-addon5" id="psCode">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon6"><img src="./includes/images/telephone-forward-fill.svg" alt="phone number"></span>
+                                <input type="text" class="form-control" placeholder="Phone Number" aria-label="phoneNumber" aria-describedby="basic-addon6" id="phoneNum">
+                            </div>
+                            <div id="errorOutput" class="d-flex justify-content-center text-danger"></div>
+                        </div>
+                    </form>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon3"><img src="./includes/images/envelope-at-fill.svg" alt="email"></span>
-                    <input type="email" class="form-control" placeholder="Email Address" aria-label="email" aria-describedby="basic-addon3" id="emailAddy">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon4"><img src="./includes/images/123.svg" alt="age"></span>
-                    <input type="number" class="form-control" placeholder="Enter your Age" aria-label="age" aria-describedby="basic-addon4" id="ageInput">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon5"><img src="./includes/images/mailbox2-flag.svg" alt="postal code"></span>
-                    <input type="text" class="form-control" placeholder="Postal Code" aria-label="postalCode" aria-describedby="basic-addon5" id="psCode">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon6"><img src="./includes/images/telephone-forward-fill.svg" alt="phone number"></span>
-                    <input type="text" class="form-control" placeholder="Phone Number" aria-label="phoneNumber" aria-describedby="basic-addon6" id="phoneNum">
-                </div>
-                <div id="errorOutput" class="d-flex justify-content-center text-danger"></div>
-                <div class="d-flex justify-content-end gap-2">
-                    <button type="button" class="btn btn-outline-primary" id="formCancel" onclick="clearMain()">Cancel</button>
-                    <button type="button" class="btn btn-outline-success" id="formSubmit">Sign up</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" id="formCancel" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-outline-success" id="formSubmit" data-bg-dismiss="modal" >Sign up</button>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-    <div id="userCard" class="w-75"></div>
+
+    <!--ID Card-->
+
+    <div class="main d-flex justify-content-center" id="userCard"></div>
+    <div class="main vh-100 main"></div>
 
 
     <!--Footer bar-->
