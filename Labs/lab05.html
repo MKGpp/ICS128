@@ -12,7 +12,6 @@
             position: relative;
             top: 150px;
         }
-        
         body {
             background-color: #27322c;
             margin: 0;
@@ -20,11 +19,7 @@
         }
         #logonBtn {
             position: relative;
-            left: 230px;
-        }
-        .form-control:focus {
-            border-color: #5c9463;
-            box-shadow: 0 0 0 0.1rem #65A46D;
+            left: 80px;
         }
     </style>
 </head>
@@ -36,6 +31,7 @@
     <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">Matthew Golshani Hotel</a>
+            <div id="greeting" class="text-light"></div>
             <div id="loginBtns">
                 <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" style="display: block;" data-bs-target="#loginForm" id="logonBtn">Sign in</button>
                 <button type="button" class="btn btn-outline-danger" id="logoutBtn" style="display: none;">Sign out</button>
@@ -124,7 +120,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" id="formCancel" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-outline-success" id="formSubmit" data-bg-dismiss="modal" >Sign up</button>
+                    <button type="button" class="btn btn-outline-success" id="formSubmit">Sign up</button>
                 </div>
             </div>
         </div>
