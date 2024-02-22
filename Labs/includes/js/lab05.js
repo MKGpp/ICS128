@@ -1,4 +1,5 @@
-
+const success = 'green';
+const size = '3px';
 /***
  * Function to validate form inputs
  **********************************/
@@ -28,61 +29,73 @@ document.getElementById("formSubmit").addEventListener('click',() => {
         document.getElementById("ageInput").classList.remove('is-invalid');
         document.getElementById("errorOutput").innerHTML = '';
 
+        let errorArray = [];
+
         //test inputs against regex patterns
-        if (!namePattern.test(firstName)) {
+        if (namePattern.test(firstName)) {
+            document.getElementById("firstName").style.borderColor = success;
+            document.getElementById("firstName").style.borderWidth = size;
+        } else {
             document.getElementById("firstName").classList.add('is-invalid');
-            throw new Error("Name must be letters only! No spaces.");
-        } else {
-            document.getElementById("firstName").style.borderColor = "green";
-            document.getElementById("firstName").style.borderWidth = '3px';
+            errorArray.push("Name must be letters only! No Spaces.");
         }
-        if (!namePattern.test(lastName)) {
+        if (namePattern.test(lastName)) {
+            document.getElementById("lastName").style.borderColor = success;
+            document.getElementById("lastName").style.borderWidth = size;
+        } else {
             document.getElementById("lastName").classList.add('is-invalid');
-            throw new Error("Name must be letters only! No spaces.");
-        } else {
-            document.getElementById("lastName").style.borderColor = "green";
-            document.getElementById("lastName").style.borderWidth = '3px';
+            errorArray.push("Name must be letters only! No Spaces.");
         }
-        if (!emailPattern.test(emailInput)) {
-            document.getElementById("emailAddy").classList.add('is-invalid');
-            throw new Error("Email Address Invalid! Format is \"sampleemail@email.com\"");
+        if (emailPattern.test(emailInput)) {
+            document.getElementById("emailAddy").style.borderColor = success;
+            document.getElementById("emailAddy").style.borderWidth = size;
         } else {
-            document.getElementById("emailAddy").style.borderColor = "green";
-            document.getElementById("emailAddy").style.borderWidth = '3px';
+            document.getElementById("emailAddy").classList.add('is-invalid');
+            errorArray.push("Email Address Invalid! Format is \"sampleemail@email.com\"");
         }
         if (document.getElementById("ageInput").value === "" || document.getElementById("ageInput").value < 0 || document.getElementById("ageInput").value > 120) {
             document.getElementById("ageInput").classList.add('is-invalid');
-            throw new Error("Age must be between 0-120 inclusive!");
+            errorArray.push("Age must be a non-empty value between 0-120 inclusive!");
         } else {
-            document.getElementById("ageInput").style.borderColor = "green";
-            document.getElementById("ageInput").style.borderWidth = '3px';
+            document.getElementById("ageInput").style.borderColor = success;
+            document.getElementById("ageInput").style.borderWidth = size;
         }
-        if (!postalPattern.test(postalCode)) {
+        if (postalPattern.test(postalCode)) {
+            document.getElementById("psCode").style.borderColor = success;
+            document.getElementById("psCode").style.borderWidth = size;
+        } else {
             document.getElementById("psCode").classList.add('is-invalid');
-            throw new Error("Postal Code Invalid! Must be A1A 1A1 or A1A1A1!");
-        } else {
-            document.getElementById("psCode").style.borderColor = "green";
-            document.getElementById("psCode").style.borderWidth = '3px';
+            errorArray.push("Postal Code Invalid! Must be A1A 1A1 or A1A1A1!");
         }
-        if (!phonePattern.test(phoneNumber)) {
-            document.getElementById("phoneNum").classList.add('is-invalid');
-            throw new Error("Phone Number Invalid! Must be 000-000-0000 or 000 000 0000 or 0000000000!");
+        if (phonePattern.test(phoneNumber)) {
+            document.getElementById("phoneNum").style.borderColor = success;
+            document.getElementById("phoneNum").style.borderWidth = size;
         } else {
-            document.getElementById("phoneNum").style.borderColor = "green";
-            document.getElementById("phoneNum").style.borderWidth = '3px';
+            document.getElementById("phoneNum").classList.add('is-invalid');
+            errorArray.push("Phone Number Invalid! Must be 000-000-0000 or 000 000 0000 or 0000000000!");
+        }
+
+        if (errorArray.length > 0) {
+            document.getElementById("errorOutput").innerHTML = `<ul>${errorArray.map(error => `<li>${error}</li>`).join('')}</ul>`;
+            return;
         }
 
         //if all validated close the modal and populate/display user info card
-        if (namePattern.test(firstName) && namePattern.test(lastName) && (ageInput >= 0 || ageInput <= 120 || ageInput !== "") && emailPattern.test(emailInput) && phonePattern.test(phoneNumber) && postalPattern.test(postalCode)) {
+        if (namePattern.test(firstName) &&
+            namePattern.test(lastName) &&
+            (ageInput >= 0 || ageInput <= 120 || ageInput !== "") &&
+            emailPattern.test(emailInput) &&
+            phonePattern.test(phoneNumber) &&
+            postalPattern.test(postalCode)
+        ) {
             document.getElementById('formSubmit').setAttribute('data-bs-dismiss', 'modal');
             document.getElementById("formSubmit").click();
             document.getElementById("greeting").innerHTML = `Hello ${firstName} ${lastName}`;
             formToCard(firstName, lastName, ageInput, emailInput, phoneNumber, postalCode);
-            
+
             //swap login logout buttons
             login();
-        }
-
+            }
     } catch (e) {
         document.getElementById("errorOutput").innerHTML = `${e}`;
     }
@@ -130,12 +143,6 @@ const login = () => {
 const logout = () => {
     document.getElementById("logonBtn").style.display = "block";
     document.getElementById("logoutBtn").style.display = "none";
-
-    //Clear the form inputs when logout is pressed
-    let formClear = document.getElementById("formLogin").querySelectorAll('input');
-    formClear.forEach(function(input){
-       input.value = "";
-    });
 }
 
 /**********************************************/
@@ -144,12 +151,12 @@ const logout = () => {
  * Event listeners for button clicks
  ***********************************/
 
-document.getElementById("logoutBtn").addEventListener('click', () => {
-
-    //Clear information fields and reset validated input color
+const clearElements = () => {
     document.getElementById("userCard").innerHTML = "";
     document.getElementById("greeting").innerHTML = "";
     document.getElementById("formSubmit").removeAttribute('data-bs-dismiss');
+
+    // Clear styling
     document.getElementById("firstName").style.borderColor = null;
     document.getElementById("lastName").style.borderColor = null;
     document.getElementById("emailAddy").style.borderColor = null;
@@ -157,16 +164,28 @@ document.getElementById("logoutBtn").addEventListener('click', () => {
     document.getElementById("psCode").style.borderColor = null;
     document.getElementById("phoneNum").style.borderColor = null;
 
-    //swap the login and logout buttons
-    logout();
-});
-document.getElementById("formCancel").addEventListener('click',() => {
+    // Clear errors
+    document.getElementById("firstName").classList.remove('is-invalid');
+    document.getElementById("lastName").classList.remove('is-invalid');
+    document.getElementById("emailAddy").classList.remove('is-invalid');
+    document.getElementById("ageInput").classList.remove('is-invalid');
+    document.getElementById("psCode").classList.remove('is-invalid');
+    document.getElementById("phoneNum").classList.remove('is-invalid');
+    document.getElementById("errorOutput").innerHTML = "";
 
-    //Clear the form inputs when cancel is pressed
+    //Clear the form inputs
     let formClear = document.getElementById("formLogin").querySelectorAll('input');
     formClear.forEach(function(input){
         input.value = "";
     });
+};
+
+document.getElementById("logoutBtn").addEventListener('click', () => {
+    clearElements();
+    logout();
+});
+document.getElementById("formCancel").addEventListener('click',() => {
+    clearElements();
 });
 
 /***********************************/
