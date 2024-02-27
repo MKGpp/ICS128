@@ -80,22 +80,13 @@ document.getElementById("formSubmit").addEventListener('click',() => {
             return;
         }
 
-        //if all validated close the modal and populate/display user info card
-        if (namePattern.test(firstName) &&
-            namePattern.test(lastName) &&
-            (ageInput >= 0 || ageInput <= 120 || ageInput !== "") &&
-            emailPattern.test(emailInput) &&
-            phonePattern.test(phoneNumber) &&
-            postalPattern.test(postalCode)
-        ) {
-            document.getElementById('formSubmit').setAttribute('data-bs-dismiss', 'modal');
-            document.getElementById("formSubmit").click();
-            document.getElementById("greeting").innerHTML = `Hello ${firstName} ${lastName}`;
-            formToCard(firstName, lastName, ageInput, emailInput, phoneNumber, postalCode);
+        document.getElementById('formSubmit').setAttribute('data-bs-dismiss', 'modal');
+        document.getElementById("formSubmit").click();
+        document.getElementById("greeting").innerHTML = `Hello ${firstName} ${lastName}`;
+        formToCard(firstName, lastName, ageInput, emailInput, phoneNumber, postalCode);
 
-            //swap login logout buttons
-            login();
-            }
+        //swap login logout buttons
+        login();
     } catch (e) {
         document.getElementById("errorOutput").innerHTML = `${e}`;
     }
