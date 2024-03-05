@@ -47,6 +47,7 @@ const users = [
     },
 
 ];
+const numberOfAdmins = 3;
 document.addEventListener("DOMContentLoaded",  () =>
     {
         const myModal = new bootstrap.Modal(document.getElementById('myModal'));
@@ -66,15 +67,10 @@ const validateInfo = () => {
     if (user === null) {
         throw new Error("Error user or ID incorrect!")
     }
-    if (user.isAdmin) {
-        loadAdmin();
-        document.getElementById('formSubmit').setAttribute('data-bs-dismiss', 'modal');
-        document.getElementById("formSubmit").click();
-    } else {
-    loadUser(user);
+
+    user.isAdmin? loadAdmin() : loadUser(user);
     document.getElementById('formSubmit').setAttribute('data-bs-dismiss', 'modal');
     document.getElementById("formSubmit").click();
-    }
 };
 const confirmUser = (userName, id) => {
     for (const user of users) {
@@ -92,7 +88,7 @@ const loadAdmin = () => {
     document.getElementById("users").innerHTML = `<h2 class="mt-2">Work Force</h2>`;
 
 
-    for (let i = 0; i < Math.min(3, users.length); i++) {
+    for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
             <div class="card mb-3 bg-dark text-light gap-3">
@@ -109,7 +105,7 @@ const loadAdmin = () => {
             </div>
             `;
     }
-    for (let i = 3; i < users.length; i++) {
+    for (let i = numberOfAdmins; i < users.length; i++) {
         const user = users[i];
         document.getElementById("userCards").innerHTML += `
             <div class="card mb-3 bg-dark text-light gap-3 w-50">
@@ -136,7 +132,7 @@ const loadUser = (authUser) => {
 
     const user = authUser;
 
-    for (let i = 0; i < Math.min(3, users.length); i++) {
+    for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
             <div class="card mb-3 bg-dark text-light gap-3">
