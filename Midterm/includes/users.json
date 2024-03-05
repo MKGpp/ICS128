@@ -1,0 +1,47 @@
+[
+  {
+    "id": 42, "userName": "Joe_is_best", "firstName": "Joe", "lastName": "Nelson", "email": "NelsonJ@online.camosun.ca", "isAdmin": true, "avatar": "includes/images/joe.png"
+  },
+  {
+    "id": 21, "userName": "MKG++", "firstName": "Matt", "lastName": "Golshani", "email": "Mattgolshani@gmail.com", "isAdmin": true, "avatar": "includes/images/matt.jpg"
+  },
+  {
+    "id": 1, "userName": "Admin", "firstName": "Admin", "lastName": "Bossman", "email": "Imtheboss@bossman.com", "isAdmin": true, "avatar": "includes/images/person-circle.svg"
+  },
+  {
+    "id": 2, "userName": "Unit_2", "firstName": "Grunt", "lastName": "1", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/grunt.png"
+  },
+  {
+    "id": 3, "userName": "Unit_3", "firstName": "Peon", "lastName": "1", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/peon.jpg"
+  },
+  {
+    "id": 4, "userName": "Unit_4", "firstName": "Zug", "lastName": "Zug", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/zugzug.jpg"
+  },
+  {
+    "id": 5, "userName": "Unit_5", "firstName": "Work", "lastName": "Work", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/work.jpg"
+  },
+  {
+    "id": 6, "userName": "Unit_6", "firstName": "Fire", "lastName": "Tomorrow", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/fire.jpg"
+  },
+  {
+    "id": 7, "userName": "Unit_7", "firstName": "Arthas", "lastName": "Menethil", "email": "OopsStrathholme@burntit.com", "isAdmin": false, "avatar": "includes/images/arthas.jpg"
+  },
+  {
+    "id": 8, "userName": "Unit_8", "firstName": "Muradin", "lastName": "BronzeBeard", "email": "sacrificedFor@reasons.com", "isAdmin": false, "avatar": "includes/images/muradin.jpg"
+  },
+  {
+    "id": 9, "userName": "Unit_9", "firstName": "Dias", "lastName": "Flac", "email": "genericguy@sword.com", "isAdmin": false, "avatar": "includes/images/dias.png"
+  },
+  {
+    "id": 10, "userName": "Unit_10", "firstName": "place", "lastName": "holder", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/person-circle.svg"
+  },
+  {
+    "id": 11, "userName": "Unit_11", "firstName": "place", "lastName": "holder", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/person-circle.svg"
+  },
+  {
+    "id": 12, "userName": "Unit_12", "firstName": "place", "lastName": "holder", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/person-circle.svg"
+  },
+  {
+    "id": 13, "userName": "Unit_13", "firstName": "place", "lastName": "holder", "email": "toupdate@gmail.com", "isAdmin": false, "avatar": "includes/images/person-circle.svg"
+  }
+]

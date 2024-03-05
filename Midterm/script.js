@@ -1,4 +1,3 @@
-
 const users = [
     {
         id: 42, userName: 'Joe_is_best', firstName: 'Joe', lastName: 'Nelson', email: 'NelsonJ@online.camosun.ca', isAdmin: true, avatar: 'includes/images/joe.png'
@@ -48,12 +47,17 @@ const users = [
 
 ];
 const numberOfAdmins = 3;
+
 document.addEventListener("DOMContentLoaded",  () =>
     {
         const myModal = new bootstrap.Modal(document.getElementById('myModal'));
         myModal.show();
     });
-
+const getUsers = async () => {
+    let response = await fetch("/includes/users.json");
+    let users = await response.json();
+    console.log(users);
+}
 const validateInfo = () => {
     const userName = document.getElementById("userName").value;
     const idNumber = parseInt(document.getElementById("idNum").value, 10);
@@ -61,11 +65,11 @@ const validateInfo = () => {
     const user = confirmUser(userName, idNumber);
 
     document.getElementById('errorOutput').innerHTML = "";
-    if (!captchaChecked) {
-        throw new Error("Failure to prove you are human!")
-    }
     if (user === null) {
         throw new Error("Error user or ID incorrect!")
+    }
+    if (!captchaChecked) {
+        throw new Error("Failure to prove you are human!")
     }
 
     user.isAdmin? loadAdmin() : loadUser(user);
@@ -80,7 +84,6 @@ const confirmUser = (userName, id) => {
     }
     return null;
 };
-
 const loadAdmin = () => {
     document.getElementById("adminCards").innerHTML = "";
     document.getElementById("userCards").innerHTML = "";
@@ -123,7 +126,6 @@ const loadAdmin = () => {
         `;
     }
 };
-
 const loadUser = (authUser) => {
     document.getElementById("adminCards").innerHTML = "";
     document.getElementById("userCards").innerHTML = "";
