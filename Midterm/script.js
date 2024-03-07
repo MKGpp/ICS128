@@ -1,6 +1,6 @@
 const users = [
     {
-        id: 42, userName: 'Joe_is_best', firstName: 'Joe', lastName: 'Nelson', email: 'NelsonJ@online.camosun.ca', isAdmin: true, avatar: 'includes/images/joe.png'
+        id: 42, userName: 'Joe_is_best', firstName: 'Joe', lastName: 'Nelson', email: 'ICS128@online.camosun.ca', isAdmin: true, avatar: 'includes/images/joe.png'
     },
     {
         id: 21, userName: 'MKG++', firstName: 'Matt', lastName: 'Golshani', email: 'Mattgolshani@gmail.com', isAdmin: true, avatar: 'includes/images/matt.jpg'
@@ -48,22 +48,31 @@ const users = [
 ];
 const numberOfAdmins = 3;
 
+/***
+ * Display the modal on page load/reload
+ */
 document.addEventListener("DOMContentLoaded",  () =>
     {
         const myModal = new bootstrap.Modal(document.getElementById('myModal'));
         myModal.show();
     });
-const getUsers = async () => {
-    let response = await fetch("/includes/users.json");
-    let users = await response.json();
-    console.log(users);
-}
+
+/***
+ * Function validateInfo() validates user input from the modal's form against the array of objects
+ * and calls the appropriate function to display users
+ */
+
 const validateInfo = () => {
+
+    //Get inputs from the modal form to authenticate user
     const userName = document.getElementById("userName").value;
     const idNumber = parseInt(document.getElementById("idNum").value, 10);
     const captchaChecked = document.getElementById("captchaCheckbox").checked;
+
+    //Calls function to check the user exists in the array based on inputs
     const user = confirmUser(userName, idNumber);
 
+    //Throw errors if user does not match or if captcha is not checked
     document.getElementById('errorOutput').innerHTML = "";
     if (user === null) {
         throw new Error("Error user or ID incorrect!")
@@ -72,10 +81,22 @@ const validateInfo = () => {
         throw new Error("Failure to prove you are human!")
     }
 
+    //Ternary operator to check if the user is an admin and load cards based on privileges
     user.isAdmin? loadAdmin() : loadUser(user);
+
+    //closes the modal if everything is validated
     document.getElementById('formSubmit').setAttribute('data-bs-dismiss', 'modal');
     document.getElementById("formSubmit").click();
 };
+
+/***
+ * Function confirmUser() checks that the user exists in the array of objects and returns
+ * the users information that matches the input
+ * @param userName
+ * @param id
+ * @returns the user object from the array
+ */
+
 const confirmUser = (userName, id) => {
     for (const user of users) {
         if (userName === user.userName && id === user.id) {
@@ -84,13 +105,20 @@ const confirmUser = (userName, id) => {
     }
     return null;
 };
+
+/***
+ * Function loadAdmin() populates the page with the cards of all users in the array
+ */
+
 const loadAdmin = () => {
+    //Ensures the divs are empty and adds h1 titles for Admin and non-Admin users
     document.getElementById("adminCards").innerHTML = "";
     document.getElementById("userCards").innerHTML = "";
     document.getElementById("admin").innerHTML = `<h1 class="mt-4">Team Leaders</h1>`;
     document.getElementById("users").innerHTML = `<h2 class="mt-2">Work Force</h2>`;
+    document.getElementById('logout').style.display = 'inline-block';
 
-
+    //gets the first 3 users and displays them as Admins
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
@@ -108,6 +136,7 @@ const loadAdmin = () => {
             </div>
             `;
     }
+    //gets the rest of the users in the array and displays as non-Admin users
     for (let i = numberOfAdmins; i < users.length; i++) {
         const user = users[i];
         document.getElementById("userCards").innerHTML += `
@@ -121,12 +150,20 @@ const loadAdmin = () => {
                     <p class="card-text">Username: ${user.userName}</p>
                     <p class="card-text">ID #: ${user.id}</p>
                     <p class="card-text">Email: ${user.email}</p>
+                    <button type="button" class="btn btn-outline-danger" onclick="removeUser(${user.id})" id="removeUser">Fire ${user.firstName}</button>
                 </div>
             </div>
         `;
     }
 };
+
+/***
+ * Function loadUser() populates the page with the Admin users cards and the card of the user logging in
+ * @param authUser the user that is logging in
+ */
+
 const loadUser = (authUser) => {
+    //Ensures the divs are empty and adds h1 titles for Admin and non-Admin users
     document.getElementById("adminCards").innerHTML = "";
     document.getElementById("userCards").innerHTML = "";
     document.getElementById("admin").innerHTML = `<h1 class="mt-4">Team Leaders</h1>`;
@@ -134,6 +171,7 @@ const loadUser = (authUser) => {
 
     const user = authUser;
 
+    //gets the first 3 users and displays them as Admins
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
@@ -151,6 +189,7 @@ const loadUser = (authUser) => {
             </div>
             `;
     }
+    //Displays the card of the validated user
     document.getElementById("userCards").innerHTML += `
             <div class="card mb-3 bg-dark text-light gap-3">
                 <div class="d-flex justify-content-center">
@@ -166,10 +205,34 @@ const loadUser = (authUser) => {
             </div>
     `;
 };
+
+/***
+ * Function that removes one user from the page on button click from Admin user
+ */
+
+const removeUser = (id) => {
+    //Find the index of the user to be removed
+    const toRemove = users.findIndex(user => user.id === id);
+    //Remove the user from the array
+    users.splice(toRemove,1);
+    //Reload the array contents
+    loadAdmin();
+};
+
+/***
+ * on button click try to validate the user and if there is an error catch and handle it
+ */
+
 document.getElementById('formSubmit').addEventListener('click', () => {
     try {
         validateInfo();
     } catch (e) {
         document.getElementById("errorOutput").innerHTML = `${e}`;
     }
+});
+document.getElementById('readme').addEventListener('click', () => {
+   window.location.href = 'readme.html';
+});
+document.getElementById('readme1').addEventListener('click', () => {
+    window.location.href = 'readme.html';
 });
