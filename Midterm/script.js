@@ -84,9 +84,12 @@ const validateInfo = () => {
     //Ternary operator to check if the user is an admin and load cards based on privileges
     user.isAdmin? loadAdmin() : loadUser(user);
 
-    //closes the modal if everything is validated
+    //Sets up the login state of the page on successful validation
     document.getElementById('formSubmit').setAttribute('data-bs-dismiss', 'modal');
     document.getElementById("formSubmit").click();
+    document.getElementById("admin").innerHTML = `<h1 class="mt-4">Team Leaders</h1>`;
+    document.getElementById("users").innerHTML = `<h2 class="mt-2">Work Force</h2>`;
+    document.getElementById('logout').style.display = 'inline-block';
 };
 
 /***
@@ -111,48 +114,53 @@ const confirmUser = (userName, id) => {
  */
 
 const loadAdmin = () => {
-    //Ensures the divs are empty and adds h1 titles for Admin and non-Admin users
+    //Ensures the divs are empty before populating cards
     document.getElementById("adminCards").innerHTML = "";
     document.getElementById("userCards").innerHTML = "";
-    document.getElementById("admin").innerHTML = `<h1 class="mt-4">Team Leaders</h1>`;
-    document.getElementById("users").innerHTML = `<h2 class="mt-2">Work Force</h2>`;
-    document.getElementById('logout').style.display = 'inline-block';
 
     //gets the first 3 users and displays them as Admins
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light gap-3">
-                <div class="d-flex justify-content-center">
-                    <img src="${user.avatar}" class="img-fluid rounded-start mt-2" style="width: 200px; height: 200px; object-fit: contain;" alt="avatar">
+            <div class="card mb-3 bg-dark text-light w-25">
+                <div class="h-50 d-flex justify-content-center">               
+                    <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
                     <div class="w-100 bg-secondary mb-3" style="height: 1px;"></div>
-                    <p class="card-text">Username: ${user.userName}</p>
-                    <p class="card-text">ID #: ${user.id}</p>
-                    <p class="card-text">Email: ${user.email}</p>
+                    <p class="card-text mt-2">
+                        Username: ${user.userName}<br>
+                        <br>
+                        ID #: ${user.id}<br>
+                        <br>
+                        Email: ${user.email}<br>
+                    </p>
                 </div>
             </div>
-            `;
+        `;
     }
     //gets the rest of the users in the array and displays as non-Admin users
     for (let i = numberOfAdmins; i < users.length; i++) {
         const user = users[i];
         document.getElementById("userCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light gap-3 w-50">
-                <div class="d-flex justify-content-center">
-                    <img src="${user.avatar}" class="img-fluid rounded-start mt-2" style="width: 100px; height: 100px; object-fit: contain;" alt="avatar">
+            <div class="card mb-3 bg-dark text-light">
+                <div class="h-50 d-flex justify-content-center">               
+                    <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
                     <div class="w-100 bg-secondary mb-3" style="height: 1px;"></div>
-                    <p class="card-text">Username: ${user.userName}</p>
-                    <p class="card-text">ID #: ${user.id}</p>
-                    <p class="card-text">Email: ${user.email}</p>
+                    <p class="card-text mt-2">
+                        Username: ${user.userName}<br>
+                        <br>
+                        ID #: ${user.id}<br>
+                        <br>
+                        Email: ${user.email}<br>
+                    </p>
                     <button type="button" class="btn btn-outline-danger" onclick="removeUser(${user.id})" id="removeUser">Fire ${user.firstName}</button>
                 </div>
-            </div>
+            </div>          
         `;
     }
 };
@@ -163,11 +171,9 @@ const loadAdmin = () => {
  */
 
 const loadUser = (authUser) => {
-    //Ensures the divs are empty and adds h1 titles for Admin and non-Admin users
+    //Ensures the divs are empty before populating cards
     document.getElementById("adminCards").innerHTML = "";
     document.getElementById("userCards").innerHTML = "";
-    document.getElementById("admin").innerHTML = `<h1 class="mt-4">Team Leaders</h1>`;
-    document.getElementById("users").innerHTML = `<h2 class="mt-2">Work Force</h2>`;
 
     const user = authUser;
 
@@ -175,32 +181,40 @@ const loadUser = (authUser) => {
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light gap-3">
-                <div class="d-flex justify-content-center">
-                    <img src="${user.avatar}" class="img-fluid rounded-start mt-2" style="width: 200px; height: 200px; object-fit: contain;" alt="avatar">
+            <div class="card mb-3 bg-dark text-light">
+                <div class="h-50 d-flex justify-content-center">               
+                    <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
                     <div class="w-100 bg-secondary mb-3" style="height: 1px;"></div>
-                    <p class="card-text">Username: ********</p>
-                    <p class="card-text">ID #: **</p>
-                    <p class="card-text">Email: ${user.email}</p>
+                    <p class="card-text mt-2">
+                        Username: **********<br>
+                        <br>
+                        ID #: **<br>
+                        <br>
+                        Email: ${user.email}<br>
+                    </p>
                 </div>
             </div>
-            `;
+        `;
     }
     //Displays the card of the validated user
     document.getElementById("userCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light gap-3">
-                <div class="d-flex justify-content-center">
-                    <img src="${user.avatar}" class="img-fluid rounded-start mt-2" style="width: 200px; height: 200px; object-fit: contain;" alt="avatar">
+            <div class="card mb-3 bg-dark text-light">
+                <div class="h-50 d-flex justify-content-center">               
+                    <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
                     <div class="w-100 bg-secondary mb-3" style="height: 1px;"></div>
-                    <p class="card-text">Username: ${user.userName}</p>
-                    <p class="card-text">ID #: ${user.id}</p>
-                    <p class="card-text">Email: ${user.email}</p>
+                    <p class="card-text mt-2">
+                        Username: ${user.userName}<br>
+                        <br>
+                        ID #: ${user.id}<br>
+                        <br>
+                        Email: ${user.email}<br>
+                    </p>
                 </div>
             </div>
     `;
