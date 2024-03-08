@@ -122,7 +122,7 @@ const loadAdmin = () => {
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light w-25">
+            <div class="card mb-3" style="background-color: #c2adad;">
                 <div class="h-50 d-flex justify-content-center">               
                     <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
@@ -144,9 +144,9 @@ const loadAdmin = () => {
     for (let i = numberOfAdmins; i < users.length; i++) {
         const user = users[i];
         document.getElementById("userCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light">
+            <div class="card mb-3" style="background-color: #c2adad;">
                 <div class="h-50 d-flex justify-content-center">               
-                    <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
+                    <img src="${user.avatar}" class="h-50" style="width: 50%;" alt="avatar">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
@@ -181,7 +181,7 @@ const loadUser = (authUser) => {
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light">
+            <div class="card mb-3" style="background-color: #c2adad;">
                 <div class="h-50 d-flex justify-content-center">               
                     <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
@@ -201,9 +201,9 @@ const loadUser = (authUser) => {
     }
     //Displays the card of the validated user
     document.getElementById("userCards").innerHTML += `
-            <div class="card mb-3 bg-dark text-light">
+            <div class="card mb-3" style="background-color: #c2adad;">
                 <div class="h-50 d-flex justify-content-center">               
-                    <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
+                    <img src="${user.avatar}" class="h-50" style="width: 50%;" alt="avatar">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">${user.firstName} ${user.lastName}</h5>
