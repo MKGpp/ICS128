@@ -4,9 +4,14 @@ body {
     margin: 0;
     padding: 0;
 }
-.main, footer{
+.main{
     position: relative;
     top: 100px;
+}
+footer {
+    background-color: #16161D;
+    position: relative;
+    top: 240px;
 }
 .card {
     flex: 0 0 calc(25% - 20px);

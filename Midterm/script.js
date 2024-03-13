@@ -6,22 +6,22 @@ const users = [
         id: 21, userName: 'MKG++', firstName: 'Matt', lastName: 'Golshani', email: 'Mattgolshani@gmail.com', isAdmin: true, avatar: 'includes/images/matt.jpg'
     },
     {
-        id: 1, userName: 'Admin', firstName: 'Admin', lastName: 'Bossman', email: 'Imtheboss@bossman.com', isAdmin: true, avatar: 'includes/images/person-circle.svg'
+        id: 1, userName: 'Admin', firstName: 'Admin', lastName: 'Bossman', email: 'Imtheboss@bossman.com', isAdmin: true, avatar: 'includes/images/boss.png'
     },
     {
-        id: 2, userName: 'Unit_2', firstName: 'Grunt', lastName: '1', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/grunt.png'
+        id: 2, userName: 'Unit_2', firstName: 'Grunt', lastName: '1', email: 'fakeone@gmail.com', isAdmin: false, avatar: 'includes/images/grunt.png'
     },
     {
-        id: 3, userName: 'Unit_3', firstName: 'Peon', lastName: '1', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/peon.jpg'
+        id: 3, userName: 'Unit_3', firstName: 'Peon', lastName: '1', email: 'faketwo@gmail.com', isAdmin: false, avatar: 'includes/images/peon.jpg'
     },
     {
-        id: 4, userName: 'Unit_4', firstName: 'Zug', lastName: 'Zug', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/zugzug.jpg'
+        id: 4, userName: 'Unit_4', firstName: 'Zug', lastName: 'Zug', email: 'fakethree@gmail.com', isAdmin: false, avatar: 'includes/images/zugzug.jpg'
     },
     {
-        id: 5, userName: 'Unit_5', firstName: 'Work', lastName: 'Work', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/work.jpg'
+        id: 5, userName: 'Unit_5', firstName: 'Work', lastName: 'Work', email: 'fakefour@gmail.com', isAdmin: false, avatar: 'includes/images/work.jpg'
     },
     {
-        id: 6, userName: 'Unit_6', firstName: 'Fire', lastName: 'Tomorrow', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/fire.jpg'
+        id: 6, userName: 'Unit_6', firstName: 'Fire', lastName: 'Tomorrow', email: 'fakefive@gmail.com', isAdmin: false, avatar: 'includes/images/fire.jpg'
     },
     {
         id: 7, userName: 'Unit_7', firstName: 'Arthas', lastName: 'Menethil', email: 'OopsStrathholme@burntit.com', isAdmin: false, avatar: 'includes/images/arthas.jpg'
@@ -33,16 +33,16 @@ const users = [
         id: 9, userName: 'Unit_9', firstName: 'Dias', lastName: 'Flac', email: 'genericguy@sword.com', isAdmin: false, avatar: 'includes/images/dias.png'
     },
     {
-        id: 10, userName: 'Unit_10', firstName: 'place', lastName: 'holder', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/person-circle.svg'
+        id: 10, userName: 'Unit_10', firstName: 'Alexa', lastName: 'holder', email: 'fakesix@gmail.com', isAdmin: false, avatar: 'includes/images/holder.jpeg'
     },
     {
-        id: 11, userName: 'Unit_11', firstName: 'place', lastName: 'holder', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/person-circle.svg'
+        id: 11, userName: 'Unit_11', firstName: 'Alex', lastName: 'Dropper', email: 'fakeseven@gmail.com', isAdmin: false, avatar: 'includes/images/drop.jpg'
     },
     {
-        id: 12, userName: 'Unit_12', firstName: 'place', lastName: 'holder', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/person-circle.svg'
+        id: 12, userName: 'Unit_12', firstName: 'Siri', lastName: 'ous', email: 'seriousstuff@gmail.com', isAdmin: false, avatar: 'includes/images/siri.jpeg'
     },
     {
-        id: 13, userName: 'Unit_13', firstName: 'place', lastName: 'holder', email: 'toupdate@gmail.com', isAdmin: false, avatar: 'includes/images/person-circle.svg'
+        id: 13, userName: 'Unit_13', firstName: 'Faker', lastName: 'Mid', email: 'fakemid@gmail.com', isAdmin: false, avatar: 'includes/images/faker.jpg'
     },
 
 ];
@@ -56,6 +56,43 @@ document.addEventListener("DOMContentLoaded",  () =>
         const myModal = new bootstrap.Modal(document.getElementById('myModal'));
         myModal.show();
     });
+
+/***
+ * Function and Event listener for the readme page to display instructions for access
+ */
+const joeCard = () => {
+    document.getElementById('readmeDiv').innerHTML = `
+        <div class=" mb-3  d-flex justify-content-center text-dark mt-5 px-5" style="background-color: #82acc0;">
+            <div class="mt-3">
+                <h5 class="">Hello, ${users[0].firstName} ${users[0].lastName}</h5>
+                <div class="bg-secondary mb-3" style="height: 1px;"></div>
+                <p class="mt-2">
+                    To access employee list you will need the following<br>
+                    <br>
+                    Username: ${users[0].userName}<br>
+                    <br>
+                    ID #: ${users[0].id}<br>
+                    <p>So long and thanks for all the fish!</p>
+                    <a class="btn btn-outline-danger" type="button" href="index.html">Go Home</a>
+                </p>
+            </div>
+        </div>`
+};
+document.addEventListener('DOMContentLoaded', function () {
+    const unlockJoeButton = document.getElementById('unlockJoe');
+
+    if (unlockJoeButton) {
+        unlockJoeButton.addEventListener('click', () => {
+            const answer = parseInt(document.getElementById('answerJoe').value, 10);
+            if (answer === 42) {
+                joeCard();
+            } else {
+                document.getElementById("readmeDiv").innerHTML = "INCORRECT ANSWER!";
+                document.getElementById("readmeDiv").style.color = "red";
+            }
+        });
+    }
+});
 
 /***
  * Function validateInfo() validates user input from the modal's form against the array of objects
@@ -122,7 +159,7 @@ const loadAdmin = () => {
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
-            <div class="card mb-3" style="background-color: #c2adad;">
+            <div class="card mb-3 text-light" style="background-color: #2b576b;">
                 <div class="h-50 d-flex justify-content-center">               
                     <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
@@ -144,7 +181,7 @@ const loadAdmin = () => {
     for (let i = numberOfAdmins; i < users.length; i++) {
         const user = users[i];
         document.getElementById("userCards").innerHTML += `
-            <div class="card mb-3" style="background-color: #c2adad;">
+            <div class="card mb-3 text-light" style="background-color: #2b576b;">
                 <div class="h-50 d-flex justify-content-center">               
                     <img src="${user.avatar}" class="h-50" style="width: 50%;" alt="avatar">
                 </div>
@@ -181,7 +218,7 @@ const loadUser = (authUser) => {
     for (let i = 0; i < numberOfAdmins; i++) {
         const user = users[i];
         document.getElementById("adminCards").innerHTML += `
-            <div class="card mb-3" style="background-color: #c2adad;">
+            <div class="card mb-3 text-light" style="background-color: #2b576b;">
                 <div class="h-50 d-flex justify-content-center">               
                     <img src="${user.avatar}" class="h-100" style="width: 50%;" alt="avatar">
                 </div>
@@ -201,7 +238,7 @@ const loadUser = (authUser) => {
     }
     //Displays the card of the validated user
     document.getElementById("userCards").innerHTML += `
-            <div class="card mb-3" style="background-color: #c2adad;">
+            <div class="card mb-3 text-light" style="background-color: #2b576b;">
                 <div class="h-50 d-flex justify-content-center">               
                     <img src="${user.avatar}" class="h-50" style="width: 50%;" alt="avatar">
                 </div>
