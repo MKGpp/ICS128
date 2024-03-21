@@ -1,10 +1,11 @@
 
-const roomTypes = ["Single", "<br>Double - 2 beds", "<br>Double - Queen", "<br>Suite", "<br>Penthouse"];
-const restaurants = new Map([
-            ["HanWoo Steakhouse", "Korean"],
-            ["Izakaya Grill", "Japanese"],
-            ["Mr.Pizza", "Korean/Italian"]
-]);
+const roomTypes = ["Single", "<br>Double - 2 beds", "<br>Double - Queen", "<br>Suite", "<br>Penthouse<br>"];
+const restArr = [
+    ["HanWoo Steakhouse", "Korean"],
+    ["Izakaya Grill", "Japanese"],
+    ["Mr.Pizza", "Korean/Italian"]
+];
+const restaurants = new Map(restArr);
 
 class Hotel {
     constructor(name, city, rooms, booked, gym) {
@@ -51,7 +52,7 @@ class Hotel {
         return this._rooms - this._booked;
     }
 
-    bookRoom() {
+    bookRoomHotel() {
         if (this.availableRooms() > 0) {
             this._booked++;
             document.getElementById("roomsLeft").innerHTML = `There are ${hotel.booked}/${hotel.rooms} rooms booked.`;
@@ -59,7 +60,7 @@ class Hotel {
         }
     }
 
-    cancelRoom() {
+    cancelRoomHotel() {
         this._booked--;
         document.getElementById("roomsLeft").innerHTML = `There are ${hotel.booked}/${hotel.rooms} rooms booked.`;
         alert(`Room Cancelled! There are ${hotel.availableRooms()} rooms remaining.`);
@@ -92,52 +93,76 @@ class Resort extends Hotel {
     set kidsClub(kidsClub) {
         this._kidsClub = kidsClub;
     }
+
+    bookRoomResort() {
+        if (this.availableRooms() > 0) {
+            this._booked++;
+            document.getElementById("roomsLeftResort").innerHTML = `There are ${resort.booked}/${resort.rooms} rooms booked.`;
+            alert(`Room Booked! There are ${resort.availableRooms()} rooms remaining.`);
+        }
+    }
+
+    cancelRoomResort() {
+        this._booked--;
+        document.getElementById("roomsLeftResort").innerHTML = `There are ${resort.booked}/${resort.rooms} rooms booked.`;
+        alert(`Room Cancelled! There are ${resort.availableRooms()} rooms remaining.`);
+    }
 }
 
 const hotel = new Hotel("Hotel California", "California", 25, 12, true);
-hotel.location = "USA";
-hotel.roomTypes = roomTypes;
-hotel.shuttle = true;
-hotel.pool = true;
+    hotel.location = "USA";
+    hotel.roomTypes = roomTypes;
+    hotel.shuttle = true;
+    hotel.pool = true;
 
 const resort = new Resort("Hyundai Beachfront Resort", "Busan", 12, 4, true, "Family", true, true);
-resort.location = "South Korea"
-resort.bar = false;
-
-const hotelDisplay = document.getElementById("hotel");
-const resortDisplay = document.getElementById('resort');
+    resort.location = "South Korea";
+    resort.bar = false;
 
 const displayRestaurants = () => {
     let theRestaurants = '';
-    for (let [key, value] of restaurants) {
-        theRestaurants += `<li>${key} type: ${value}</li>`
+    for (const [key, value] of restaurants.entries()) {
+        theRestaurants += (`${key}, Cuisine: ${value}<br>`);
     }
     return theRestaurants;
-};
+}
 
-hotelDisplay.innerHTML = `
-            <div>
+const showResort = () => {
+    document.getElementById("resort").style.display = 'block';
+    document.getElementById("resortBtn").style.display = 'none';
+}
+
+const hotelDisplay = document.getElementById("hotel");
+hotelDisplay.innerHTML = `          
+            <div>                            
                 <h1>${hotel.name}</h1>
                 <h5>Hotel Info:</h5>
                 <p>
                     The ${hotel.name} is located in ${hotel.location} <br>
                     <br>
-                    The available room types are: <br>
-                    ${hotel.roomTypes}
+                    The available room types are: 
                     <br>
-                    Hotel Amenities: <br>
-                    Airport shuttle: ${hotel.shuttle} <br>
-                    Swimming Pool: ${hotel.pool} <br>
-                    Gym: ${hotel.gym} <br>
-                    Restaurants on-site: <br>
-                    <div><ol>${displayRestaurants}</ol></div>
+                    ${roomTypes}
+                    <br>
+                    Hotel Amenities: 
+                    <br>
+                    Airport shuttle: ${hotel.shuttle} 
+                    <br>
+                    Swimming Pool: ${hotel.pool}
+                     <br>
+                    Gym: ${hotel.gym}  <br>
+                    <br>
+                    Restaurants on-site: 
+                    <br>
+                    <div><ol>${displayRestaurants()}</ol></div>
                     <br>
                     <p style="color: #65A46D" id="roomsLeft">There are ${hotel.booked}/${hotel.rooms} rooms booked</p>
-                    <button class="btn btn-outline-primary" id="bookRoom" onclick="hotel.bookRoom()">Book Room</button>
-                    <button class="btn btn-outline-danger" id="cancelRoom" onclick="hotel.cancelRoom()">Cancel Room</button>
+                    <button class="btn btn-outline-primary" id="bookRoom" onclick="hotel.bookRoomHotel()">Book Room</button>
+                    <button class="btn btn-outline-danger" id="cancelRoom" onclick="hotel.cancelRoomHotel()">Cancel Room</button>                   
                 </p>
             </div>`;
 
+const resortDisplay = document.getElementById('resort');
 resortDisplay.innerHTML = `
             <div>
                 <h1>${resort.name}</h1>
@@ -151,8 +176,10 @@ resortDisplay.innerHTML = `
                     <br>
                     Kids club? ${resort.kidsClub}
                     <br>
-                    <p style="color: #65A46D">There are ${resort.booked}/${resort.rooms} rooms booked.</p>
-                    <button class="btn btn-outline-primary" id="bookRoom" onclick="resort.bookRoom()">Book Room</button>
-                    <button class="btn btn-outline-danger" id="cancelRoom" onclick="resort.cancelRoom()">Cancel Room</button>
+                    Resort Type: ${resort.resortType}
+                    <br>
+                    <p style="color: #65A46D" id="roomsLeftResort">There are ${resort.booked}/${resort.rooms} rooms booked.</p>
+                    <button class="btn btn-outline-primary" id="bookRoom" onclick="resort.bookRoomResort()">Book Room</button>
+                    <button class="btn btn-outline-danger" id="cancelRoom" onclick="resort.cancelRoomResort()">Cancel Room</button>
                 </p>
             </div>`;
