@@ -1,0 +1,14 @@
+.main, footer {
+    position: relative;
+    top: 150px;
+}
+body {
+    background-color: #415251;
+    margin: 0;
+    padding: 0;
+}
+
+#line {
+    height: 1px;
+    background-color: #16161D;
+}
