@@ -36,43 +36,144 @@
 </nav>
 
 <!--Main section-->
-<div class="main container vh-100 d-flex justify-content-center">
-  <form class="w-75" id="quizLogin">
+<div class="main container d-flex justify-content-center" id="mainPage">
+  <div class="w-75">
     <div>
       <h1 class="d-flex justify-content-center">Dynamic Quiz</h1>
       <p class="d-flex justify-content-center">Test your knowledge!</p>
       <div class="d-flex justify-content-center" id="timer"></div>
       <div id="line" class="mb-4"></div>
     </div>
-    <div id="startPage">
+    <div id="quizLogin">
       <div>
         <h1>Welcome to the Quiz</h1>
         <p>Enter your name and click "begin!" to start</p>
       </div>
       <div class="mb-3 d-flex justify-content-center">
+        <label for="validateName"></label>
         <input type="text" class="form-control" id="validateName" placeholder="Name goes here...">
-        <button class="btn btn-outline-danger">Begin!</button>
+        <button type="button" class="btn btn-outline-danger" id="startQuiz">Begin!</button>
       </div>
-      <div id="erroroutput"></div>
+      <div id="errorOutput"></div>
+    </div>
+
+  <form class="w-75" id="theQuiz" style="display: none">
+    <h1 id="Welcome"></h1>
+    <div>
+      <h5>What is the primary purpose of tying a figure-eight knot?</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionOne" id="answerOneA" value="option1">
+        <label for="answerOneA">a) to secure the rope to the harness&nbsp;<span id="checkOne" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionOne" id="answerOneB" value="option2">
+        <label for="answerOneB">b) to attach the belay device to the rope</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionOne" id="answerOneC" value="option3">
+        <label class="form-check-label" for="answerOneC">c) to create a secure loop at the end of the rope</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionOne" id="answerOneD" value="option4">
+        <label for="answerOneD">d) to connect to ropes together</label>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h5>When belaying a climber, what is the recommended position for the belayer?</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoA" value="option1">
+        <label class="form-check-label" for="answerTwoA">a) standing directly below the climber</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoB" value="option2">
+        <label class="form-check-label" for="answerTwoB">b) standing to the side of the climber&nbsp;<span id="checkTwo" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoC" value="option3">
+        <label class="form-check-label" for="answerTwoC">c) standing at least 10 feet away from the climbing wall</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoD" value="option4">
+        <label class="form-check-label" for="answerTwoD">d) sitting on the ground with legs extended</label>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h5>What does the term "buddy check" refer to in rock climbing safety?</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionThree" id="answerThreeA" value="option1">
+        <label class="form-check-label" for="answerThreeA">a) Checking your partner's gear before climbing&nbsp;<span id="checkThree" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionThree" id="answerThreeB" value="option2">
+        <label class="form-check-label" for="answerThreeB">b) Checking the route for potential hazards</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionThree" id="answerThreeC" value="option3">
+        <label class="form-check-label" for="answerThreeC">c) Checking the weather forecast</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionThree" id="answerThreeD" value="option4">
+        <label class="form-check-label" for="answerThreeD">d) Checking your own gear before climbing</label>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h5>What is the purpose of a "safety backup" when setting up a top-rope anchor?</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionFour" id="answerFourA" value="option1">
+        <label class="form-check-label" for="answerFourA">a) To provide extra support in case the main anchor fails</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionFour" id="answerFourB" value="option2">
+        <label class="form-check-label" for="answerFourB">b) To secure the rope to the climber's harness</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionFour" id="answerFourC" value="option3">
+        <label class="form-check-label" for="answerFourC">c) To attach the belay device to the anchor</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="questionFour" id="answerFourD" value="option4">
+        <label class="form-check-label" for="answerFourD">d) To mark the midpoint of the rope</label>
+      </div>
+    </div>
+    <div class="mt-4 mb-4">
+      <h5>Which of the following are recommended actions for rope management during a climb? (Check all that apply)</h5>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerA" value="option1">
+        <label class="form-check-label" for="answerA">a) Using proper rope coiling techniques to prevent tangles</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerB" value="option2">
+        <label class="form-check-label" for="answerB">b) Keeping a constant eye on the rope and its position to avoid snagging</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerC" value="option3">
+        <label class="form-check-label" for="answerC">c) Utilizing rope protectors to prevent abrasion against rough edges</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerD" value="option4">
+        <label class="form-check-label" for="answerD">d) Leaving excess rope loose on the ground to avoid pulling it up unnecessarily</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerE" value="option5">
+        <label class="form-check-label" for="answerE">e) Tying knots at regular intervals along the rope for added safety</label>
+      </div>
+      <div class="d-flex justify-content-center mt-4">
+        <button class="btn btn-outline-success">Submit!</button>
+      </div>
     </div>
   </form>
+  </div>
 </div>
 
-<div class="main container d-flex justify-content-center">
-  <form class="w-75" id="theQuiz">
+<!--&lt;!&ndash;Footer bar&ndash;&gt;-->
 
-  </form>
-</div>
-
-<!--Footer bar-->
-
-<footer class="container-fluid bg-dark">
-  <div class="row">
-  </div>
-  <div class="row text-light">
-    <h6 class="d-flex align-items center justify-content-center">Copyright 2024</h6>
-  </div>
-</footer>
+<!--<footer class="container-fluid bg-dark">-->
+<!--  <div class="row">-->
+<!--  </div>-->
+<!--  <div class="row text-light">-->
+<!--    <h6 class="d-flex align-items center justify-content-center">Copyright 2024</h6>-->
+<!--  </div>-->
+<!--</footer>-->
 
 <!--Scripts for JS-->
 
