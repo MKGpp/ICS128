@@ -9,16 +9,35 @@ const submitName = () => {
     document.getElementById('theQuiz').style.display = 'block';
 }
 
-// $(document).ready(function() { ******************DONT LOOK AT THIS FUNCTION ITS A WIP *************
-//     $('#startQuiz').click(function() {
-//         let seconds = 0;
-//         let timerInterval = setInterval(function() {
-//             seconds++;
-//             $('#timer').text(seconds);
-//         }, 1000);
-//
-//     });
-// });
+$(document).ready(function() {
+    ('#startQuiz').click(function() {
+        let seconds = 0;
+        let timerInterval = setInterval(function() {
+            seconds++;
+            $('#timer').text(seconds);
+        }, 1000);
+
+    });
+});
+
+const getHint = (hintNum) => {
+    if (hintNum === 1) {
+        document.getElementById('hintOne').style.display = 'inline-block';
+    }
+    if (hintNum === 2) {
+        document.getElementById('hintTwo').style.display = 'inline-block';
+    }
+    if (hintNum === 3) {
+        document.getElementById('hintThree').style.display = 'inline-block';
+    }
+    if (hintNum === 4) {
+        document.getElementById('hintFour').style.display = 'inline-block';
+    }
+    if (hintNum === 5) {
+        document.getElementById('hintFive').style.display = 'inline-block';
+    }
+
+}
 
 document.getElementById('startQuiz').addEventListener('click', () => {
     try{
