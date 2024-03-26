@@ -15,3 +15,7 @@ nav {
 .card {
     background-color: #c2adad;
 }
+
+#dateOne, #dateTwo {
+    border: none;
+}
