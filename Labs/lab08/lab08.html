@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lab07</title>
+    <title>Lab08</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="includes/style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -27,7 +27,7 @@
 <div class="main container-fluid d-flex justify-content-center row-cols-4 gap-5">
     <div class="">
         <h2>Build A Booking Widget</h2>
-        <p>this will be used in the next lab, use jquery UI for calendar and date functions and other match. don't forget to have fun!</p>
+        <p>Generic text block saying things and stuff, do the lab. don't forget to have fun!</p>
         <h2>Results:</h2>
         <div id="result"></div>
     </div>
@@ -39,14 +39,14 @@
             <h5 class="card-title"></h5>
             <div id="calender">
                 <p>Arrival & Departure:</p>
-                <input type="text" name="dateOne" id="dateOne">
+                <input type="date" class="btn-group" name="dateOne" id="dateOne">
                 <label for="dateOne"></label>
-                <input type="text" name="dateOne" id="dateTwo">
+                <input type="date" class="btn-group" name="dateOne" id="dateTwo">
                 <label for="dateTwo"></label>
             </div>
             <p class="mt-2 mb-0">Select Room Type:</p>
             <div id="roomTypeBtn">
-                <div class="btn-group" role="group" aria-label="roomTypeChoice">
+                <div class="btn-group" role="group" aria-label="roomTypeChoice" id="btnGroup">
                     <input type="radio" class="btn-check" name="roomType" id="Standard">
                     <label class="btn btn-outline-success" for="Standard">Standard</label>
 
@@ -57,7 +57,7 @@
                     <label class="btn btn-outline-success" for="Penthouse">Penthouse</label>
                 </div>
             </div>
-            <button type="button" class="btn btn-outline-primary mt-4">Book Room</button>
+            <button type="button" class="btn btn-outline-primary mt-4" id="bookRoom">Book Room</button>
         </div>
     </div>
 </div>
