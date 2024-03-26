@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="includes/style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -16,7 +17,7 @@
 
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Matthew Golshani Hotel</a>
+    <a class="navbar-brand" href="#">Matthew Golshani Quiz</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -36,6 +37,24 @@
 </nav>
 
 <!--Main section-->
+
+<!--Modal-->
+<div class="modal" tabindex="-1" id="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Quiz Results</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="result"></div>
+      <div class="modal-body" id="time"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="main container d-flex justify-content-center" id="mainPage">
   <div class="w-75">
     <div>
@@ -57,8 +76,11 @@
       <div id="errorOutput"></div>
     </div>
 
+<!--The Quiz-->
+
   <form class="w-75" id="theQuiz" style="display: none">
-    <h1 id="Welcome"></h1>
+    <h1 id="welcome"></h1>
+    <h2 id="score"></h2>
     <div>
       <h5>What is the primary purpose of tying a figure-eight knot?</h5>
       <div class="form-check">
@@ -77,7 +99,7 @@
         <input class="form-check-input" type="radio" name="questionOne" id="answerOneD" value="option4">
         <label for="answerOneD">d) to connect to ropes together</label>
       </div>
-        <a type="button" onclick="getHint(1)">[HINT]<span id="hintOne" style="display: none;">&nbsp;A</span></a>
+        <a type="button" onclick="getHint(1)">[HINT]<span id="hint1" style="display: none;">&nbsp;A</span></a>
     </div>
     <div class="mt-4">
       <h5>When belaying a climber, what is the recommended position for the belayer?</h5>
@@ -97,7 +119,7 @@
         <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoD" value="option4">
         <label class="form-check-label" for="answerTwoD">d) sitting on the ground with legs extended</label>
       </div>
-      <a type="button" onclick="getHint(2)">[HINT]<span id="hintTwo" style="display: none;">&nbsp;B</span></a>
+      <a type="button" onclick="getHint(2)">[HINT]<span id="hint2" style="display: none;">&nbsp;B</span></a>
     </div>
     <div class="mt-4">
       <h5>What does the term "buddy check" refer to in rock climbing safety?</h5>
@@ -117,7 +139,7 @@
         <input class="form-check-input" type="radio" name="questionThree" id="answerThreeD" value="option4">
         <label class="form-check-label" for="answerThreeD">d) Checking your own gear before climbing</label>
       </div>
-      <a type="button" onclick="getHint(3)">[HINT]<span id="hintThree" style="display: none;">&nbsp;C</span></a>
+      <a type="button" onclick="getHint(3)">[HINT]<span id="hint3" style="display: none;">&nbsp;C</span></a>
     </div>
     <div class="mt-4">
       <h5>What is the purpose of a "safety backup" when setting up a top-rope anchor?</h5>
@@ -137,53 +159,42 @@
         <input class="form-check-input" type="radio" name="questionFour" id="answerFourD" value="option4">
         <label class="form-check-label" for="answerFourD">d) To mark the midpoint of the rope</label>
       </div>
-      <a type="button" onclick="getHint(4)">[HINT]<span id="hintFour" style="display: none;">&nbsp;B</span></a>
+      <a type="button" onclick="getHint(4)">[HINT]<span id="hint4" style="display: none;">&nbsp;A</span></a>
     </div>
     <div class="mt-4 mb-4">
       <h5>Which of the following are recommended actions for rope management during a climb? (Check all that apply)</h5>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="questionFive" id="answerA" value="option1">
-        <label class="form-check-label" for="answerA">a) Using proper rope coiling techniques to prevent tangles&nbsp;<span id="checkFiveA" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveA" value="option1">
+        <label class="form-check-label" for="answerFiveA">a) Using proper rope coiling techniques to prevent tangles&nbsp;<span id="checkFiveA" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="questionFive" id="answerB" value="option2">
-        <label class="form-check-label" for="answerB">b) Leaving excess rope loose on the ground to avoid pulling it up unnecessarily</label>
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveB" value="option2">
+        <label class="form-check-label" for="answerFiveB">b) Leaving excess rope loose on the ground to avoid pulling it up unnecessarily</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="questionFive" id="answerC" value="option3">
-        <label class="form-check-label" for="answerC">c) Utilizing rope protectors to prevent abrasion against rough edges</label>
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveC" value="option3">
+        <label class="form-check-label" for="answerFiveC">c) Utilizing rope protectors to prevent abrasion against rough edges</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="questionFive" id="answerD" value="option4">
-        <label class="form-check-label" for="answerD">d) Keeping a constant eye on the rope and its position to avoid snagging&nbsp;<span id="checkFiveB" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveD" value="option4">
+        <label class="form-check-label" for="answerFiveD">d) Keeping a constant eye on the rope and its position to avoid snagging&nbsp;<span id="checkFiveB" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="questionFive" id="answerE" value="option5">
-        <label class="form-check-label" for="answerE">e) Tying knots at regular intervals along the rope for added safety</label>
+        <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveE" value="option5">
+        <label class="form-check-label" for="answerFiveE">e) Tying knots at regular intervals along the rope for added safety</label>
       </div>
-      <a type="button" onclick="getHint(5)">[HINT]<span id="hintFive" style="display: none;">&nbsp;A , D</span></a>
+      <a type="button" onclick="getHint(5)">[HINT]<span id="hint5" style="display: none;">&nbsp;A , D</span></a>
       <div class="d-flex justify-content-center mt-4">
-        <button class="btn btn-outline-success">Submit!</button>
+        <button class="btn btn-outline-success" type="button" id="submit">Submit!</button>
       </div>
     </div>
   </form>
   </div>
 </div>
 
-<!--&lt;!&ndash;Footer bar&ndash;&gt;-->
-
-<!--<footer class="container-fluid bg-dark">-->
-<!--  <div class="row">-->
-<!--  </div>-->
-<!--  <div class="row text-light">-->
-<!--    <h6 class="d-flex align-items center justify-content-center">Copyright 2024</h6>-->
-<!--  </div>-->
-<!--</footer>-->
-
 <!--Scripts for JS-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="includes/lab07.js"></script>
 </body>
 
