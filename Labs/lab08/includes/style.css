@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #65A46D;
+}
+
+nav {
+    background-color: #c2adad;
+}
+.main {
+    position: relative;
+    top: 150px;
+}
+
+.card {
+    background-color: #c2adad;
+}
