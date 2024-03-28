@@ -3,3 +3,17 @@ body {
     padding: 0;
     background-color: #65A46D;
 }
+
+.main {
+    position: relative;
+    top: 150px;
+    height: 50vh;
+}
+
+#sectionOneImage {
+    background-image: url("../images/hotel.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}

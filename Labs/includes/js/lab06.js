@@ -7,7 +7,7 @@ const restArr = [
 ];
 const restaurants = new Map(restArr);
 
-class Hotel {
+export class Hotel {
     constructor(name, city, rooms, booked, gym) {
         this._name = name;
         this._city = city;

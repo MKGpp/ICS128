@@ -66,7 +66,7 @@
 
                 <!--ID Card-->
 
-                <div class="main d-flex justify-content-center" id="userCard"></div>
+                <div class="main d-flex justify-content-center mt-5" id="userCard"></div>
             </div>
         </div>
     </div>
@@ -119,9 +119,75 @@
     </div>
 </div>
 
+<!--First Section-->
+<section class="main row row-cols-md-12 mt-5 vh-100">
+    <div class="d-flex justify-content-center col-6">
+        MAIN SECTION
+        <div class="">
+            <button type="button" class="btn btn-outline-primary">Book A Room</button>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center col-6" id="sectionOneImage">
+        Welcome to the Cadillac of Hotels!
+    </div>
+</section>
+
+<!--Second Section-->
+
+<div class="modal" tabindex="-1" id="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Room Booked!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="roomsLeft"></div>
+            <div class="modal-body" id="result"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="row row-cols-md-12">
+    <div class="col-6" id="hotelBusan"></div>
+    <div class="card col-6">
+        <div class="card-header">
+            Book Your Room!
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div id="calender">
+                <p>Arrival & Departure:</p>
+                <input type="date" class="btn-group" name="dateOne" id="dateOne">
+                <label for="dateOne"></label>
+                <input type="date" class="btn-group" name="dateOne" id="dateTwo">
+                <label for="dateTwo"></label>
+            </div>
+            <p class="mt-2 mb-0">Select Room Type:</p>
+            <div id="roomTypeBtn">
+                <div class="btn-group" role="group" aria-label="roomTypeChoice" id="btnGroup">
+                    <input type="radio" class="btn-check" name="roomType" id="Standard">
+                    <label class="btn btn-outline-success" for="Standard">Standard</label>
+
+                    <input type="radio" class="btn-check" name="roomType" id="Deluxe">
+                    <label class="btn btn-outline-success" for="Deluxe">Deluxe</label>
+
+                    <input type="radio" class="btn-check" name="roomType" id="Penthouse">
+                    <label class="btn btn-outline-success" for="Penthouse">Penthouse</label>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-primary mt-4" id="bookRoom">Book Room</button>
+            <button type="button" class="btn btn-outline-danger mt-4" id="cancelRoom">Cancel Room</button>
+        </div>
+    </div>
+</section>
+
+
 <!--Scripts for JS-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="includes/js/lab09.js"></script>
+<script type="module" src="includes/js/lab09.js"></script>
 </body>
 </html>

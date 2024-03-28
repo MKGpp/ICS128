@@ -4,7 +4,7 @@ const size = '3px';
  * Function to validate form inputs
  **********************************/
 
-document.getElementById("formSubmit").addEventListener('click',() => {
+const formSubmit = () => {
     try {
         //regex patterns for validating user information
         let namePattern = /^[A-Za-z]+$/;
@@ -90,7 +90,7 @@ document.getElementById("formSubmit").addEventListener('click',() => {
     } catch (e) {
         document.getElementById("errorOutput").innerHTML = `${e}`;
     }
-});
+}
 
 /**********************************/
 
@@ -170,6 +170,8 @@ const clearElements = () => {
         input.value = "";
     });
 };
+
+document.getElementById("formSubmit").addEventListener('click', formSubmit);
 
 document.getElementById("logoutBtn").addEventListener('click', () => {
     clearElements();
