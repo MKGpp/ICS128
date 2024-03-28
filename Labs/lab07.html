@@ -7,7 +7,7 @@
   <title>Lab07</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="includes/style.css">
+  <link rel="stylesheet" href="includes/css/lab07.css">
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
@@ -17,7 +17,8 @@
 
 <nav class="navbar navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Matthew Golshani Quiz</a>
+    <a class="navbar-brand" href="#">Matthew Golshani Hotel</a>
+    <div id="greeting" class="text-light"></div>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,10 +28,38 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <form class="d-flex mt-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-success" type="submit">Search</button>
-        </form>
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab01.html">Lab 1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab02.html">Lab 2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab03.html">Lab 3</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab04.html">Lab 4</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab05.html">Lab 5</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab06.html">Lab 6</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="lab07.html">Lab 7</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab08.html">Lab 8</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="lab09.html">Lab 9</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -78,14 +107,14 @@
 
 <!--The Quiz-->
 
-  <form class="w-75" id="theQuiz" style="display: none">
+  <form class="w-75" id="theQuiz">
     <h1 id="welcome"></h1>
     <h2 id="score"></h2>
     <div>
       <h5>What is the primary purpose of tying a figure-eight knot?</h5>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionOne" id="answerOneA" value="option1">
-        <label for="answerOneA">a) to secure the rope to the harness&nbsp;<span id="checkOne" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <label for="answerOneA">a) to secure the rope to the harness&nbsp;<span id="checkOne"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionOne" id="answerOneB" value="option2">
@@ -99,7 +128,7 @@
         <input class="form-check-input" type="radio" name="questionOne" id="answerOneD" value="option4">
         <label for="answerOneD">d) to connect to ropes together</label>
       </div>
-        <a type="button" onclick="getHint(1)">[HINT]<span id="hint1" style="display: none;">&nbsp;A</span></a>
+        <a type="button" onclick="getHint(1)">[HINT]<span id="hint1">&nbsp;A</span></a>
     </div>
     <div class="mt-4">
       <h5>When belaying a climber, what is the recommended position for the belayer?</h5>
@@ -109,7 +138,7 @@
       </div>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoB" value="option2">
-        <label class="form-check-label" for="answerTwoB">b) standing to the side of the climber&nbsp;<span id="checkTwo" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <label class="form-check-label" for="answerTwoB">b) standing to the side of the climber&nbsp;<span id="checkTwo"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoC" value="option3">
@@ -119,7 +148,7 @@
         <input class="form-check-input" type="radio" name="questionTwo" id="answerTwoD" value="option4">
         <label class="form-check-label" for="answerTwoD">d) sitting on the ground with legs extended</label>
       </div>
-      <a type="button" onclick="getHint(2)">[HINT]<span id="hint2" style="display: none;">&nbsp;B</span></a>
+      <a type="button" onclick="getHint(2)">[HINT]<span id="hint2">&nbsp;B</span></a>
     </div>
     <div class="mt-4">
       <h5>What does the term "buddy check" refer to in rock climbing safety?</h5>
@@ -133,19 +162,19 @@
       </div>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionThree" id="answerThreeC" value="option3">
-        <label class="form-check-label" for="answerThreeC">c) Checking your partner's gear before climbing&nbsp;<span id="checkThree" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <label class="form-check-label" for="answerThreeC">c) Checking your partner's gear before climbing&nbsp;<span id="checkThree"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionThree" id="answerThreeD" value="option4">
         <label class="form-check-label" for="answerThreeD">d) Checking your own gear before climbing</label>
       </div>
-      <a type="button" onclick="getHint(3)">[HINT]<span id="hint3" style="display: none;">&nbsp;C</span></a>
+      <a type="button" onclick="getHint(3)">[HINT]<span id="hint3">&nbsp;C</span></a>
     </div>
     <div class="mt-4">
       <h5>What is the purpose of a "safety backup" when setting up a top-rope anchor?</h5>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionFour" id="answerFourA" value="option1">
-        <label class="form-check-label" for="answerFourA">a) To provide extra support in case the main anchor fails&nbsp;<span id="checkFour" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <label class="form-check-label" for="answerFourA">a) To provide extra support in case the main anchor fails&nbsp;<span id="checkFour"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="questionFour" id="answerFourB" value="option2">
@@ -159,13 +188,13 @@
         <input class="form-check-input" type="radio" name="questionFour" id="answerFourD" value="option4">
         <label class="form-check-label" for="answerFourD">d) To mark the midpoint of the rope</label>
       </div>
-      <a type="button" onclick="getHint(4)">[HINT]<span id="hint4" style="display: none;">&nbsp;A</span></a>
+      <a type="button" onclick="getHint(4)">[HINT]<span id="hint4">&nbsp;A</span></a>
     </div>
     <div class="mt-4 mb-4">
       <h5>Which of the following are recommended actions for rope management during a climb? (Check all that apply)</h5>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveA" value="option1">
-        <label class="form-check-label" for="answerFiveA">a) Using proper rope coiling techniques to prevent tangles&nbsp;<span id="checkFiveA" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <label class="form-check-label" for="answerFiveA">a) Using proper rope coiling techniques to prevent tangles&nbsp;<span id="checkFiveA"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveB" value="option2">
@@ -177,13 +206,13 @@
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveD" value="option4">
-        <label class="form-check-label" for="answerFiveD">d) Keeping a constant eye on the rope and its position to avoid snagging&nbsp;<span id="checkFiveB" style="display: none;"><img src="includes/images/check.svg" alt="correct!"></span></label>
+        <label class="form-check-label" for="answerFiveD">d) Keeping a constant eye on the rope and its position to avoid snagging&nbsp;<span id="checkFiveB"><img src="includes/images/check.svg" alt="correct!"></span></label>
       </div>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" name="questionFive" id="answerFiveE" value="option5">
         <label class="form-check-label" for="answerFiveE">e) Tying knots at regular intervals along the rope for added safety</label>
       </div>
-      <a type="button" onclick="getHint(5)">[HINT]<span id="hint5" style="display: none;">&nbsp;A , D</span></a>
+      <a type="button" onclick="getHint(5)">[HINT]<span id="hint5">&nbsp;A , D</span></a>
       <div class="d-flex justify-content-center mt-4">
         <button class="btn btn-outline-success" type="button" id="submit">Submit!</button>
       </div>
@@ -195,7 +224,7 @@
 <!--Scripts for JS-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<script src="includes/lab07.js"></script>
+<script src="includes/js/lab07.js"></script>
 </body>
 
 </html>

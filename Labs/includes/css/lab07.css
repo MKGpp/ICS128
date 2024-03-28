@@ -12,3 +12,16 @@ body {
     height: 1px;
     background-color: #16161D;
 }
+
+#theQuiz {
+    display: none;
+}
+
+#hint1, #checkOne,
+#hint2, #checkTwo,
+#hint3, #checkThree,
+#hint4, #checkFour,
+#hint5, #checkFiveA,
+#checkFiveB {
+    display: none;
+}
