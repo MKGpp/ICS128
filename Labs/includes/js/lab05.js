@@ -4,7 +4,7 @@ const size = '3px';
  * Function to validate form inputs
  **********************************/
 
-const formSubmit = () => {
+export const formSubmit = () => {
     try {
         //regex patterns for validating user information
         let namePattern = /^[A-Za-z]+$/;

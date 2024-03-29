@@ -38,7 +38,7 @@ for (let i = 0; i < hotelRooms.length; i++) {
                         <div class="w-100 bg-secondary mb-3" style="height: 1px;"></div>
                         <p class="card-text">${hotelRooms[i].roomDesc}</p>
                         <p class="card-text">${hotelRooms[i].price}</p>
-                        <div class="d-flex justify-content-end"><button class="btn btn-success" onclick="roomBookedBtn('${hotelRooms[i].bookBtn}')" id="${hotelRooms[i].bookBtn}">Book Room</button></div>
+                        <div class="d-flex justify-content-end hide-button"><button class="btn btn-success" onclick="roomBookedBtn('${hotelRooms[i].bookBtn}')" id="${hotelRooms[i].bookBtn}">Book Room</button></div>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@ const tableBtnClick = () => {
 /***
  * Function to display(alert) room's price on button click
  **********************************************************/
-const roomBookedBtn = (btnId) => {
+export const roomBookedBtn = (btnId) => {
         switch (btnId) {
             case 'standard':
                 alert(`Your room price is ${hotelRooms[0].price} per night.`);
