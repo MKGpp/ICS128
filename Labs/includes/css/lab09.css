@@ -9,6 +9,10 @@ body {
     top: 150px;
 }
 
+#sectOne {
+    height: 75vh;
+}
+
 #sectionOneImage {
     background-image: url("../images/hotel.jpg");
     background-position: center;
@@ -19,4 +23,10 @@ body {
 
 #image {
     opacity: 0.7;
+}
+
+#weather-widget {
+    position: relative;
+    width: 200px;
+    height: 200px;
 }

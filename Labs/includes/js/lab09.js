@@ -1,12 +1,36 @@
 import * as form from './lab05.js';
-import * as calc from './lab08.js';
 import * as hotel from './lab06.js';
-import { getWeatherForBusan } from './weather.js';
+import {Hotel} from "./lab06.js";
 
+const modal = new bootstrap.Modal(document.getElementById('modal')); //modal for results
 const newHotel = new hotel.Hotel("Hyundai Beachfront Resort", "Busan", 12, 4, true);
-const modal = new bootstrap.Modal(document.getElementById('modal'));
 const restaurantList = hotel.displayRestaurants();
+async function fetchWeatherDataForBusan() {
+    const apiKey = 'a5fa944263c3cb4029171f7b252c65f1';
+    const lat = '35.2100';
+    const lon = '129.0689';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        const temp = data.main.temp;
+        const desc = data.weather[0].description;
+        const icon = data.weather[0].icon;
+
+        const url = `https://openweathermap.org/img/wn/${icon}.png`
+
+        $('#temperature').html(`Current temp: ${temp}`);
+        $('#description').html(desc);
+        $('#weatherIcon').attr('src', url);
+
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        return null;
+    }
+}
+window.onload = fetchWeatherDataForBusan;
 
 $('#formSubmit').on('click', () => {
     form.formSubmit();
@@ -29,34 +53,45 @@ $('#hotelBusan').html(`
             <div><ol>${restaurantList}</ol></div>
             <br>               
         </p>
-    </div>;
+    </div>
 `);
 
-const bookRoom = () => {
-    console.log("TEST");
-    const choice = $("input[name='roomType']:checked").attr("id");
-    const days = calc.daysSelected();
-    let result = days;
-    let cost;
+/**
+ * takes the date inputs and calculates the
+ * difference in number of days between them
+ * @returns number of days selected
+ */
+const daysSelected = () => {
+    const start = new Date($('#dateOne').val());
+    const end = new Date($('#dateTwo').val());
+
+    return Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+}
+
+/**
+ * calculate and display the price * number of days selected
+ * @param choice determines the price
+ */
+const calcResult = (choice) => {
+    let numDays = daysSelected();
+    let result = numDays;
+    let price;
     if (choice === 'Standard') {
-        result *= 89;
-        cost = 89;
+        price = 169;
+        result *= price;
     } else if (choice === 'Deluxe') {
-        result *= 149;
-        cost = 149;
+        price = 289;
+        result *= price;
     } else {
-        result *= 389;
-        cost = 389;
+        price = 699;
+        result *= price;
     }
-    $('#roomsLeft').html(`
-        <p>Room Booked! There are ${newHotel.booked}/${newHotel.rooms} rooms booked.</p>
-    `);
+    $("#roomsLeft").html(`There are ${Hotel.booked}/${Hotel.rooms} rooms booked.`);
     $('#result').html(`
-        <p>Your length of stay is: ${days} days</p>
-        <p>$${cost}/night</p>
+        <p>Your length of stay is: ${numDays} days</p>
+        <p>$${price}/night</p>
         <p>Total: $${result}</p>
     `);
-
 }
 
 const hotelRooms = [{
@@ -88,7 +123,7 @@ const displayCards = () => {
                 <div class="row g-0">
                     <div class="col-md-4">
                         <a onclick="$('#image').attr('src', '${hotelRooms[i].imgFile}')">
-                            <img src="${hotelRooms[i].imgFile}" class="img-fluid rounded-start h-100" width="250px" alt="hotel room">
+                            <img src="${hotelRooms[i].imgFile}" class="img-fluid rounded-start h-100" alt="hotel room">
                         </a>
                     </div>
                     <div class="col-md-8">
@@ -106,9 +141,10 @@ const displayCards = () => {
 displayCards();
 
 
-
-document.getElementById("bookRoom").addEventListener('click', () => {
-    console.log("TEST");
-    bookRoom();
+/**
+ * event handler for the book room button
+ */
+$('#bookRoom').on('click', () => {
+    calcResult($("input[name='roomType']:checked").attr("id"));
     modal.show();
 });
