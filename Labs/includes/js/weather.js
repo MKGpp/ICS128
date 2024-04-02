@@ -14,7 +14,7 @@ async function fetchWeatherDataForBusan() {
     }
 }
 
-async function getWeatherForBusan() {
+export async function getWeatherForBusan() {
     try {
         const weatherData = await fetchWeatherDataForBusan();
 
@@ -28,6 +28,3 @@ async function getWeatherForBusan() {
         console.error('Error getting weather data for Busan:', error);
     }
 }
-
-getWeatherForBusan();
-

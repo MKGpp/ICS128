@@ -123,7 +123,11 @@
     <div class="d-flex justify-content-center col-6">
         MAIN SECTION
         <div class="">
-            <div id="weather-widget" class="">text</div>
+            <div id="weather-widget" class="">
+                <h5 id="temperature"></h5>
+                <h5 id="description"></h5>
+                <p id="weatherIcon"></p>
+            </div>
             <a href="#sectionTwo" type="button" class="btn btn-outline-primary">Book A Room</a>
         </div>
     </div>
@@ -188,8 +192,9 @@
 
 <section class="main row row-cols-md-12 mt-5 vh-100">
     <h1 class="d-flex justify-content-center">Rooms & Suites</h1>
+    <p class="d-flex justify-content-center">Click each room's picture to see amenities!</p>
     <div class="col-6 d-flex justify-content-center">
-        <img id="image" src="includes/images/standard.jpg" alt="hotel picture" class="px-5 h-75">
+        <img id="image" src="includes/images/standard.jpg" alt="hotel picture" width="750px" class="px-5 h-75">
     </div>
     <div id="cards" class="col-6 px-5"></div>
 </section>

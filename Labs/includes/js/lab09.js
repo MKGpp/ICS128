@@ -1,11 +1,12 @@
 import * as form from './lab05.js';
 import * as calc from './lab08.js';
 import * as hotel from './lab06.js';
-import * as weather from './weather.js';
+import { getWeatherForBusan } from './weather.js';
 
 const newHotel = new hotel.Hotel("Hyundai Beachfront Resort", "Busan", 12, 4, true);
 const modal = new bootstrap.Modal(document.getElementById('modal'));
 const restaurantList = hotel.displayRestaurants();
+
 
 $('#formSubmit').on('click', () => {
     form.formSubmit();
@@ -57,29 +58,27 @@ const bookRoom = () => {
     `);
 
 }
-const loadImage = (source) => {
-    $('#image').attr('src', source);
-}
 
 const hotelRooms = [{
-    imgFile: 'includes/images/standard.jpg',
+    imgFile: './includes/images/standard.jpg',
     roomType: 'Standard',
     roomDesc: 'Single room - King Size Bed',
     price: '$169',
     bookBtn: 'standard'
 }, {
-    imgFile: 'includes/images/double.jpg',
+    imgFile: './includes/images/double.jpg',
     roomType: 'Deluxe',
     roomDesc: 'Double room - 2 King Size Beds',
     price: '$289',
     bookBtn: 'deluxe'
 }, {
-    imgFile: 'includes/images/vip.jpg',
+    imgFile: './includes/images/vip.jpg',
     roomType: 'Penthouse',
     roomDesc: '800sqft VIP Penthouse - 2 Bedrooms <br> Bar <br> Whirlpool Tub',
     price: '$699',
     bookBtn: 'vip'
 }];
+
 const displayCards = () => {
     for (let i = 0; i < hotelRooms.length; i++) {
         let cardDisplay = document.getElementById("cards");
@@ -88,7 +87,7 @@ const displayCards = () => {
             <div class="card mb-3 bg-dark text-light">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <a onclick="loadImage('${hotelRooms[i].imgFile}')">
+                        <a onclick="$('#image').attr('src', '${hotelRooms[i].imgFile}')">
                             <img src="${hotelRooms[i].imgFile}" class="img-fluid rounded-start h-100" width="250px" alt="hotel room">
                         </a>
                     </div>
@@ -105,6 +104,7 @@ const displayCards = () => {
     }
 }
 displayCards();
+
 
 
 document.getElementById("bookRoom").addEventListener('click', () => {
