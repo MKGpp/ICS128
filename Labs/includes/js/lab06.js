@@ -119,7 +119,7 @@ const resort = new Resort("Hyundai Beachfront Resort", "Busan", 12, 4, true, "Fa
     resort.location = "South Korea";
     resort.bar = false;
 
-export const displayRestaurants = () => {
+const displayRestaurants = () => {
     let theRestaurants = '';
     for (const [key, value] of restaurants.entries()) {
         theRestaurants += (`${key}, Cuisine: ${value}<br>`);

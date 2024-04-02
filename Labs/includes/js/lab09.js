@@ -1,10 +1,83 @@
 import * as form from './lab05.js';
-import * as hotel from './lab06.js';
-import {Hotel} from "./lab06.js";
 
 const modal = new bootstrap.Modal(document.getElementById('modal')); //modal for results
-const newHotel = new hotel.Hotel("Hyundai Beachfront Resort", "Busan", 12, 4, true);
-const restaurantList = hotel.displayRestaurants();
+const restArr = [
+    ["HanWoo Steakhouse", "Korean"],
+    ["Izakaya Grill", "Japanese"],
+    ["Mr.Pizza", "Korean/Italian"]
+];
+const restaurants = new Map(restArr);
+
+export class Hotel {
+    constructor(name, city, rooms, booked, gym) {
+        this._name = name;
+        this._city = city;
+        this._rooms = rooms;
+        this._booked = booked;
+        this._gym = gym;
+    }
+
+    get name() {
+        return this._name;
+    }
+    get city() {
+        return this._city;
+    }
+    get rooms() {
+        return this._rooms;
+    }
+    get booked() {
+        return this._booked;
+    }
+    get gym() {
+        return this._gym;
+    }
+
+    set name(name) {
+        this._name = name;
+    }
+    set city(city) {
+        this._city = city;
+    }
+    set rooms(rooms) {
+        this._rooms = rooms;
+    }
+    set booked(booked) {
+        this._booked = booked;
+    }
+    set gym(gym) {
+        this._gym = gym;
+    }
+
+    availableRooms() {
+        return this._rooms - this._booked;
+    }
+
+    bookRoomHotel() {
+        if (this.availableRooms() > 0) {
+            this._booked++;
+            document.getElementById("roomsLeft").innerHTML = `There are ${newHotel.booked}/${newHotel.rooms} rooms booked.`;
+            alert(`Room Booked! There are ${newHotel.availableRooms()} rooms remaining.`);
+            calcResult($("input[name='roomType']:checked").attr("id"));
+            modal.show();
+        }
+    }
+
+    cancelRoomHotel() {
+        this._booked--;
+        document.getElementById("roomsLeft").innerHTML = `There are ${newHotel.booked}/${newHotel.rooms} rooms booked.`;
+        alert(`Room Cancelled! There are ${newHotel.availableRooms()} rooms remaining.`);
+    }
+}
+const newHotel = new Hotel("Hyundai Beachfront Resort", "Busan", 12, 4, true);
+const displayRestaurants = () => {
+    let theRestaurants = '';
+    for (const [key, value] of restaurants.entries()) {
+        theRestaurants += (`${key}, Cuisine: ${value}<br>`);
+    }
+    return theRestaurants;
+}
+
 async function fetchWeatherDataForBusan() {
     const apiKey = 'a5fa944263c3cb4029171f7b252c65f1';
     const lat = '35.2100';
@@ -50,7 +123,7 @@ $('#hotelBusan').html(`
             <br>
             Restaurants on-site: 
             <br>
-            <div><ol>${restaurantList}</ol></div>
+            <div><ol>${displayRestaurants()}</ol></div>
             <br>               
         </p>
     </div>
@@ -86,7 +159,6 @@ const calcResult = (choice) => {
         price = 699;
         result *= price;
     }
-    $("#roomsLeft").html(`There are ${Hotel.booked}/${Hotel.rooms} rooms booked.`);
     $('#result').html(`
         <p>Your length of stay is: ${numDays} days</p>
         <p>$${price}/night</p>
@@ -139,12 +211,3 @@ const displayCards = () => {
     }
 }
 displayCards();
-
-
-/**
- * event handler for the book room button
- */
-$('#bookRoom').on('click', () => {
-    calcResult($("input[name='roomType']:checked").attr("id"));
-    modal.show();
-});
