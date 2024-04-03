@@ -1,12 +1,18 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #65A46D;
+    background-color: #2b576b;
 }
 
 .main {
     position: relative;
     top: 150px;
+}
+
+#hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #sectOne {
@@ -17,12 +23,9 @@ body {
     background-image: url("../images/hotel.jpg");
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
     margin: 0;
     padding: 0;
-}
-
-#image {
-    opacity: 0.7;
 }
 
 #weather-widget {

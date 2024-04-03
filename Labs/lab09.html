@@ -120,16 +120,18 @@
 
 <!--First Section-->
 <section class="main row row-cols-md-12 mb-5" id="sectOne">
-    <div class="d-flex justify-content-center col-6">
-        MAIN SECTION
-        <div>
-        <a href="#sectionTwo" type="button" class="btn btn-outline-primary">Book A Room</a>
-        </div>
+    <div class="d-flex justify-content-center col-6 text-light" id="hero">
+        <div class="w-50">
+            <h2>Hyundai Beachfront Resort</h2>
+            <h5>Busan's Finest Oceanside Dwelling</h5>
+            <p>Indulge in Coastal Elegance: Where Luxury Meets the Sea</p>
+            <p>Welcome to your beachfront oasis, a home away from home.</p>
+            <a href="#sectionTwo" type="button" class="btn btn-outline-danger">Book A Room</a>
 
+        </div>
     </div>
     <div class="d-flex justify-content-center col-6" id="sectionOneImage">
-        Welcome to the Cadillac of Hotels!
-        <div class="d-flex justify-content-end align-items-end">
+        <div class="d-flex justify-content-end align-items-center">
             <div class="card bg-dark text-light" id="weather-widget">
                 <div class="card-header">Busan</div>
                 <div class="card-body">
@@ -140,7 +142,6 @@
             </div>
         </div>
     </div>
-    <div id="resort" style="display:none;"></div><div id="hotel" style="display:none;"></div> <!--just here to remove an error-->
 </section>
 <div id="sectionTwo"></div>
 <!--Second Section-->
@@ -162,40 +163,42 @@
 </div>
 
 <section class="main row row-cols-md-12" id="sectTwo">
-    <div class="col-6 d-flex justify-content-center" id="hotelBusan"></div>
-    <div class="card col-6">
-        <div class="card-header">
-            Book Your Room!
-        </div>
-        <div class="card-body">
-            <h5 class="card-title"></h5>
-            <div id="calender">
-                <p>Arrival & Departure:</p>
-                <input type="date" class="btn-group" name="dateOne" id="dateOne">
-                <label for="dateOne"></label>
-                <input type="date" class="btn-group" name="dateOne" id="dateTwo">
-                <label for="dateTwo"></label>
+    <div class="col-6 d-flex justify-content-center text-light" id="hotelBusan"></div>
+    <div class="col-6">
+        <div class="card w-50">
+            <div class="card-header">
+                Book Your Room!
             </div>
-            <p class="mt-2 mb-0">Select Room Type:</p>
-            <div id="roomTypeBtn">
-                <div class="btn-group" role="group" aria-label="roomTypeChoice" id="btnGroup">
-                    <input type="radio" class="btn-check" name="roomType" id="Standard">
-                    <label class="btn btn-outline-success" for="Standard">Standard</label>
-
-                    <input type="radio" class="btn-check" name="roomType" id="Deluxe">
-                    <label class="btn btn-outline-success" for="Deluxe">Deluxe</label>
-
-                    <input type="radio" class="btn-check" name="roomType" id="Penthouse">
-                    <label class="btn btn-outline-success" for="Penthouse">Penthouse</label>
+            <div class="card-body">
+                <h5 class="card-title"></h5>
+                <div id="calender">
+                    <p>Arrival & Departure:</p>
+                    <input type="date" class="btn-group" name="dateOne" id="dateOne">
+                    <label for="dateOne"></label>
+                    <input type="date" class="btn-group" name="dateOne" id="dateTwo">
+                    <label for="dateTwo"></label>
                 </div>
+                <p class="mt-2 mb-0">Select Room Type:</p>
+                <div id="roomTypeBtn">
+                    <div class="btn-group" role="group" aria-label="roomTypeChoice" id="btnGroup">
+                        <input type="radio" class="btn-check" name="roomType" id="Standard">
+                        <label class="btn btn-outline-success" for="Standard">Standard</label>
+
+                        <input type="radio" class="btn-check" name="roomType" id="Deluxe">
+                        <label class="btn btn-outline-success" for="Deluxe">Deluxe</label>
+
+                        <input type="radio" class="btn-check" name="roomType" id="Penthouse">
+                        <label class="btn btn-outline-success" for="Penthouse">Penthouse</label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-primary mt-4" id="bookRoom" data-bs-toggle="modal" data-bs-target="#modal">Book Room</button>
+                <button type="button" class="btn btn-outline-danger mt-4" id="cancelRoom" data-bs-toggle="modal" data-bs-target="#modal">Cancel Room</button>
             </div>
-            <button type="button" class="btn btn-outline-primary mt-4" id="bookRoom" onclick="newHotel.bookRoomHotel()">Book Room</button>
-            <button type="button" class="btn btn-outline-danger mt-4" id="cancelRoom" onclick="newHotel.cancelRoomHotel()">Cancel Room</button>
         </div>
     </div>
 </section>
 
-<section class="main row row-cols-md-12 mt-5" id="sectThree">
+<section class="main row row-cols-md-12 mt-5 text-light" id="sectThree">
     <h1 class="d-flex justify-content-center">Rooms & Suites</h1>
     <p class="d-flex justify-content-center">Click each room's picture to see a bigger image!</p>
     <div class="col-6 d-flex justify-content-center" id="amenities">

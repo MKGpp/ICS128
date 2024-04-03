@@ -3,7 +3,7 @@
  * difference in number of days between them
  * @returns number of days selected
  */
-export const daysSelected = () => {
+const daysSelected = () => {
     const start = new Date($('#dateOne').val());
     const end = new Date($('#dateTwo').val());
 

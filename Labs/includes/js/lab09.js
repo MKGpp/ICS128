@@ -56,17 +56,11 @@ export class Hotel {
     bookRoomHotel() {
         if (this.availableRooms() > 0) {
             this._booked++;
-            document.getElementById("roomsLeft").innerHTML = `There are ${newHotel.booked}/${newHotel.rooms} rooms booked.`;
-            alert(`Room Booked! There are ${newHotel.availableRooms()} rooms remaining.`);
-            calcResult($("input[name='roomType']:checked").attr("id"));
-            modal.show();
         }
     }
 
     cancelRoomHotel() {
         this._booked--;
-        document.getElementById("roomsLeft").innerHTML = `There are ${newHotel.booked}/${newHotel.rooms} rooms booked.`;
-        alert(`Room Cancelled! There are ${newHotel.availableRooms()} rooms remaining.`);
     }
 }
 const newHotel = new Hotel("Hyundai Beachfront Resort", "Busan", 12, 4, true);
@@ -159,10 +153,21 @@ const calcResult = (choice) => {
         price = 699;
         result *= price;
     }
+    newHotel.bookRoomHotel();
+    $('#roomsLeft').html(`There are ${newHotel.booked}/${newHotel.rooms} rooms booked.`);
     $('#result').html(`
         <p>Your length of stay is: ${numDays} days</p>
         <p>$${price}/night</p>
         <p>Total: $${result}</p>
+    `);
+}
+
+const cancelRoom = () => {
+    newHotel.cancelRoomHotel();
+    $('#roomsLeft').html("");
+    $('#result').html(`      
+        <p>Your room has been canceled!</p>
+        <p>\`There are ${newHotel.booked}/${newHotel.rooms} rooms booked.\`</p>
     `);
 }
 
@@ -195,7 +200,7 @@ const displayCards = () => {
                 <div class="row g-0">
                     <div class="col-md-4">
                         <a onclick="$('#image').attr('src', '${hotelRooms[i].imgFile}')">
-                            <img src="${hotelRooms[i].imgFile}" class="img-fluid rounded-start h-100" alt="hotel room">
+                            <img src="${hotelRooms[i].imgFile}" class="img-fluid rounded-start h-100" style="width: 250px;" alt="hotel room">
                         </a>
                     </div>
                     <div class="col-md-8">
@@ -211,3 +216,10 @@ const displayCards = () => {
     }
 }
 displayCards();
+
+$('#bookRoom').on('click', () => {
+    calcResult($("input[name='roomType']:checked").attr("id"));
+});
+$('#cancelRoom').on('click', () => {
+    cancelRoom();
+});
