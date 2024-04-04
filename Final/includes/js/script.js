@@ -51,38 +51,75 @@ if (myLat && myLong) {
 L.control.scale().addTo(map);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+    maxZoom: 18,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-$(document).ready(function(){
-    $.getJSON('../Final/includes/public/fake_flights.json', function(data) {
-        $.each(data, function(index, value) {
-            let cardHTML = `
-                <div class="col-md-3 grid-item mb-3">
-                    <div class="card" style="width: 18rem;">
-                        <img src="${value.plane_image}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">${value.type_of_plane}</h5>
-                            <p class="card-text">Speed: ${value.speed_kph}kmph</p>
-                            <p class="card-text">Max altitude: ${value.maxTakeOffAlt}</p>
-                            <p class="card-text">Cost/km: $${value.price_per_km}</p>
-                            <p class="card-text">Seats remaining: ${value.seats_remaining}</p>
-                            <p class="card-text">Extra fuel charge: ${value.extraFuelCharge}</p>
-                            <a href="#" class="btn btn-primary">Book Flight!</a>
-                        </div>
-                    </div>
-                </div>
-            `;
-            $('#masonry-grid').append(cardHTML);
-        });
-        $('#masonry-grid').masonry({
-            itemSelector: '.grid-item',
-            columnWidth: '.grid-item',
-            percentPosition: true
-        });
-    });
-});
+
+let selectedAirports = [];
+let line;
+
+const clickAirport = async (event) => {
+    const lat = event.latlng.lat;
+    const long = event.latlng.lng;
+
+    if (selectedAirports.length < 2) {
+        selectedAirports.push([lat, long]);
+
+        if (selectedAirports.length === 2) {
+            const distance = calcDistance(selectedAirports[0], selectedAirports[1]);
+
+            const [weatherOne, weatherTwo] = await Promise.all([
+                fetchWeatherData(selectedAirports[0][0], selectedAirports[0][1]),
+                fetchWeatherData(selectedAirports[1][0], selectedAirports[1][1])
+            ]);
+
+            const isRainingOne = weatherOne && weatherOne.weather[0].description.toLowerCase().includes('rain');
+            const isRainingTwo = weatherTwo && weatherTwo.weather[0].description.toLowerCase().includes('rain');
+
+            displayFlights(distance, isRainingOne, isRainingTwo);
+            $('#flightCatalog').html(`
+                 <h1>Selected Flight Distance: ${distance.toFixed(2)}KM</h1>
+                 <div class="dropdown d-flex justify-content-end">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filter By...
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item active" type="button">Duration</a></li>
+                        <li><a class="dropdown-item" type="button">Total Cost</a></li>
+                        <li><a class="dropdown-item" type="button">Plane Type</a></li>
+                    </ul>
+                 </div>
+            `);
+
+            if (line) {
+                map.removeLayer(line);
+            }
+            line = L.polyline(selectedAirports, { color: 'red' }).addTo(map);
+
+            const secondAirportMarker = getMarkerByLatLng(selectedAirports[1]);
+
+            if (secondAirportMarker) {
+                const popup = secondAirportMarker.getPopup();
+                const popupContent = popup.getContent();
+
+                if (!popupContent.includes('Distance:')) {
+                    popup.setContent(popupContent + `<br><b>Distance: ${distance.toFixed(2)} km</b>`);
+                    popup.on('remove', () => {
+                        const updatedPopupContent = popup.getContent().replace(`<br><b>Distance: ${distance.toFixed(2)} km</b>`, '');
+                        popup.setContent(updatedPopupContent);
+                    });
+                }
+            }
+            selectedAirports = [];
+        }
+    } else {
+        selectedAirports = [];
+        if (line) {
+            map.removeLayer(line);
+        }
+    }
+}
 
 fetch('../Final/includes/public/mAirports.json')
     .then(response => {
@@ -125,8 +162,10 @@ fetch('../Final/includes/public/mAirports.json')
                 if (weatherForAirports) {
                     const temp = weatherForAirports.main.temp;
                     const weatherDesc = weatherForAirports.weather[0].description;
-                    L.marker([lat, long], {icon: planeIcon}).addTo(map)
-                        .bindPopup(`<b>${airport["Airport Name"]}</b><br>${airport["City Name"]}, ${airport["Country"]}<br>Temperature: ${temp}°C<br>Weather: ${weatherDesc}`);
+
+                    const marker = L.marker([lat, long], {icon: planeIcon}).addTo(map);
+                    marker.bindPopup(`<b>${airport["Airport Name"]}</b><br>${airport["City Name"]}, ${airport["Country"]}<br>Temperature: ${temp}°C<br>Weather: ${weatherDesc}`);
+                    marker.on('click', clickAirport)
                 }
             } else {
                 console.error(`Invalid coordinates for airport: ${airport["Airport Name"]}`);
@@ -136,3 +175,91 @@ fetch('../Final/includes/public/mAirports.json')
     .catch(error => {
         console.error('Error: ', error);
     });
+
+const calcDistance = (airportOne, airportTwo) => {
+    function toRad(x) {
+        return x * Math.PI / 180;
+    }
+
+    let lon1 = airportOne[1];
+    let lon2 = airportTwo[1];
+    let lat1 = airportOne[0];
+    let lat2 = airportTwo[0];
+
+    let R = 6371;
+
+    let x1 = lat2 - lat1;
+    let dLat = toRad(x1);
+    let x2 = lon2 - lon1;
+    let dLon = toRad(x2);
+    let a = Math.sin(dLat /2) * Math.sin(dLat / 2) +
+                     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                     Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+const displayFlights = (distance, isRainingOne, isRainingTwo) => {
+    $('#masonry-grid').empty();
+    $.getJSON('../Final/includes/public/fake_flights.json', (data) => {
+        $.each(data, function(index, value) {
+            let totalCost = distance * value.price_per_km;
+
+            let duration = '';
+            const durationToCalc = (distance / value.speed_kph) * 60;
+
+            if (durationToCalc > 60) {
+                const hrs = Math.floor(durationToCalc / 60);
+                const min = Math.round(durationToCalc % 60);
+
+                const hrsAsString = hrs > 0 ? `${hrs} Hours` : '';
+                const minAsString = min > 0 ? `${min} Min` : '';
+
+                duration = `${hrsAsString} ${minAsString}`;
+            } else {
+                const minAsString = Math.round(durationToCalc);
+                duration = `${minAsString} Min`;
+            }
+
+            if (isRainingOne || isRainingTwo) {
+                totalCost *= value.extraFuelCharge;
+            }
+            let cardHTML = `
+            <div class="col-md-3 grid-item mb-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="${value.plane_image}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${value.type_of_plane}</h5>
+                        <p class="card-text">Speed: ${value.speed_kph}kmph</p>
+                        <p class="card-text">Max altitude: ${value.maxTakeOffAlt}</p>
+                        <p class="card-text">Cost/km: $${value.price_per_km}</p>
+                        <p class="card-text">Seats remaining: ${value.seats_remaining}</p>
+                        <p class="card-text">Extra fuel charge: ${value.extraFuelCharge}</p>
+                        <p class="card-text">Duration of flight: ${duration}</p>
+                        <p class="card-text"><strong>Total cost to fly: $${totalCost.toFixed(0)}</strong></p>
+                        <a href="#" class="btn btn-primary">Book Flight!</a>
+                    </div>
+                </div>
+            </div>
+        `;
+            $('#masonry-grid').append(cardHTML);
+        });
+        $('#masonry-grid').masonry({
+            itemSelector: '.grid-item',
+            columnWidth: '.grid-item',
+            percentPosition: true
+        });
+    });
+}
+
+const getMarkerByLatLng = (latLng) => {
+    const layers = map._layers;
+    let marker = null;
+    Object.keys(layers).forEach((key) => {
+        const layer = layers[key];
+        if (layer instanceof L.Marker && layer.getLatLng().equals(latLng)) {
+            marker = layer;
+        }
+    });
+    return marker;
+};
