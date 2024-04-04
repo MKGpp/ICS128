@@ -1,9 +1,7 @@
 
-async function fetchWeatherDataForBusan() {
+async function fetchWeatherData(lat, long) {
     const apiKey = 'a5fa944263c3cb4029171f7b252c65f1';
-    const lat = '35.2100';
-    const lon = '129.0689';
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
 
     try {
         const response = await fetch(apiUrl);

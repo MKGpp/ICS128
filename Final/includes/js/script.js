@@ -1,6 +1,14 @@
 const vicLat = 48.425864;
 const vicLong = -123.365590;
-
+let planeIcon = L.icon({
+    iconUrl: '../Final/includes/images/airplane.svg',
+    iconSize: [15, 15],
+    iconAnchor: [10, 10],
+    clickable: true,
+    zIndexOffset: 1000,
+    riseOnHover: true,
+    riseOffset: 500,
+});
 const findUserLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
         let myLat = position.coords.latitude;
@@ -17,6 +25,20 @@ const findUserLocation = () => {
 }
 
 findUserLocation();
+
+async function fetchWeatherData(lat, long) {
+    const apiKey = 'a5fa944263c3cb4029171f7b252c65f1';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
+
+    try {
+        const response = await fetch(apiUrl);
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        return null;
+    }
+}
+
 const myLat = localStorage.getItem("myLatitude");
 const myLong = localStorage.getItem("myLongitude");
 
@@ -43,7 +65,7 @@ $(document).ready(function(){
                         <div class="card-body">
                             <h5 class="card-title">${value.type_of_plane}</h5>
                             <p class="card-text">Speed: ${value.speed_kph}kmph</p>
-                            <p class="card-text">Max takeoff altitude: ${value.maxTakeOffAlt}</p>
+                            <p class="card-text">Max altitude: ${value.maxTakeOffAlt}</p>
                             <p class="card-text">Cost/km: $${value.price_per_km}</p>
                             <p class="card-text">Seats remaining: ${value.seats_remaining}</p>
                             <p class="card-text">Extra fuel charge: ${value.extraFuelCharge}</p>
@@ -71,7 +93,7 @@ fetch('../Final/includes/public/mAirports.json')
     })
     .then(data => {
 
-        data.forEach(airport => {
+        data.forEach(async airport => {
             const coords = airport["Geographic Location"];
             const [latPart, lonPart] = coords.split(' ');
 
@@ -79,22 +101,38 @@ fetch('../Final/includes/public/mAirports.json')
             const latMinutes = parseInt(latPart.slice(2, 4));
             const latNS = latPart.slice(4);
 
+            let lat = latDegrees + latMinutes / 60;
+            let long;
+
+            if (latNS === "S") lat = -lat;
             if (lonPart.length === 6) {
                 const lonDegrees = parseInt(lonPart.slice(0, 3));
                 const lonMinutes = parseInt(lonPart.slice(3, 5));
                 const lonEW = lonPart.slice(5);
+
+                long = lonDegrees + lonMinutes / 60;
+                if (lonEW === "W") long = -long;
             } else if (lonPart.length === 5) {
                 const lonDegrees = parseInt(lonPart.slice(0, 2));
                 const lonMinutes = parseInt(lonPart.slice(2, 4));
                 const lonEW = lonPart.slice(4);
-            }
-            
-            if (latNS.equals("S")) lat = lat - (lat + lat);
-            if (lonEW.equals("W")) long = long - (long + long);
 
+                long = lonDegrees + lonMinutes / 60;
+                if (lonEW === "W") long = -long;
+            }
+            if (lat !== undefined && long !== undefined) {
+                const weatherForAirports = await fetchWeatherData(lat, long);
+                if (weatherForAirports) {
+                    const temp = weatherForAirports.main.temp;
+                    const weatherDesc = weatherForAirports.weather[0].description;
+                    L.marker([lat, long], {icon: planeIcon}).addTo(map)
+                        .bindPopup(`<b>${airport["Airport Name"]}</b><br>${airport["City Name"]}, ${airport["Country"]}<br>Temperature: ${temp}°C<br>Weather: ${weatherDesc}`);
+                }
+            } else {
+                console.error(`Invalid coordinates for airport: ${airport["Airport Name"]}`);
+            }
         });
     })
     .catch(error => {
         console.error('Error: ', error);
     });
-
