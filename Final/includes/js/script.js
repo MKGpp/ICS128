@@ -1,11 +1,36 @@
 const vicLat = 48.425864;
 const vicLong = -123.365590;
 
-let map = L.map('map').setView([vicLat, vicLong], 14);
+const findUserLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+        let myLat = position.coords.latitude;
+        let myLong = position.coords.longitude;
+        localStorage.setItem("myLatitude", myLat);
+        localStorage.setItem("myLongitude", myLong);
+
+        const userLocation = L.marker([myLat, myLong])
+            .addTo(map)
+            .bindTooltip("You are here!")
+
+        userLocation.setLatLng([myLat, myLong]);
+    });
+}
+
+findUserLocation();
+const myLat = localStorage.getItem("myLatitude");
+const myLong = localStorage.getItem("myLongitude");
+
+if (myLat && myLong) {
+    map = L.map('map').setView([myLat, myLong], 12);
+} else {
+    map = L.map('map').setView([vicLat, vicLong], 12);
+}
+
+L.control.scale().addTo(map);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
 $(document).ready(function(){
@@ -27,7 +52,6 @@ $(document).ready(function(){
                     </div>
                 </div>
             `;
-
             $('#masonry-grid').append(cardHTML);
         });
         $('#masonry-grid').masonry({
@@ -37,4 +61,40 @@ $(document).ready(function(){
         });
     });
 });
+
+fetch('../Final/includes/public/mAirports.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network error could not load json data');
+        }
+        return response.json();
+    })
+    .then(data => {
+
+        data.forEach(airport => {
+            const coords = airport["Geographic Location"];
+            const [latPart, lonPart] = coords.split(' ');
+
+            const latDegrees = parseInt(latPart.slice(0, 2));
+            const latMinutes = parseInt(latPart.slice(2, 4));
+            const latNS = latPart.slice(4);
+
+            if (lonPart.length === 6) {
+                const lonDegrees = parseInt(lonPart.slice(0, 3));
+                const lonMinutes = parseInt(lonPart.slice(3, 5));
+                const lonEW = lonPart.slice(5);
+            } else if (lonPart.length === 5) {
+                const lonDegrees = parseInt(lonPart.slice(0, 2));
+                const lonMinutes = parseInt(lonPart.slice(2, 4));
+                const lonEW = lonPart.slice(4);
+            }
+            
+            if (latNS.equals("S")) lat = lat - (lat + lat);
+            if (lonEW.equals("W")) long = long - (long + long);
+
+        });
+    })
+    .catch(error => {
+        console.error('Error: ', error);
+    });
 
