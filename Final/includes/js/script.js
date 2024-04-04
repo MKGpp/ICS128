@@ -43,9 +43,9 @@ const myLat = localStorage.getItem("myLatitude");
 const myLong = localStorage.getItem("myLongitude");
 
 if (myLat && myLong) {
-    map = L.map('map').setView([myLat, myLong], 12);
+    map = L.map('map', { worldCopyJump: true }).setView([myLat, myLong], 12);
 } else {
-    map = L.map('map').setView([vicLat, vicLong], 12);
+    map = L.map('map', { worldCopyJump: true }).setView([vicLat, vicLong], 12);
 }
 
 L.control.scale().addTo(map);
@@ -80,7 +80,7 @@ const clickAirport = async (event) => {
             displayFlights(distance, isRainingOne, isRainingTwo);
             $('#flightCatalog').html(`
                  <h1>Selected Flight Distance: ${distance.toFixed(2)}KM</h1>
-                 <div class="dropdown d-flex justify-content-end">
+                 <div class="dropdown d-flex justify-content-end mb-3">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Filter By...
                     </button>
@@ -205,22 +205,6 @@ const displayFlights = (distance, isRainingOne, isRainingTwo) => {
         $.each(data, function(index, value) {
             let totalCost = distance * value.price_per_km;
 
-            let duration = '';
-            const durationToCalc = (distance / value.speed_kph) * 60;
-
-            if (durationToCalc > 60) {
-                const hrs = Math.floor(durationToCalc / 60);
-                const min = Math.round(durationToCalc % 60);
-
-                const hrsAsString = hrs > 0 ? `${hrs} Hours` : '';
-                const minAsString = min > 0 ? `${min} Min` : '';
-
-                duration = `${hrsAsString} ${minAsString}`;
-            } else {
-                const minAsString = Math.round(durationToCalc);
-                duration = `${minAsString} Min`;
-            }
-
             if (isRainingOne || isRainingTwo) {
                 totalCost *= value.extraFuelCharge;
             }
@@ -235,9 +219,9 @@ const displayFlights = (distance, isRainingOne, isRainingTwo) => {
                         <p class="card-text">Cost/km: $${value.price_per_km}</p>
                         <p class="card-text">Seats remaining: ${value.seats_remaining}</p>
                         <p class="card-text">Extra fuel charge: ${value.extraFuelCharge}</p>
-                        <p class="card-text">Duration of flight: ${duration}</p>
+                        <p class="card-text">Duration of flight: ${calcTime(distance, value.speed_kph)}</p>
                         <p class="card-text"><strong>Total cost to fly: $${totalCost.toFixed(0)}</strong></p>
-                        <a href="#" class="btn btn-primary">Book Flight!</a>
+                        <a type="button" onclick="addFlightToCart(${totalCost})" class="btn btn-primary">Book Flight!</a>
                     </div>
                 </div>
             </div>
@@ -252,6 +236,49 @@ const displayFlights = (distance, isRainingOne, isRainingTwo) => {
     });
 }
 
+const calcTime = (distance, speed) => {
+    const durationToCalc = (distance / speed) * 60;
+
+    if (durationToCalc > 60) {
+        const hrs = Math.floor(durationToCalc / 60);
+        const min = Math.round(durationToCalc % 60);
+
+        const hrsAsString = hrs > 0 ? `${hrs} Hours` : '';
+        const minAsString = min > 0 ? `${min} Min` : '';
+
+        return `${hrsAsString} ${minAsString}`;
+    } else {
+        const minAsString = Math.round(durationToCalc);
+        return `${minAsString} Min`;
+    }
+}
+
+let totalCost = 0;
+let cart = [];
+const addFlightToCart = (costOfFlight) => {
+    totalCost += parseFloat(costOfFlight.toFixed(0));
+    cart.push(parseFloat(costOfFlight.toFixed(0)));
+    $('#cart').append(`
+        <p>Flight added: $${costOfFlight.toFixed(0)}<span class="float-end"><button type="button" class="btn-close" onclick="clearItem(${cart.length - 1})"></button></span></p>
+    `);
+    let total = $('#total');
+    total.html(`Cart Total: $${totalCost.toFixed(0)}`);
+
+}
+
+const clearItem = (flight) => {
+    totalCost -= parseFloat(cart[flight.toFixed(0)]);
+    cart.splice(flight, 1);
+    $('#cart').empty();
+    cart.forEach(costOfFlight => {
+        $('#cart').append(`
+            <p>Flight added: $${costOfFlight.toFixed(0)}<span class="float-end"><button type="button" class="btn-close" onclick="clearItem(${cart.indexOf(costOfFlight)})"></button></span></p>
+        `);
+    });
+    let total = $('#total');
+    total.html(`Cart Total: $${totalCost.toFixed(0)}`);
+}
+
 const getMarkerByLatLng = (latLng) => {
     const layers = map._layers;
     let marker = null;
@@ -263,3 +290,9 @@ const getMarkerByLatLng = (latLng) => {
     });
     return marker;
 };
+
+$('#clearCart').on('click', () => {
+    totalCost = 0;
+    $('#cart').html('');
+    $('#total').html('');
+});
