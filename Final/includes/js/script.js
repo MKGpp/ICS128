@@ -164,7 +164,10 @@ fetch('../Final/includes/public/mAirports.json')
                     const weatherDesc = weatherForAirports.weather[0].description;
 
                     const marker = L.marker([lat, long], {icon: planeIcon}).addTo(map);
-                    marker.bindPopup(`<b>${airport["Airport Name"]}</b><br>${airport["City Name"]}, ${airport["Country"]}<br>Temperature: ${temp}°C<br>Weather: ${weatherDesc}`);
+                    marker.bindPopup(`
+                        <b>${airport["Airport Name"]}</b><br>
+                        ${airport["City Name"]}, ${airport["Country"]}<br>
+                        Temperature: ${temp}°C<br>Weather: ${weatherDesc}`);
                     marker.on('click', clickAirport)
                 }
             } else {
@@ -258,9 +261,14 @@ let cart = [];
 const addFlightToCart = (costOfFlight) => {
     totalCost += parseFloat(costOfFlight.toFixed(0));
     cart.push(parseFloat(costOfFlight.toFixed(0)));
+
     $('#emptyCart').remove();
     $('#cart').append(`
-        <p>Flight added: $${costOfFlight.toFixed(0)}<span class="float-end"><button type="button" class="btn-close" onclick="clearItem(${cart.length - 1})"></button></span></p>
+        <p>Flight added: $${costOfFlight.toFixed(0)}
+            <span class="float-end">
+                <button type="button" class="btn-close" onclick="clearItem(${cart.length - 1})"></button>
+            </span>
+        </p>
     `);
     let total = $('#total');
     total.html(`Cart Total: $${totalCost.toFixed(0)}`);
@@ -272,7 +280,11 @@ const clearItem = (flight) => {
     $('#cart').empty();
     cart.forEach(costOfFlight => {
         $('#cart').append(`
-            <p>Flight added: $${costOfFlight.toFixed(0)}<span class="float-end"><button type="button" class="btn-close" onclick="clearItem(${cart.indexOf(costOfFlight)})"></button></span></p>
+            <p>Flight added: $${costOfFlight.toFixed(0)}
+                <span class="float-end">
+                    <button type="button" class="btn-close" onclick="clearItem(${cart.indexOf(costOfFlight)})"></button>
+                </span>
+            </p>
         `);
     });
     let total = $('#total');
