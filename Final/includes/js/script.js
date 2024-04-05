@@ -293,6 +293,6 @@ const getMarkerByLatLng = (latLng) => {
 
 $('#clearCart').on('click', () => {
     totalCost = 0;
-    $('#cart').html('');
-    $('#total').html('');
+    $('#cart').html(``);
+    $('#total').html('Cart Total: $0');
 });
