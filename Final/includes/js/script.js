@@ -258,12 +258,12 @@ let cart = [];
 const addFlightToCart = (costOfFlight) => {
     totalCost += parseFloat(costOfFlight.toFixed(0));
     cart.push(parseFloat(costOfFlight.toFixed(0)));
+    $('#emptyCart').remove();
     $('#cart').append(`
         <p>Flight added: $${costOfFlight.toFixed(0)}<span class="float-end"><button type="button" class="btn-close" onclick="clearItem(${cart.length - 1})"></button></span></p>
     `);
     let total = $('#total');
     total.html(`Cart Total: $${totalCost.toFixed(0)}`);
-
 }
 
 const clearItem = (flight) => {
