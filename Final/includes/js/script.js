@@ -27,7 +27,7 @@ const findUserLocation = () => {
 findUserLocation();
 
 async function fetchWeatherData(lat, long) {
-    const apiKey = 'a5fa944263c3cb4029171f7b252c65f1';
+    const apiKey = '9c76aba6ff79fcbd3854c714b2b241b6';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
 
     try {
@@ -69,13 +69,16 @@ const clickAirport = async (event) => {
         if (selectedAirports.length === 2) {
             const distance = calcDistance(selectedAirports[0], selectedAirports[1]);
 
-            const [weatherOne, weatherTwo] = await Promise.all([
-                fetchWeatherData(selectedAirports[0][0], selectedAirports[0][1]),
-                fetchWeatherData(selectedAirports[1][0], selectedAirports[1][1])
-            ]);
+            // const [weatherOne, weatherTwo] = await Promise.all([
+            //     fetchWeatherData(selectedAirports[0][0], selectedAirports[0][1]),
+            //     fetchWeatherData(selectedAirports[1][0], selectedAirports[1][1])
+            // ]);
 
-            const isRainingOne = weatherOne && weatherOne.weather[0].description.toLowerCase().includes('rain');
-            const isRainingTwo = weatherTwo && weatherTwo.weather[0].description.toLowerCase().includes('rain');
+            // const isRainingOne = weatherOne && weatherOne.weather[0].description.toLowerCase().includes('rain');
+            // const isRainingTwo = weatherTwo && weatherTwo.weather[0].description.toLowerCase().includes('rain');
+
+            const isRainingOne = true;
+            const isRainingTwo = true;
 
             displayFlights(distance, isRainingOne, isRainingTwo);
             $('#flightCatalog').html(`
@@ -85,7 +88,7 @@ const clickAirport = async (event) => {
                     Filter By...
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item active" type="button">Duration</a></li>
+                        <li><a class="dropdown-item" type="button">Duration</a></li>
                         <li><a class="dropdown-item" type="button">Total Cost</a></li>
                         <li><a class="dropdown-item" type="button">Plane Type</a></li>
                     </ul>
@@ -158,18 +161,20 @@ fetch('../Final/includes/public/mAirports.json')
                 if (lonEW === "W") long = -long;
             }
             if (lat !== undefined && long !== undefined) {
-                const weatherForAirports = await fetchWeatherData(lat, long);
-                if (weatherForAirports) {
-                    const temp = weatherForAirports.main.temp;
-                    const weatherDesc = weatherForAirports.weather[0].description;
-
-                    const marker = L.marker([lat, long], {icon: planeIcon}).addTo(map);
-                    marker.bindPopup(`
-                        <b>${airport["Airport Name"]}</b><br>
-                        ${airport["City Name"]}, ${airport["Country"]}<br>
-                        Temperature: ${temp}°C<br>Weather: ${weatherDesc}`);
-                    marker.on('click', clickAirport)
-                }
+                const marker = L.marker([lat, long], {icon: planeIcon}).addTo(map);
+                marker.bindPopup(`
+                    <b>${airport["Airport Name"]}</b><br>
+                    ${airport["City Name"]}, ${airport["Country"]}<br>
+                    `);
+                marker.on('click',async () => {
+                    const weatherForAirports = await fetchWeatherData(lat, long);
+                    if (weatherForAirports) {
+                        const temp = weatherForAirports.main.temp;
+                        const weatherDesc = weatherForAirports.weather[0].description;
+                        marker.bindPopup(marker.getPopup().getContent() + `<br>Temperature: ${temp} <br>${weatherDesc}`).openPopup();
+                        await clickAirport({ latlng: { lat: lat, lng: long } });
+                     }
+                });
             } else {
                 console.error(`Invalid coordinates for airport: ${airport["Airport Name"]}`);
             }
@@ -203,7 +208,7 @@ const calcDistance = (airportOne, airportTwo) => {
 }
 
 const displayFlights = (distance, isRainingOne, isRainingTwo) => {
-    $('#masonry-grid').empty();
+    $('#masonry-grid').html('');
     $.getJSON('../Final/includes/public/fake_flights.json', (data) => {
         $.each(data, function(index, value) {
             let totalCost = distance * value.price_per_km;
@@ -212,7 +217,7 @@ const displayFlights = (distance, isRainingOne, isRainingTwo) => {
                 totalCost *= value.extraFuelCharge;
             }
             let cardHTML = `
-            <div class="col-md-3 grid-item mb-3">
+            <div class="col-md-3 mb-3">
                 <div class="card" style="width: 18rem;">
                     <img src="${value.plane_image}" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -223,18 +228,13 @@ const displayFlights = (distance, isRainingOne, isRainingTwo) => {
                         <p class="card-text">Seats remaining: ${value.seats_remaining}</p>
                         <p class="card-text">Extra fuel charge: ${value.extraFuelCharge}</p>
                         <p class="card-text">Duration of flight: ${calcTime(distance, value.speed_kph)}</p>
-                        <p class="card-text"><strong>Total cost to fly: $${totalCost.toFixed(0)}</strong></p>
+                        <p class="card-text"><strong>Total cost to fly: $${Math.round(totalCost)}</strong></p>
                         <a type="button" onclick="addFlightToCart(${totalCost})" class="btn btn-primary">Book Flight!</a>
                     </div>
                 </div>
             </div>
         `;
             $('#masonry-grid').append(cardHTML);
-        });
-        $('#masonry-grid').masonry({
-            itemSelector: '.grid-item',
-            columnWidth: '.grid-item',
-            percentPosition: true
         });
     });
 }
