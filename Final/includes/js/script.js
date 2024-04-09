@@ -264,23 +264,23 @@ const addFlightToCart = (costOfFlight) => {
 
     $('#emptyCart').remove();
     $('#cart').append(`
-        <p>Flight added: $${costOfFlight.toFixed(0)}
+        <p>Flight added: $${Math.round(costOfFlight)}
             <span class="float-end">
                 <button type="button" class="btn-close" onclick="clearItem(${cart.length - 1})"></button>
             </span>
         </p>
     `);
     let total = $('#total');
-    total.html(`Cart Total: $${totalCost.toFixed(0)}`);
+    total.html(`Cart Total: $${Math.round(totalCost)}`);
 }
 
 const clearItem = (flight) => {
-    totalCost -= parseFloat(cart[flight.toFixed(0)]);
+    totalCost -= parseFloat(cart[Math.round(flight)]);
     cart.splice(flight, 1);
     $('#cart').empty();
     cart.forEach(costOfFlight => {
         $('#cart').append(`
-            <p>Flight added: $${costOfFlight.toFixed(0)}
+            <p>Flight added: $${Math.round(costOfFlight)}
                 <span class="float-end">
                     <button type="button" class="btn-close" onclick="clearItem(${cart.indexOf(costOfFlight)})"></button>
                 </span>
@@ -288,7 +288,7 @@ const clearItem = (flight) => {
         `);
     });
     let total = $('#total');
-    total.html(`Cart Total: $${totalCost.toFixed(0)}`);
+    total.html(`Cart Total: $${Math.round(totalCost)}`);
 }
 
 const getMarkerByLatLng = (latLng) => {

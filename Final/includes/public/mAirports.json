@@ -739,7 +739,7 @@
    "Airport Name": "HALIFAX INTL",
    "Country": "CANADA",
    "elevationInFt": 476,
-   "Geographic Location": "4453N 6331S"
+   "Geographic Location": "4453N 6331W"
  },
  {
    "City Name": "HALIFAX",
@@ -774,7 +774,7 @@
    "Airport Name": "MONCTON",
    "Country": "CANADA",
    "elevationInFt": 232,
-   "Geographic Location": "4607W 6441N"
+   "Geographic Location": "4607N 6441W"
  },
  {
    "City Name": "MONT JOLI",
@@ -788,7 +788,7 @@
    "Airport Name": "DORVAL",
    "Country": "CANADA",
    "elevationInFt": 117,
-   "Geographic Location": "4528W 7345N"
+   "Geographic Location": "4528N 7345W"
  },
  {
    "City Name": "MONTREAL MIRABEL",
@@ -1831,7 +1831,7 @@
    "Airport Name": "BASSILLAC",
    "Country": "FRANCE",
    "elevationInFt": 328,
-   "Geographic Location": "4512N  0049E"
+   "Geographic Location": "4512N 0049E"
  },
  {
    "City Name": "PERPIGNAN",
@@ -1936,7 +1936,7 @@
    "Airport Name": "FRANCAZAL",
    "Country": "FRANCE",
    "elevationInFt": 535,
-   "Geographic Location": "4333N 0121N"
+   "Geographic Location": "4333N 0121E"
  },
  {
    "City Name": "TOURS",
@@ -3833,7 +3833,7 @@
    "Airport Name": "LAPU LAPU",
    "Country": "PHILIPPINES",
    "elevationInFt": 33,
-   "Geographic Location": "1018N 12358N"
+   "Geographic Location": "1018N 12358E"
  },
  {
    "City Name": "MANILA INTL.",
@@ -3938,7 +3938,7 @@
    "Airport Name": "NOVY",
    "Country": "RUSSIA",
    "elevationInFt": 246,
-   "Geographic Location": "4832N 13511N"
+   "Geographic Location": "4832N 13511E"
  },
  {
    "City Name": "MOSCOW SHREMETIEVO",
@@ -4155,7 +4155,7 @@
    "Airport Name": "LJUBLJANA",
    "Country": "SLOVENIA",
    "elevationInFt": 1274,
-   "Geographic Location": "4613N 1428N"
+   "Geographic Location": "4613N 1428E"
  },
  {
    "City Name": "MARIBOR",
@@ -6052,7 +6052,7 @@
    "Airport Name": "NIAGARA FALLS",
    "Country": "UNITED STATES",
    "elevationInFt": 590,
-   "Geographic Location": "4306N 7857N"
+   "Geographic Location": "4306N 7857W"
  },
  {
    "City Name": "NORFOLK",
