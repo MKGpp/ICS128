@@ -69,18 +69,14 @@ const clickAirport = async (event) => {
         if (selectedAirports.length === 2) {
             const distance = calcDistance(selectedAirports[0], selectedAirports[1]);
 
-            // const [weatherOne, weatherTwo] = await Promise.all([
-            //     fetchWeatherData(selectedAirports[0][0], selectedAirports[0][1]),
-            //     fetchWeatherData(selectedAirports[1][0], selectedAirports[1][1])
-            // ]);
+            const isItRaining = await Promise.all([
+                fetchWeatherData(selectedAirports[0][0], selectedAirports[0][1]),
+                fetchWeatherData(selectedAirports[1][0], selectedAirports[1][1])
+            ]);
 
-            // const isRainingOne = weatherOne && weatherOne.weather[0].description.toLowerCase().includes('rain');
-            // const isRainingTwo = weatherTwo && weatherTwo.weather[0].description.toLowerCase().includes('rain');
+            const isRaining = isItRaining.some((item) => item.weather[0].description.toLowerCase().includes('rain'));
 
-            const isRainingOne = true;
-            const isRainingTwo = true;
-
-            displayFlights(distance, isRainingOne, isRainingTwo);
+            displayFlights(distance, isRaining);
             $('#flightCatalog').html(`
                  <h1>Selected Flight Distance: ${distance.toFixed(2)}KM</h1>
                  <div class="dropdown d-flex justify-content-end mb-3">
@@ -88,9 +84,9 @@ const clickAirport = async (event) => {
                     Filter By...
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item" type="button">Duration</a></li>
-                        <li><a class="dropdown-item" type="button">Total Cost</a></li>
-                        <li><a class="dropdown-item" type="button">Plane Type</a></li>
+                        <li><a class="dropdown-item" id="duration" type="button">Duration</a></li>
+                        <li><a class="dropdown-item" id="cost" type="button">Total Cost</a></li>
+                        <li><a class="dropdown-item" id="type" type="button">Plane Type</a></li>
                     </ul>
                  </div>
             `);
@@ -207,13 +203,13 @@ const calcDistance = (airportOne, airportTwo) => {
     return R * c;
 }
 
-const displayFlights = (distance, isRainingOne, isRainingTwo) => {
+const displayFlights = (distance, isRaining) => {
     $('#masonry-grid').html('');
     $.getJSON('../Final/includes/public/fake_flights.json', (data) => {
         $.each(data, function(index, value) {
             let totalCost = distance * value.price_per_km;
 
-            if (isRainingOne || isRainingTwo) {
+            if (isRaining) {
                 totalCost *= value.extraFuelCharge;
             }
             let cardHTML = `
@@ -307,4 +303,8 @@ $('#clearCart').on('click', () => {
     totalCost = 0;
     $('#cart').html(``);
     $('#total').html('Cart Total: $0');
+});
+
+$('#autoFill').on('click', () => {
+    $('fName').val('Joe');
 });
