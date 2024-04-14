@@ -96,23 +96,27 @@
                 <h1 class="modal-title fs-5" id="payment">Payment Information</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <p>Your Name.</p>
+                <div class="modal-body">
+                    <form>
+                        <button type="button" id="autoFill2" class="btn btn-success">Auto-Fill</button>
+                        <div class="mb-3">
+                            <p>Your Name.</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ccNumber" class="form-label">Credit Card #</label>
+                            <input type="text" class="form-control" id="ccNumber" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="mb-3">
+                            <label for="expDate" class="form-label">Exp Date</label>
+                            <input type="text" class="form-control" id="expDate" placeholder="06/26">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cvc" class="form-label">CVC #</label>
+                            <input type="text" class="form-control" id="cvc" placeholder="123">
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="ccNumber" class="form-label">Credit Card #</label>
-                    <input type="text" class="form-control" id="ccNumber" placeholder="1234 5678 9012 3456">
-                </div>
-                <div class="mb-3">
-                    <label for="expDate" class="form-label">Exp Date</label>
-                    <input type="text" class="form-control" id="expDate" placeholder="06/26">
-                </div>
-                <div class="mb-3">
-                    <label for="cvc" class="form-label">CVC #</label>
-                    <input type="text" class="form-control" id="cvc" placeholder="123">
-                </div>
-            </div>
+
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bs-target="#bookingComplete" data-bs-toggle="modal">Confirm Payment</button>
             </div>

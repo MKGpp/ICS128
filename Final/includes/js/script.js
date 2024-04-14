@@ -76,17 +76,17 @@ const clickAirport = async (event) => {
 
             const isRaining = isItRaining.some((item) => item.weather[0].description.toLowerCase().includes('rain'));
 
-            displayFlights(distance, isRaining);
+            displayFlights(distance, isRaining, null);
             $('#flightCatalog').html(`
                  <h1>Selected Flight Distance: ${distance.toFixed(2)}KM</h1>
                  <div class="dropdown d-flex justify-content-end mb-3">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Filter By...
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a class="dropdown-item" id="duration" type="button">Duration</a></li>
-                        <li><a class="dropdown-item" id="cost" type="button">Total Cost</a></li>
-                        <li><a class="dropdown-item" id="type" type="button">Plane Type</a></li>
+                        <li><a class="dropdown-item" id="seats_remaining" onclick="displayFlights(${distance}, ${isRaining}, 'seats_remaining')">Seats Left</a></li>
+                        <li><a class="dropdown-item" id="cost" onclick="displayFlights(${distance}, ${isRaining}, 'cost')">Total Cost</a></li>
+                        <li><a class="dropdown-item" id="type" onclick="displayFlights(${distance}, ${isRaining}, 'type')">Plane Type</a></li>
                     </ul>
                  </div>
             `);
@@ -203,15 +203,26 @@ const calcDistance = (airportOne, airportTwo) => {
     return R * c;
 }
 
-const displayFlights = (distance, isRaining) => {
+let flightsArray= [];
+const displayFlights = (distance, isRaining, sortBy) => {
+    const scrollTop = $(window).scrollTop();
     $('#masonry-grid').html('');
     $.getJSON('../Final/includes/public/fake_flights.json', (data) => {
-        $.each(data, function(index, value) {
-            let totalCost = distance * value.price_per_km;
 
-            if (isRaining) {
-                totalCost *= value.extraFuelCharge;
+
+            flightsArray = data;
+
+            if (sortBy === 'seats_remaining') {
+                flightsArray.sort((a, b) => a.seats_remaining - b.seats_remaining);
+            } else if (sortBy === 'cost') {
+                flightsArray.sort((a, b) => calculateTotalCost(distance, a, isRaining) - calculateTotalCost(distance, b, isRaining));
+            } else if (sortBy === 'type') {
+                flightsArray.sort((a, b) => a.type_of_plane.localeCompare(b.type_of_plane));
             }
+        $.each(data, (index, value) => {
+            let totalCost = calculateTotalCost(distance, value, isRaining);
+            let duration = calcTime(distance, value.speed_kph);
+
             let cardHTML = `
             <div class="col-md-3 mb-3">
                 <div class="card" style="width: 18rem;">
@@ -223,7 +234,7 @@ const displayFlights = (distance, isRaining) => {
                         <p class="card-text">Cost/km: $${value.price_per_km}</p>
                         <p class="card-text">Seats remaining: ${value.seats_remaining}</p>
                         <p class="card-text">Extra fuel charge: ${value.extraFuelCharge}</p>
-                        <p class="card-text">Duration of flight: ${calcTime(distance, value.speed_kph)}</p>
+                        <p class="card-text">Duration of flight: ${duration}</p>
                         <p class="card-text"><strong>Total cost to fly: $${Math.round(totalCost)}</strong></p>
                         <a type="button" onclick="addFlightToCart(${totalCost})" class="btn btn-primary">Book Flight!</a>
                     </div>
@@ -232,8 +243,16 @@ const displayFlights = (distance, isRaining) => {
         `;
             $('#masonry-grid').append(cardHTML);
         });
+        $(window).scrollTop(scrollTop);
     });
 }
+const calculateTotalCost = (distance, value, isRaining) => {
+    let totalCost = distance * value.price_per_km;
+    if (isRaining) {
+        totalCost *= value.extraFuelCharge;
+    }
+    return totalCost;
+};
 
 const calcTime = (distance, speed) => {
     const durationToCalc = (distance / speed) * 60;
@@ -257,6 +276,7 @@ let cart = [];
 const addFlightToCart = (costOfFlight) => {
     totalCost += parseFloat(costOfFlight.toFixed(0));
     cart.push(parseFloat(costOfFlight.toFixed(0)));
+    localStorage.setItem('cart', JSON.stringify(cart));
 
     $('#emptyCart').remove();
     $('#cart').append(`
@@ -301,10 +321,26 @@ const getMarkerByLatLng = (latLng) => {
 
 $('#clearCart').on('click', () => {
     totalCost = 0;
+    localStorage.clear();
+    cart = [];
     $('#cart').html(``);
     $('#total').html('Cart Total: $0');
 });
 
 $('#autoFill').on('click', () => {
-    $('fName').val('Joe');
+    $('#fName').val('Joe');
+    $('#lName').val('Nelson');
+    $('#email').val('joe_is_dope@awesome.com');
+    $('#phone').val('555-555-5555');
+    $('#address').val('1234 main st');
+    $('#postalCode').val('A12 B3C');
+    $('#city').val('Victoria');
+    $('#country').val('Canada');
 });
+
+$('#autoFill2').on('click', () => {
+   $('#ccNumber').val('1234 1234 1234 1234');
+   $('#expDate').val('06/30');
+   $('#cvc').val('456');
+});
+
