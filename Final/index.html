@@ -29,6 +29,7 @@
                         Select two airports to see flights to book!
                     </p>
                 </div>
+                <h5 id="seats">Seats Booked: 0</h5>
                 <h5 id="total">Cart Total: $0</h5>
                 <form class="d-flex mt-3 gap-2" role="search">
                     <button class="btn btn-outline-success" type="button" id="Checkout" data-bs-toggle="modal" data-bs-target="#checkoutModal">Checkout</button>
@@ -81,10 +82,13 @@
                         <label for="country" class="form-label">Country</label>
                         <input type="text" class="form-control" id="country" placeholder="country">
                     </div>
+                    <div class="mb-3">
+                        <p id="errorOutput"></p>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-target="#paymentModal" data-bs-toggle="modal">To Payment</button>
+                <button type="button" class="btn btn-primary" id="idCheck">To Payment</button>
             </div>
         </div>
     </div>
@@ -100,7 +104,7 @@
                     <form>
                         <button type="button" id="autoFill2" class="btn btn-success">Auto-Fill</button>
                         <div class="mb-3">
-                            <p>Your Name.</p>
+                            <p id="name"></p>
                         </div>
                         <div class="mb-3">
                             <label for="ccNumber" class="form-label">Credit Card #</label>
@@ -114,11 +118,15 @@
                             <label for="cvc" class="form-label">CVC #</label>
                             <input type="text" class="form-control" id="cvc" placeholder="123">
                         </div>
+                        <div class="mb-3">
+                            <p id="ccError"></p>
+                        </div>
                     </form>
                 </div>
 
             <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#bookingComplete" data-bs-toggle="modal">Confirm Payment</button>
+                <h5 id="cartTotal"></h5>
+                <button class="btn btn-primary" id="confirmPay">Confirm Payment</button>
             </div>
         </div>
     </div>
@@ -130,12 +138,10 @@
                 <h1 class="modal-title fs-5" id="complete">Booking Complete!</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                Thank you for booking!
-                <p>booking info here</p>
+            <div class="modal-body" id="bookingInfo">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-dismiss="modal">Finish</button>
+                <button class="btn btn-primary" id="finish">Finish</button>
             </div>
         </div>
     </div>

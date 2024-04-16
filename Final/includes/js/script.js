@@ -66,7 +66,7 @@ const clickAirport = async (event) => {
     if (selectedAirports.length < 2) {
         selectedAirports.push([lat, long]);
 
-        if (selectedAirports.length === 2) {
+        if (selectedAirports.length === 2 && !areAirportsSame(selectedAirports)) {
             const distance = calcDistance(selectedAirports[0], selectedAirports[1]);
 
             const isItRaining = await Promise.all([
@@ -120,6 +120,10 @@ const clickAirport = async (event) => {
     }
 }
 
+const areAirportsSame = (airports) => {
+    return JSON.stringify(airports[0]) === JSON.stringify(airports[1]);
+}
+
 fetch('../Final/includes/public/mAirports.json')
     .then(response => {
         if (!response.ok) {
@@ -163,13 +167,18 @@ fetch('../Final/includes/public/mAirports.json')
                     ${airport["City Name"]}, ${airport["Country"]}<br>
                     `);
                 marker.on('click',async () => {
+                    const cityName = airport["City Name"];
+                    localStorage.setItem('destination', cityName);
                     const weatherForAirports = await fetchWeatherData(lat, long);
                     if (weatherForAirports) {
                         const temp = weatherForAirports.main.temp;
                         const weatherDesc = weatherForAirports.weather[0].description;
-                        marker.bindPopup(marker.getPopup().getContent() + `<br>Temperature: ${temp} <br>${weatherDesc}`).openPopup();
-                        await clickAirport({ latlng: { lat: lat, lng: long } });
+                        let popupContent = marker.getPopup().getContent();
+                        if (!popupContent.includes('Temperature:') || !popupContent.includes(weatherDesc)) {
+                            marker.bindPopup(marker.getPopup().getContent() + `<br>Temperature: ${temp} <br>${weatherDesc}`).openPopup();
+                        }
                      }
+                    await clickAirport({ latlng: { lat: lat, lng: long } });
                 });
             } else {
                 console.error(`Invalid coordinates for airport: ${airport["Airport Name"]}`);
@@ -208,8 +217,7 @@ const displayFlights = (distance, isRaining, sortBy) => {
     const scrollTop = $(window).scrollTop();
     $('#masonry-grid').html('');
     $.getJSON('../Final/includes/public/fake_flights.json', (data) => {
-
-
+        
             flightsArray = data;
 
             if (sortBy === 'seats_remaining') {
@@ -277,36 +285,58 @@ const addFlightToCart = (costOfFlight) => {
     totalCost += parseFloat(costOfFlight.toFixed(0));
     cart.push(parseFloat(costOfFlight.toFixed(0)));
     localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('seats', cart.length);
+    localStorage.setItem('total', totalCost);
 
     $('#emptyCart').remove();
     $('#cart').append(`
-        <p>Flight added: $${Math.round(costOfFlight)}
+        <p>Seat Booked! Cost of seat: $${Math.round(costOfFlight)}
             <span class="float-end">
                 <button type="button" class="btn-close" onclick="clearItem(${cart.length - 1})"></button>
             </span>
         </p>
     `);
-    let total = $('#total');
-    total.html(`Cart Total: $${Math.round(totalCost)}`);
+    $('#seats').html(`Seats Booked: ${cart.length}`)
+    $('#total').html(`Cart Total: $${Math.round(totalCost)}`);
 }
 
 const clearItem = (flight) => {
-    totalCost -= parseFloat(cart[Math.round(flight)]);
+    const removedCost = cart[flight];
+    totalCost -= parseFloat(removedCost);
     cart.splice(flight, 1);
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('seats', cart.length);
+    localStorage.setItem('total', totalCost);
+
+    refreshCart();
+}
+
+const refreshCart = () => {
+    const storedCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const storedTotal = parseFloat(localStorage.getItem('total')) || 0;
+    const storedSeats = localStorage.getItem('seats') || 0;
+
+    cart = storedCart;
+    totalCost = storedTotal;
     $('#cart').empty();
-    cart.forEach(costOfFlight => {
+    storedCart.forEach((costOfSeat, index) => {
         $('#cart').append(`
-            <p>Flight added: $${Math.round(costOfFlight)}
+            <p>Seat Booked! Cost of seat: $${costOfSeat}
                 <span class="float-end">
-                    <button type="button" class="btn-close" onclick="clearItem(${cart.indexOf(costOfFlight)})"></button>
+                    <button type="button" class="btn-close" onclick="clearItem(${index})"></button>
                 </span>
             </p>
         `);
     });
-    let total = $('#total');
-    total.html(`Cart Total: $${Math.round(totalCost)}`);
+    $('#seats').html(`Seats Booked: ${storedSeats}`);
+    $('#total').html(`Cart Total: $${Math.round(storedTotal)}`);
 }
 
+window.onload = () => {
+    localStorage.setItem('fname', '');
+    refreshCart();
+};
 const getMarkerByLatLng = (latLng) => {
     const layers = map._layers;
     let marker = null;
@@ -319,12 +349,164 @@ const getMarkerByLatLng = (latLng) => {
     return marker;
 };
 
+const personalValidation = () => {
+    try {
+        // Regex patterns for validating user information
+        let namePattern = /^[A-Za-z]+$/;
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let phonePattern = /^(\d{3}[-\s]?){2}\d{4}$/;
+        let postalPattern = /^[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d$|^[a-zA-Z]\d[a-zA-Z] \d[a-zA-Z]\d$/;
+        let addressPattern = /^(\d+\s[a-zA-Z\s]+)$/;
+
+        // Get values from inputs
+        let fName = $('#fName').val();
+        let lName = $('#lName').val();
+        let email = $('#email').val();
+        let phone = $('#phone').val();
+        let address = $('#address').val();
+        let postalCode = $('#postalCode').val();
+        let city = $('#city').val();
+        let country = $('#country').val();
+
+        // Remove invalid class from all inputs
+        $('input').removeClass('is-invalid');
+        $('#errorOutput').html('');
+
+        let errorArray = [];
+
+        // Test inputs against regex patterns and apply styling
+        if (!namePattern.test(fName)) {
+            $('#fName').addClass('is-invalid');
+            errorArray.push("Name must be letters only! No Spaces.");
+        }
+        if (!namePattern.test(lName)) {
+            $('#lName').addClass('is-invalid');
+            errorArray.push("Name must be letters only! No Spaces.");
+        }
+        if (!emailPattern.test(email)) {
+            $('#email').addClass('is-invalid');
+            errorArray.push("Email Address Invalid! Format is \"sampleemail@email.com\"");
+        }
+        if (!phonePattern.test(phone)) {
+            $('#phone').addClass('is-invalid');
+            errorArray.push("Phone Number Invalid! Must be 000-000-0000 or 000 000 0000 or 0000000000!");
+        }
+        if (!addressPattern.test(address)) {
+            $('#address').addClass('is-invalid');
+            errorArray.push("Address Invalid! Format is \"123 Main St\"");
+        }
+        if (!postalPattern.test(postalCode)) {
+            $('#postalCode').addClass('is-invalid');
+            errorArray.push("Postal Code Invalid! Must be A1A 1A1 or A1A1A1!");
+        }
+        if (!namePattern.test(city)) {
+            $('#city').addClass('is-invalid');
+            errorArray.push("Invalid City!");
+        }
+        if (!namePattern.test(country)) {
+            $('#country').addClass('is-invalid');
+            errorArray.push("Invalid Country!");
+        }
+
+        if (errorArray.length > 0) {
+            $('#errorOutput').html(`<ul>${errorArray.map(error => `<li>${error}</li>`).join('')}</ul>`);
+            return;
+        }
+        localStorage.setItem('fname', fName);
+        localStorage.setItem('email', email);
+        return fName;
+    } catch (e) {
+        $('#errorOutput').html(`${e}`);
+    }
+}
+
+const paymentConfirmation = () => {
+    try {
+        let ccPattern = /^\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}$/;
+        let expPattern = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+        let cvcPattern = /^\d{3}$/;
+
+        let ccNum = $('#ccNumber').val();
+        let expDate = $('#expDate').val();
+        let cvc = $('#cvc').val();
+
+        $('input').removeClass('is-invalid');
+        $('#errorOutput').html('');
+
+        let errorArray = [];
+
+        if (!ccPattern.test(ccNum)) {
+            $('#ccNumber').addClass('is-invalid');
+            errorArray.push("Invalid Credit Card Number!")
+        }
+        if (!expPattern.test(expDate)) {
+            $('#expDate').addClass('is-invalid');
+            errorArray.push("Invalid Expiry Date! Format is mm/yy")
+        }
+        if (!cvcPattern.test(cvc)) {
+            $('#cvc').addClass('is-invalid');
+            errorArray.push("Invalid CVC Number! Must be a 3 digit number!")
+        }
+        if (errorArray.length > 0) {
+            $('#ccError').html(`<ul>${errorArray.map(error => `<li>${error}</li>`).join('')}</ul>`);
+        }
+        return cvc;
+    } catch (e) {
+        $('#ccError').html(`${e}`);
+    }
+}
+
 $('#clearCart').on('click', () => {
     totalCost = 0;
-    localStorage.clear();
+    localStorage.setItem('seats', '');
+    localStorage.setItem('cart', '');
+    localStorage.setItem('total', '');
+    localStorage.setItem('fname', '');
+    localStorage.setItem('email', '');
+    localStorage.setItem('destination', '');
     cart = [];
     $('#cart').html(``);
-    $('#total').html('Cart Total: $0');
+    $('#total').html(`Cart Total: $${totalCost}`);
+    $('#seats').html(`Seats Booked: ${cart.length}`)
+});
+
+$('#idCheck').on('click', () => {
+    if (personalValidation()) {
+        const total = parseFloat(localStorage.getItem('total')) || 0;
+        const fname = localStorage.getItem('fname');
+        const destination = localStorage.getItem('destination');
+        const cityName = destination.charAt(0).toUpperCase() + destination.slice(1).toLowerCase();
+        $('#checkoutModal').modal('hide');
+        $('#paymentModal').modal('show');
+        $('#name').html(`Payment information for ${fname}. Flight to ${cityName}`);
+        $('#cartTotal').html(`Total: $${total}`)
+    }
+});
+
+$('#confirmPay').on('click', () => {
+    if (paymentConfirmation()) {
+        const total = parseFloat(localStorage.getItem('total')) || 0;
+        const fname = localStorage.getItem('fname');
+        const seats = localStorage.getItem('seats');
+        const email = localStorage.getItem('email');
+        const destination = localStorage.getItem('destination');
+        const cityName = destination.charAt(0).toUpperCase() + destination.slice(1).toLowerCase();
+        $('#paymentModal').modal('hide');
+        $('#bookingComplete').modal('show');
+        $('#bookingInfo').html(`
+            <h5>${fname}, Thank you for booking!</h5>
+            <p>You have Booked ${seats} seats to ${cityName}</p>
+            <p>For a total of $${total}</p>
+            <p>Your payment confirmation and boarding passes will be sent to ${email}</p>
+        `)  ;
+    }
+});
+
+$('#finish').on('click', () => {
+    localStorage.clear();
+    refreshCart();
+    $('#bookingComplete').modal('hide');
+    window.location.reload();
 });
 
 $('#autoFill').on('click', () => {
@@ -332,8 +514,8 @@ $('#autoFill').on('click', () => {
     $('#lName').val('Nelson');
     $('#email').val('joe_is_dope@awesome.com');
     $('#phone').val('555-555-5555');
-    $('#address').val('1234 main st');
-    $('#postalCode').val('A12 B3C');
+    $('#address').val('123 main st');
+    $('#postalCode').val('A1B 2C3');
     $('#city').val('Victoria');
     $('#country').val('Canada');
 });

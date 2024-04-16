@@ -29,6 +29,7 @@ export const formSubmit = () => {
         document.getElementById("ageInput").classList.remove('is-invalid');
         document.getElementById("errorOutput").innerHTML = '';
 
+
         let errorArray = [];
 
         //test inputs against regex patterns
