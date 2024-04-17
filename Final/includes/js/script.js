@@ -344,12 +344,19 @@ const calcTime = (distance, speed) => {
  */
 let totalCost = 0;
 let cart = [];
+const checkoutBtn = $('#Checkout');
 const addFlightToCart = (costOfFlight) => {
     totalCost += parseFloat(costOfFlight.toFixed(0));
     cart.push(parseFloat(costOfFlight.toFixed(0)));
     localStorage.setItem('cart', JSON.stringify(cart));
     localStorage.setItem('seats', cart.length);
     localStorage.setItem('total', totalCost);
+
+    if (cart.length === 0) {
+        checkoutBtn.prop('disabled', true);
+    } else {
+        checkoutBtn.prop('disabled', false);
+    }
 
     $('#emptyCart').remove();
     $('#cart').append(`
@@ -371,6 +378,11 @@ const clearItem = (flight) => {
     totalCost -= parseFloat(removedCost);
     cart.splice(flight, 1);
 
+    if (cart.length === 0) {
+        checkoutBtn.prop('disabled', true);
+    } else {
+        checkoutBtn.prop('disabled', false);
+    }
     localStorage.setItem('cart', JSON.stringify(cart));
     localStorage.setItem('seats', cart.length);
     localStorage.setItem('total', totalCost);
@@ -389,6 +401,13 @@ const refreshCart = () => {
 
     cart = storedCart;
     totalCost = storedTotal;
+
+    if (cart.length === 0) {
+        checkoutBtn.prop('disabled', true);
+    } else {
+        checkoutBtn.prop('disabled', false);
+    }
+
     $('#cart').empty();
     storedCart.forEach((costOfSeat, index) => {
         $('#cart').append(`
@@ -558,6 +577,13 @@ $('#clearCart').on('click', () => {
     localStorage.setItem('email', '');
     localStorage.setItem('destination', '');
     cart = [];
+
+    if (cart.length === 0) {
+        checkoutBtn.prop('disabled', true);
+    } else {
+        checkoutBtn.prop('disabled', false);
+    }
+
     $('#cart').html(``);
     $('#total').html(`Cart Total: $${totalCost}`);
     $('#seats').html(`Seats Booked: ${cart.length}`)
