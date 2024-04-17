@@ -1,6 +1,6 @@
 const vicLat = 48.425864;
 const vicLong = -123.365590;
-let planeIcon = L.icon({
+let planeIcon = L.icon({ //plane icon to use for showing all the airports
     iconUrl: '../Final/includes/images/airplane.svg',
     iconSize: [15, 15],
     iconAnchor: [10, 10],
@@ -9,6 +9,10 @@ let planeIcon = L.icon({
     riseOnHover: true,
     riseOffset: 500,
 });
+
+/**
+ * Geolocation function to get your location and set a map marker on top of ya
+ */
 const findUserLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
         let myLat = position.coords.latitude;
@@ -25,7 +29,9 @@ const findUserLocation = () => {
 }
 
 findUserLocation();
-
+/**
+ * Fetches the weather data from openweathermap
+ */
 async function fetchWeatherData(lat, long) {
     const apiKey = '9c76aba6ff79fcbd3854c714b2b241b6';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${apiKey}&units=metric`;
@@ -42,6 +48,10 @@ async function fetchWeatherData(lat, long) {
 const myLat = localStorage.getItem("myLatitude");
 const myLong = localStorage.getItem("myLongitude");
 
+/**
+ * checks if the geolocation successfully pinged your location and instantiates the map focused on your location
+ * if your location fails to get then the map defaults to focusing on victoria
+ */
 if (myLat && myLong) {
     map = L.map('map', { worldCopyJump: true }).setView([myLat, myLong], 12);
 } else {
@@ -56,6 +66,13 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
+/**
+ * the clickairport function, this thing appends clicked airport markers to an array and if
+ * the array size is 2 (selected airports) then it checks for the word rain in the weather descriptions and displays
+ * the flight information from the displayFlights() function, as well as puts a redline on the map connecting the
+ * two airports and appends the distance between the two points to the airports popup
+ * @type {*[]}
+ */
 let selectedAirports = [];
 let line;
 
@@ -119,11 +136,24 @@ const clickAirport = async (event) => {
         }
     }
 }
-
+/**
+ * checks that the two selected airports are not the same airport, this is to stop you from spam clicking one airport
+ * over and over and breaking my program
+ * @param airports
+ * @returns {boolean}
+ */
 const areAirportsSame = (airports) => {
     return JSON.stringify(airports[0]) === JSON.stringify(airports[1]);
 }
 
+
+/**
+ * parses the airports data from JSON and then splits up the locations degrees and converts to lat and long
+ * go through each converted lat long and place a marker on the map at each location
+ * also has an on click function to fetch the weather data and append it to the airports marker
+ * this could also be split up and made cleaner and more elegant especially the using .slice instead of .split but alas....
+ * it works and im on a clock here...maybe ill come back and make this beautiful this summer...for now it works
+ */
 fetch('../Final/includes/public/mAirports.json')
     .then(response => {
         if (!response.ok) {
@@ -189,6 +219,10 @@ fetch('../Final/includes/public/mAirports.json')
         console.error('Error: ', error);
     });
 
+/**
+ * This beast of a function is the haversine formula that calculates
+ * the distance between two points using Lat and Long
+ */
 const calcDistance = (airportOne, airportTwo) => {
     function toRad(x) {
         return x * Math.PI / 180;
@@ -212,6 +246,15 @@ const calcDistance = (airportOne, airportTwo) => {
     return R * c;
 }
 
+/**
+ * displays all the flights and has a sorting operation to display based on different categories
+ * the plane information is parsed from a json file and appended to the main section as cards
+ * the scrollTop window call is because this SHOULD be seperated up into several functions but I just dont have the
+ * time to restructure the code and fix the weird little bug of selecting one of the sort buttons will scroll to the
+ * top of the page, so the windowScrollTop brings you back down to where u were on button click. its clunky but I
+ * don't have the time to fix it before the deadline.
+ * @type {*[]}
+ */
 let flightsArray= [];
 const displayFlights = (distance, isRaining, sortBy) => {
     const scrollTop = $(window).scrollTop();
@@ -254,6 +297,14 @@ const displayFlights = (distance, isRaining, sortBy) => {
         $(window).scrollTop(scrollTop);
     });
 }
+
+/**
+ * calculates the cost of the flight and has a check to add a multiplier if it is raining or not
+ * @param distance
+ * @param value
+ * @param isRaining
+ * @returns {number}
+ */
 const calculateTotalCost = (distance, value, isRaining) => {
     let totalCost = distance * value.price_per_km;
     if (isRaining) {
@@ -262,6 +313,13 @@ const calculateTotalCost = (distance, value, isRaining) => {
     return totalCost;
 };
 
+/**
+ * calculates and returns the time in hours and minutes for the flight duration, calculation is based off
+ * the plane speed and the distance between airports
+ * @param distance
+ * @param speed
+ * @returns {`${number} Min`|`${string|string} ${string|string}`}
+ */
 const calcTime = (distance, speed) => {
     const durationToCalc = (distance / speed) * 60;
 
@@ -279,6 +337,11 @@ const calcTime = (distance, speed) => {
     }
 }
 
+
+/**
+ * this function adds the flight information to the cart and sets up local storage to keep the values
+ * @type {number}
+ */
 let totalCost = 0;
 let cart = [];
 const addFlightToCart = (costOfFlight) => {
@@ -299,7 +362,10 @@ const addFlightToCart = (costOfFlight) => {
     $('#seats').html(`Seats Booked: ${cart.length}`)
     $('#total').html(`Cart Total: $${Math.round(totalCost)}`);
 }
-
+/**
+ * function to clear off individual items from the cart and update total cost as well as local storage values
+ * @param flight
+ */
 const clearItem = (flight) => {
     const removedCost = cart[flight];
     totalCost -= parseFloat(removedCost);
@@ -312,6 +378,10 @@ const clearItem = (flight) => {
     refreshCart();
 }
 
+/**
+ * function to stop the cart from being erased on page refresh, gets data from local storage and re appends it
+ * to the cart.
+ */
 const refreshCart = () => {
     const storedCart = JSON.parse(localStorage.getItem('cart') || '[]');
     const storedTotal = parseFloat(localStorage.getItem('total')) || 0;
@@ -337,6 +407,13 @@ window.onload = () => {
     localStorage.setItem('fname', '');
     refreshCart();
 };
+
+/**
+ * function to find the marker on the map that corresponds to the given lat long. Used in the click airport function
+ * to append the distance between airports to the second clicked marker on the map.
+ * @param latLng
+ * @returns {null}
+ */
 const getMarkerByLatLng = (latLng) => {
     const layers = map._layers;
     let marker = null;
@@ -349,6 +426,11 @@ const getMarkerByLatLng = (latLng) => {
     return marker;
 };
 
+/**
+ * validates the form for user information against regex patterns setting name and email to local storage to be used
+ * for later parts of the checkout process. if errors are found they are displayed for the user to fix.
+ * @returns return doesn't really need to be there...it fixed and error I was having, so it's there for that...return value isn't actually used
+ */
 const personalValidation = () => {
     try {
         // Regex patterns for validating user information
@@ -420,6 +502,10 @@ const personalValidation = () => {
     }
 }
 
+/**
+ * validates the credit card information agaisn't regex patterns and sends you to the next modal
+ * @returns return doesn't really need to be there...it fixed and error I was having, so it's there for that...return value isn't actually used
+ */
 const paymentConfirmation = () => {
     try {
         let ccPattern = /^\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}$/;
@@ -456,6 +542,10 @@ const paymentConfirmation = () => {
     }
 }
 
+/**
+ * Below is the event listeners for various button clicks on the page including the checkout process
+ * and autofill buttons on the modals for ease of testing functionality.
+ */
 $('#clearCart').on('click', () => {
     totalCost = 0;
     localStorage.setItem('seats', '');
@@ -509,6 +599,9 @@ $('#finish').on('click', () => {
     window.location.reload();
 });
 
+/**
+ * automatically fill out the forms with information to expedite the checkout process for both our sakes....
+ */
 $('#autoFill').on('click', () => {
     $('#fName').val('Joe');
     $('#lName').val('Nelson');

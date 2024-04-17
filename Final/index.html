@@ -11,6 +11,9 @@
 </head>
 
 <body>
+
+<!--Nav bar for menu / booking cart-->
+
 <nav class="navbar bg-body-tertiary fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Flight Booking</a>
@@ -40,6 +43,8 @@
     </div>
 </nav>
 
+<!--checkout modal section-->
+
 <div class="modal fade" id="checkoutModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="userInfo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -64,7 +69,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone" placeholder="555-555-5555">
+                        <input type="text" class="form-control" id="phone" placeholder="555-555-5555...">
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
@@ -72,15 +77,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="postalCode" class="form-label">Postal Code</label>
-                        <input type="text" class="form-control" id="postalCode" placeholder="A1B 2C3">
+                        <input type="text" class="form-control" id="postalCode" placeholder="A1B 2C3...">
                     </div>
                     <div class="mb-3">
                         <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control" id="city" placeholder="City">
+                        <input type="text" class="form-control" id="city" placeholder="City...">
                     </div>
                     <div class="mb-3">
                         <label for="country" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="country" placeholder="country">
+                        <input type="text" class="form-control" id="country" placeholder="country...">
                     </div>
                     <div class="mb-3">
                         <p id="errorOutput"></p>
@@ -108,15 +113,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="ccNumber" class="form-label">Credit Card #</label>
-                            <input type="text" class="form-control" id="ccNumber" placeholder="1234 5678 9012 3456">
+                            <input type="text" class="form-control" id="ccNumber" placeholder="Enter your CC number...">
                         </div>
                         <div class="mb-3">
                             <label for="expDate" class="form-label">Exp Date</label>
-                            <input type="text" class="form-control" id="expDate" placeholder="06/26">
+                            <input type="text" class="form-control" id="expDate" placeholder="Exp Date...">
                         </div>
                         <div class="mb-3">
                             <label for="cvc" class="form-label">CVC #</label>
-                            <input type="text" class="form-control" id="cvc" placeholder="123">
+                            <input type="text" class="form-control" id="cvc" placeholder="CVC...">
                         </div>
                         <div class="mb-3">
                             <p id="ccError"></p>
@@ -147,6 +152,8 @@
     </div>
 </div>
 
+<!--map and flight display sections-->
+
 <div class="d-flex justify-content-center" id="mapSect">
 <div id="map" class="w-75"></div>
 </div>
@@ -154,6 +161,8 @@
     <div id="flightCatalog" class=""></div>
     <div class="row" id="masonry-grid"></div>
 </div>
+
+<!--Scripts for JS-->
 
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
