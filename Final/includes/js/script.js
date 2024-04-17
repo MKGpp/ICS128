@@ -67,7 +67,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 /**
- * the clickairport function, this thing appends clicked airport markers to an array and if
+ * the clickAirport() function, this thing appends clicked airport markers to an array and if
  * the array size is 2 (selected airports) then it checks for the word rain in the weather descriptions and displays
  * the flight information from the displayFlights() function, as well as puts a redline on the map connecting the
  * two airports and appends the distance between the two points to the airports popup
@@ -138,7 +138,7 @@ const clickAirport = async (event) => {
 }
 /**
  * checks that the two selected airports are not the same airport, this is to stop you from spam clicking one airport
- * over and over and breaking my program
+ * over and over and breaking my program...:)
  * @param airports
  * @returns {boolean}
  */
@@ -249,7 +249,7 @@ const calcDistance = (airportOne, airportTwo) => {
 /**
  * displays all the flights and has a sorting operation to display based on different categories
  * the plane information is parsed from a json file and appended to the main section as cards
- * the scrollTop window call is because this SHOULD be seperated up into several functions but I just dont have the
+ * the scrollTop window call is because this SHOULD be seperated up into several functions, but I just don't have the
  * time to restructure the code and fix the weird little bug of selecting one of the sort buttons will scroll to the
  * top of the page, so the windowScrollTop brings you back down to where u were on button click. its clunky but I
  * don't have the time to fix it before the deadline.
@@ -492,13 +492,14 @@ const personalValidation = () => {
 
         if (errorArray.length > 0) {
             $('#errorOutput').html(`<ul>${errorArray.map(error => `<li>${error}</li>`).join('')}</ul>`);
-            return;
+            return false;
         }
         localStorage.setItem('fname', fName);
         localStorage.setItem('email', email);
-        return fName;
+        return true;
     } catch (e) {
         $('#errorOutput').html(`${e}`);
+        return false;
     }
 }
 
@@ -535,10 +536,12 @@ const paymentConfirmation = () => {
         }
         if (errorArray.length > 0) {
             $('#ccError').html(`<ul>${errorArray.map(error => `<li>${error}</li>`).join('')}</ul>`);
+            return false;
         }
-        return cvc;
+        return true;
     } catch (e) {
         $('#ccError').html(`${e}`);
+        return false;
     }
 }
 
@@ -565,7 +568,14 @@ $('#idCheck').on('click', () => {
         const total = parseFloat(localStorage.getItem('total')) || 0;
         const fname = localStorage.getItem('fname');
         const destination = localStorage.getItem('destination');
-        const cityName = destination.charAt(0).toUpperCase() + destination.slice(1).toLowerCase();
+
+        let cityName;
+        if (destination) {
+            cityName = destination.charAt(0).toUpperCase() + destination.slice(1).toLowerCase();
+        } else {
+            cityName = 'Default City';
+        }
+
         $('#checkoutModal').modal('hide');
         $('#paymentModal').modal('show');
         $('#name').html(`Payment information for ${fname}. Flight to ${cityName}`);
@@ -580,7 +590,14 @@ $('#confirmPay').on('click', () => {
         const seats = localStorage.getItem('seats');
         const email = localStorage.getItem('email');
         const destination = localStorage.getItem('destination');
-        const cityName = destination.charAt(0).toUpperCase() + destination.slice(1).toLowerCase();
+
+        let cityName;
+        if (destination) {
+            cityName = destination.charAt(0).toUpperCase() + destination.slice(1).toLowerCase();
+        } else {
+            cityName = 'Default City';
+        }
+
         $('#paymentModal').modal('hide');
         $('#bookingComplete').modal('show');
         $('#bookingInfo').html(`
